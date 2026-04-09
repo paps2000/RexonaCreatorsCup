@@ -3,159 +3,706 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rexona Creators Cup 2026 ⚽</title>
+<title>Rexona Creators Cup 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --black:#0a0a0a; --surface:#141414; --card:#1a1a1a; --border:#252525;
-  --neon:#39FF14; --neon-dim:#2bc40f; --neon-dark:#0a1f06; --neon-glow:rgba(57,255,20,.16);
-  --gold:#FFD700; --gold-dim:#b89200; --silver:#C0C0C0; --bronze:#cd7f32;
-  --teal:#00b89c;
-  --white:#F2F2F2; --muted:#5a5a5a; --muted2:#3a3a3a;
+/* ── BRAND FONTS ────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('./fonts/GT-Eesti-Pro-Display-Regular.OTF') format('opentype');
+  font-weight: 400;
+  font-display: swap;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--white);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;position:relative;}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('./fonts/GT-Eesti-Pro-Display-Bold.OTF') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('./fonts/HelveticaNeue.ttc') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
 
-/* HERO */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem 2.5rem;text-align:center;overflow:hidden;border-bottom:1px solid var(--border);}
-.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,20,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.06) 1px,transparent 1px);background-size:44px 44px;}
-.hglow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:260px;background:radial-gradient(ellipse,rgba(57,255,20,.13) 0%,transparent 70%);pointer-events:none;}
-.hero::before{content:'';position:absolute;top:24px;left:24px;width:50px;height:50px;border-top:2px solid var(--neon);border-left:2px solid var(--neon);}
-.hero::after{content:'';position:absolute;bottom:24px;right:24px;width:50px;height:50px;border-bottom:2px solid var(--neon);border-right:2px solid var(--neon);}
+/* ── TOKENS ─────────────────────────────────────────────────────────────── */
+:root {
+  --bg:       #05080F;
+  --surface:  #0A0E1A;
+  --card:     #0D1221;
+  --card-hi:  #111827;
+  --border:   #1C2640;
+  --border-hi:#263354;
 
-.live-badge{display:inline-flex;align-items:center;gap:7px;background:var(--neon-dark);border:1px solid var(--neon-dim);color:var(--neon);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 14px;border-radius:3px;margin-bottom:1.5rem;position:relative;z-index:1;animation:fadeUp .5s ease both;}
-.ldot{width:7px;height:7px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:blink 1.4s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  --blue:     #2B46E8;
+  --blue-dim: #1A2D9A;
+  --blue-glow:rgba(43,70,232,.18);
+  --cyan:     #00C4FF;
+  --cyan-dim: #008FC4;
+  --cyan-glow:rgba(0,196,255,.16);
 
-.super{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;position:relative;z-index:1;animation:fadeUp .5s .08s ease both;}
-.htitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.8rem,16vw,8rem);line-height:.88;position:relative;z-index:1;animation:fadeUp .5s .14s ease both;}
-.htitle .l1{color:var(--white);display:block;}
-.htitle .l2{color:var(--neon);display:block;text-shadow:0 0 40px rgba(57,255,20,.45),0 0 80px rgba(57,255,20,.18);}
-.htag{margin-top:.75rem;font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:2px;position:relative;z-index:1;animation:fadeUp .5s .2s ease both;}
+  --grad: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
 
-/* COUNTDOWN */
-.cdwrap{margin-top:2rem;position:relative;z-index:1;animation:fadeUp .5s .28s ease both;}
-.cdlbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;}
-.cds{display:flex;align-items:flex-start;justify-content:center;gap:5px;}
-.cdu{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:1px solid var(--border);border-bottom:2px solid var(--neon);border-radius:5px;padding:12px 17px;min-width:70px;}
-.cdn{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--neon);text-shadow:0 0 24px rgba(57,255,20,.5);font-variant-numeric:tabular-nums;}
-.cdl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase;}
-.cdsep{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--neon-dim);line-height:1;padding-top:12px;opacity:.5;animation:blink 1s step-end infinite;}
-.cdfooter{margin-top:.75rem;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);letter-spacing:1.5px;}
-.cdfooter em{color:var(--neon);font-style:normal;}
+  --gold:    #FFD700;
+  --silver:  #C0C0C0;
+  --bronze:  #CD7F32;
+  --white:   #EEF2FF;
+  --muted:   #4A5B80;
+  --muted2:  #222E48;
 
-/* PHASES */
-.phases{display:flex;gap:3px;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
-.ph{flex:1;padding:10px 4px;text-align:center;border-radius:4px;font-size:10px;font-weight:700;line-height:1.5;text-transform:uppercase;letter-spacing:.3px;}
-.ph-on{background:var(--neon);color:#050f03;}
-.ph-off{background:var(--surface);color:var(--muted);border:1px solid var(--border);}
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
 
-/* SECTION */
-.sec{padding:0 1.5rem 1.75rem;}
-.sh{display:flex;align-items:center;justify-content:space-between;padding-top:1.75rem;margin-bottom:1.1rem;}
-.st{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:1px;color:var(--white);display:flex;align-items:center;gap:8px;line-height:1;}
-.sp{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--neon);background:var(--neon-dark);border:1px solid rgba(57,255,20,.25);padding:3px 10px;border-radius:2px;}
+/* ── RESET ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
 
-/* PRIZES */
-.prow{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 1.5rem 1.75rem;border-bottom:1px solid var(--border);}
-.prow::-webkit-scrollbar{display:none;}
-.pc{flex:0 0 auto;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;}
-.pc:hover{border-color:rgba(57,255,20,.3);transform:translateY(-2px);}
-.pc.star{border-color:rgba(255,215,0,.35);background:linear-gradient(145deg,#191000,var(--card));}
-.pc.star::before{content:'⭐ GRAN PREMIO';position:absolute;top:0;left:0;right:0;background:var(--gold);color:#120d00;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;padding:4px 0;text-align:center;}
-.pc.star .pci{margin-top:16px;}
-.pci{font-size:28px;display:block;margin-bottom:8px;}
-.pn{font-size:12px;font-weight:700;color:var(--white);line-height:1.3;}
-.pd{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+/* ── KEYFRAMES ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .2; }
+}
+@keyframes drawTick {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%);  }
+}
 
-/* POINTS */
-.ptgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ptbox{background:var(--card);border-radius:10px;padding:18px 14px;text-align:center;position:relative;overflow:hidden;}
-.ptbox.ng{border:1px solid rgba(57,255,20,.28);} .ptbox.gd{border:1px solid rgba(255,215,0,.28);}
-.ptbox::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--gc) 0%,transparent 65%);}
-.ptbox.ng{--gc:rgba(57,255,20,.06);} .ptbox.gd{--gc:rgba(255,215,0,.06);}
-.ptnum{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;position:relative;}
-.ptbox.ng .ptnum{color:var(--neon);text-shadow:0 0 20px rgba(57,255,20,.35);}
-.ptbox.gd .ptnum{color:var(--gold);}
-.ptsub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;position:relative;}
-.pttag{display:inline-block;margin-top:9px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 9px;border-radius:2px;position:relative;}
-.ptbox.ng .pttag{background:var(--neon-dark);color:var(--neon);border:1px solid rgba(57,255,20,.2);}
-.ptbox.gd .pttag{background:#1c1200;color:var(--gold);border:1px solid rgba(255,215,0,.18);}
+/* ── STICKY HEADER ──────────────────────────────────────────────────────── */
+.brand-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  height: 52px;
+  background: rgba(5,8,15,.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.rx-logo { display: flex; align-items: center; gap: 10px; }
+.rx-tick  { width: 22px; height: 28px; flex-shrink: 0; }
+.rx-wm {
+  font-family: 'GT Eesti', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 5px;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.sync-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sync-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.sync-dot.off { background: var(--muted); box-shadow: none; animation: none; }
 
-/* PROGRESS */
-.progwrap{padding:0 1.5rem;margin-bottom:1.75rem;}
-.progtop{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;}
-.proglbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-.progct{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon);line-height:1;}
-.progtr{height:8px;background:var(--surface);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
-.progfill{height:100%;background:linear-gradient(90deg,var(--neon-dim),var(--neon));border-radius:4px;transition:width 1.4s cubic-bezier(.22,1,.36,1);position:relative;}
-.progfill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:16px;background:linear-gradient(90deg,transparent,rgba(57,255,20,.5));}
-.prognote{display:flex;justify-content:space-between;margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);}
-.prognote b{color:var(--neon);font-weight:500;}
+/* ── HERO ───────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(43,70,232,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,70,232,.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-glow-top {
+  position: absolute;
+  top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 480px; height: 280px;
+  background: radial-gradient(ellipse, rgba(43,70,232,.13) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-glow-btm {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 360px; height: 200px;
+  background: radial-gradient(ellipse, rgba(0,196,255,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20px; left: 20px;
+  width: 44px; height: 44px;
+  border-top: 1.5px solid var(--blue-dim);
+  border-left: 1.5px solid var(--blue-dim);
+  opacity: .5;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 20px; right: 20px;
+  width: 44px; height: 44px;
+  border-bottom: 1.5px solid var(--blue-dim);
+  border-right: 1.5px solid var(--blue-dim);
+  opacity: .5;
+}
 
-/* TABS */
-.tabs{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:4px;margin-bottom:1rem;}
-.tab{flex:1;padding:8px 4px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--muted);border-radius:4px;cursor:pointer;transition:all .18s;border:none;background:transparent;}
-.tab.on{background:var(--neon);color:#050f03;}
+/* Hero logo — PNG plate */
+.hero-logo-wrap {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+  animation: fadeUp .6s var(--ease-out) both;
+}
+.hero-logo-plate {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 28px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 60px rgba(43,70,232,.2), 0 20px 40px rgba(0,0,0,.4);
+}
+.hero-logo-img {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(43,70,232,.1);
+  border: 1px solid rgba(43,70,232,.32);
+  color: var(--cyan);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  margin-top: 1.5rem;
+  margin-bottom: .75rem;
+  position: relative; z-index: 1;
+  animation: fadeUp .5s var(--ease-out) .22s both;
+}
+.ldot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: blink 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.htitle {
+  font-family: 'GT Eesti', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 15vw, 7.5rem);
+  line-height: .88;
+  position: relative; z-index: 1;
+  animation: fadeUp .5s var(--ease-out) .3s both;
+  letter-spacing: -1px;
+}
+.htitle .l1 { color: var(--white); display: block; }
+.htitle .l2 {
+  display: block;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.htag {
+  margin-top: .75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  position: relative; z-index: 1;
+  animation: fadeUp .5s var(--ease-out) .36s both;
+}
 
-/* RANKING */
-.ranking{display:flex;flex-direction:column;gap:5px;}
-.ri{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;gap:10px;transition:border-color .15s,background .15s;animation:fadeUp .3s ease both;}
-.ri:hover{border-color:rgba(57,255,20,.18);background:#1d1d1d;}
-.ri.r1{border-color:rgba(255,215,0,.32);background:linear-gradient(90deg,#181200,var(--card));}
-.ri.r2{border-color:rgba(192,192,192,.18);}
-.ri.r3{border-color:rgba(205,127,50,.18);}
-.ri.qual{border-left:2px solid rgba(57,255,20,.35);}
-.rn{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;min-width:26px;text-align:center;line-height:1;}
-.rn.g{color:var(--gold);} .rn.s{color:var(--silver);} .rn.b{color:var(--bronze);} .rn.q{color:var(--neon);font-size:.9rem;} .rn.x{color:var(--muted2);}
-.avt{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;}
-.riinfo{flex:1;min-width:0;}
-.riname{font-size:14px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;}
-.rimeta{display:flex;align-items:center;gap:6px;margin-top:2px;}
-.pdot{width:5px;height:5px;border-radius:50%;display:inline-block;flex-shrink:0;}
-.riplat{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
-.qtag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;background:var(--neon-dark);color:var(--neon);border:1px solid rgba(57,255,20,.25);padding:1px 5px;border-radius:2px;white-space:nowrap;}
-.bbar{height:2px;background:#1e1e1e;border-radius:1px;margin-top:5px;overflow:hidden;}
-.bfill{height:100%;border-radius:1px;}
-.ripts{text-align:right;flex-shrink:0;}
-.rinum{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;}
-.ri.r1 .rinum{color:var(--gold);} .ri.r2 .rinum{color:var(--silver);} .ri.r3 .rinum{color:var(--bronze);}
-.ri.qual .rinum{color:var(--neon);} .ri:not(.r1):not(.r2):not(.r3):not(.qual) .rinum{color:var(--muted);}
-.riunit{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted2);letter-spacing:1px;}
-.morebtn{width:100%;margin-top:8px;padding:12px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--neon);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .2s,border-color .2s;}
-.morebtn:hover{background:rgba(57,255,20,.05);border-color:rgba(57,255,20,.28);}
+/* ── COUNTDOWN ──────────────────────────────────────────────────────────── */
+.cdwrap {
+  margin-top: 2rem;
+  position: relative; z-index: 1;
+  animation: fadeUp .5s var(--ease-out) .42s both;
+}
+.cdlbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .75rem;
+}
+.cds { display: flex; align-items: flex-start; justify-content: center; gap: 6px; }
+.cdu {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--blue);
+  border-radius: 6px;
+  padding: 12px 16px;
+  min-width: 66px;
+}
+.cdn {
+  font-family: 'GT Eesti', sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem; line-height: 1;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-variant-numeric: tabular-nums;
+}
+.cdl {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px; color: var(--muted);
+  letter-spacing: 2px; margin-top: 4px; text-transform: uppercase;
+}
+.cdsep {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 2.6rem; color: var(--blue-dim); line-height: 1;
+  padding-top: 12px; opacity: .4;
+  animation: blink 1s step-end infinite;
+}
+.cdfooter {
+  margin-top: .75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; color: var(--muted2); letter-spacing: 1.5px;
+}
+.cdfooter em { color: var(--cyan); font-style: normal; }
 
-/* MOT */
-.mot{margin:0 1.5rem 2.5rem;background:var(--neon-dark);border:1px solid rgba(57,255,20,.38);border-radius:12px;padding:1.75rem 1.5rem;text-align:center;position:relative;overflow:hidden;}
-.mot::before{content:'';position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:280px;height:140px;background:radial-gradient(ellipse,rgba(57,255,20,.12) 0%,transparent 70%);}
-.mote{font-size:2rem;display:block;margin-bottom:.75rem;letter-spacing:4px;}
-.mott{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;letter-spacing:1px;color:var(--neon);text-shadow:0 0 30px rgba(57,255,20,.35);margin-bottom:.75rem;}
-.motb{font-size:13px;font-weight:400;color:#777;line-height:1.7;margin-bottom:1.25rem;position:relative;}
-.motb strong{color:var(--white);font-weight:700;}
-.motb .ht{color:var(--teal);font-weight:700;}
-.motcta{display:inline-block;background:var(--neon);color:#060f03;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:2px;padding:10px 28px;border-radius:4px;box-shadow:0 0 24px rgba(57,255,20,.3);position:relative;}
+/* ── PHASES ─────────────────────────────────────────────────────────────── */
+.phases {
+  display: flex; gap: 2px;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.ph {
+  flex: 1; padding: 10px 4px; text-align: center;
+  border-radius: 5px;
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 10px; line-height: 1.5;
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.ph-on  { background: var(--grad); color: #fff; }
+.ph-off { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
 
-/* FOOTER */
-.footer{text-align:center;padding:1.5rem;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);letter-spacing:2px;border-top:1px solid var(--border);}
-.footer span{color:var(--teal);}
-::-webkit-scrollbar{width:3px;} ::-webkit-scrollbar-track{background:var(--black);} ::-webkit-scrollbar-thumb{background:var(--neon-dark);border-radius:2px;}
+/* ── SECTIONS ───────────────────────────────────────────────────────────── */
+.sec { padding: 0 1.5rem 1.75rem; }
+.sh {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1.75rem; margin-bottom: 1.1rem;
+}
+.st {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1.65rem; letter-spacing: -0.3px;
+  color: var(--white); display: flex; align-items: center; gap: 8px; line-height: 1;
+}
+.sp {
+  font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 1.5px;
+  color: var(--cyan);
+  background: rgba(0,196,255,.08);
+  border: 1px solid rgba(0,196,255,.2);
+  padding: 3px 10px; border-radius: 2px;
+}
+
+/* ── PRIZES ─────────────────────────────────────────────────────────────── */
+.prow {
+  display: flex; gap: 10px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.prow::-webkit-scrollbar { display: none; }
+.pc {
+  flex: 0 0 auto; min-width: 130px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 14px;
+  text-align: center; position: relative; overflow: hidden;
+  transition: border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pc:hover { border-color: rgba(43,70,232,.45); transform: translateY(-2px); }
+}
+.pc:active { transform: scale(0.97); }
+.pc.star { border-color: rgba(255,215,0,.3); background: linear-gradient(145deg,#140e00,var(--card)); }
+.pc.star::before {
+  content: 'GRAN PREMIO';
+  position: absolute; top:0; left:0; right:0;
+  background: var(--gold); color: #120d00;
+  font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 1.5px;
+  padding: 4px 0; text-align: center;
+}
+.pc.star .pci { margin-top: 16px; }
+.pci { font-size: 26px; display: block; margin-bottom: 8px; }
+.pn { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 12px; color: var(--white); line-height: 1.3; }
+.pd { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.5; font-family: 'DM Mono', monospace; }
+
+/* ── POINTS ─────────────────────────────────────────────────────────────── */
+.ptgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ptbox {
+  background: var(--card); border-radius: 12px;
+  padding: 20px 16px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.ptbox.blue { border: 1px solid rgba(43,70,232,.35); }
+.ptbox.gold { border: 1px solid rgba(255,215,0,.28); }
+.ptbox::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--gc) 0%, transparent 65%);
+}
+.ptbox.blue { --gc: rgba(43,70,232,.08); }
+.ptbox.gold { --gc: rgba(255,215,0,.06); }
+.ptnum {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 3.2rem; line-height: 1; position: relative;
+}
+.ptbox.blue .ptnum {
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.ptbox.gold .ptnum { color: var(--gold); }
+.ptsub { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; position: relative; }
+.pttag {
+  display: inline-block; margin-top: 10px;
+  font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 1px;
+  padding: 3px 9px; border-radius: 2px; position: relative;
+}
+.ptbox.blue .pttag { background: rgba(43,70,232,.12); color: var(--cyan); border: 1px solid rgba(43,70,232,.28); }
+.ptbox.gold .pttag { background: #1c1200; color: var(--gold); border: 1px solid rgba(255,215,0,.18); }
+
+/* ── PROGRESS ───────────────────────────────────────────────────────────── */
+.progwrap { padding: 0 1.5rem; margin-bottom: 1.75rem; }
+.progtop { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+.proglbl { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.progct {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.2rem; line-height: 1;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.progtr { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+.progfill {
+  height: 100%; background: var(--grad); border-radius: 3px;
+  transition: width 1.4s cubic-bezier(.22,1,.36,1);
+  position: relative; overflow: hidden;
+}
+.progfill::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+.prognote { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--muted2); }
+.prognote b { color: var(--cyan); font-weight: 500; }
+
+/* ── RANKING ────────────────────────────────────────────────────────────── */
+.ranking { display: flex; flex-direction: column; gap: 5px; }
+.ri {
+  display: flex; align-items: center;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 11px 13px; gap: 10px;
+  transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out);
+  animation: fadeUp .35s var(--ease-out) both;
+  opacity: 0; animation-fill-mode: forwards;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ri:hover { border-color: var(--border-hi); background: var(--card-hi); }
+}
+.ri.r1 { border-color: rgba(255,215,0,.3); background: linear-gradient(90deg, #130f00, var(--card)); }
+.ri.r2 { border-color: rgba(192,192,192,.18); }
+.ri.r3 { border-color: rgba(205,127,50,.18); }
+.ri.qual { border-left: 2px solid rgba(43,70,232,.5); }
+
+.rn { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.1rem; min-width: 26px; text-align: center; line-height: 1; }
+.rn.g { color: var(--gold); }
+.rn.s { color: var(--silver); }
+.rn.b { color: var(--bronze); }
+.rn.q { font-size: .8rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.rn.x { color: var(--muted2); }
+
+.avt {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+  font-family: 'GT Eesti', sans-serif; letter-spacing: .5px;
+}
+.riinfo { flex: 1; min-width: 0; }
+.riname {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 13px; color: var(--white);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;
+}
+.rimeta { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+.pdot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.riplat { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; }
+.qtag {
+  font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 1px;
+  background: rgba(43,70,232,.12); color: var(--cyan);
+  border: 1px solid rgba(43,70,232,.25); padding: 2px 5px; border-radius: 2px; white-space: nowrap;
+}
+.bbar { height: 2px; background: #1a2030; border-radius: 1px; margin-top: 5px; overflow: hidden; }
+.bfill { height: 100%; border-radius: 1px; }
+.ripts { text-align: right; flex-shrink: 0; }
+.rinum { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.3rem; line-height: 1; }
+.ri.r1 .rinum { color: var(--gold); }
+.ri.r2 .rinum { color: var(--silver); }
+.ri.r3 .rinum { color: var(--bronze); }
+.ri.qual .rinum { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ri:not(.r1):not(.r2):not(.r3):not(.qual) .rinum { color: var(--muted); }
+.riunit { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--muted2); letter-spacing: 1px; }
+
+.morebtn {
+  width: 100%; margin-top: 10px; padding: 13px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--cyan);
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: 1px; cursor: pointer;
+  transition: background 200ms var(--ease-out), border-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .morebtn:hover { background: rgba(43,70,232,.07); border-color: rgba(43,70,232,.4); }
+}
+.morebtn:active { transform: scale(0.97); }
+
+/* ── MOTIVATIONAL BANNER ────────────────────────────────────────────────── */
+.mot {
+  margin: 0 1.5rem 2.5rem;
+  background: linear-gradient(145deg, rgba(43,70,232,.1), rgba(0,196,255,.05));
+  border: 1px solid rgba(43,70,232,.32);
+  border-radius: 16px; padding: 2rem 1.5rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.mot::before {
+  content: '';
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 150px;
+  background: radial-gradient(ellipse, rgba(43,70,232,.14) 0%, transparent 70%);
+}
+.mote { font-size: 1.8rem; display: block; margin-bottom: .75rem; }
+.mott {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 2rem; line-height: 1; letter-spacing: -.5px;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: .75rem;
+}
+.motb { font-size: 13px; color: #5566; line-height: 1.75; margin-bottom: 1.25rem; position: relative; }
+.motb strong { color: var(--white); font-weight: 700; }
+.motb .ht { color: var(--cyan); font-weight: 700; }
+.motcta {
+  display: inline-block;
+  background: var(--grad); color: #fff;
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 13px 32px; border-radius: 6px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 32px rgba(43,70,232,.3);
+  transition: transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.motcta::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+}
+.motcta:active { transform: scale(0.97); }
+
+/* ── CONTENT GUIDES ─────────────────────────────────────────────────────── */
+.guide-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 15px 16px;
+  transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out), transform 160ms var(--ease-out);
+  cursor: pointer; text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .guide-card:hover { border-color: rgba(43,70,232,.4); background: var(--card-hi); transform: translateX(3px); }
+}
+.guide-card:active { transform: scale(0.98); }
+.gc-icon {
+  font-size: 22px; flex-shrink: 0; width: 42px; height: 42px;
+  background: rgba(43,70,232,.1); border: 1px solid rgba(43,70,232,.25);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.gc-body { flex: 1; min-width: 0; }
+.gc-title { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 13px; color: var(--white); line-height: 1.2; margin-bottom: 3px; }
+.gc-desc { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); line-height: 1.5; letter-spacing: .3px; }
+.gc-arrow { font-size: 1rem; color: var(--cyan); flex-shrink: 0; opacity: .5; transition: opacity 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .guide-card:hover .gc-arrow { opacity: 1; }
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────────────────── */
+.footer {
+  text-align: center; padding: 1.5rem;
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  color: var(--muted2); letter-spacing: 2px;
+  border-top: 1px solid var(--border); line-height: 2.2;
+}
+.footer span { color: var(--cyan); }
+.tnc-btn {
+  background: none; border: none; color: var(--cyan-dim);
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; padding: 0;
+  text-decoration: underline; text-underline-offset: 3px;
+  transition: color 160ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .tnc-btn:hover { color: var(--cyan); } }
+
+/* ── T&C MODAL ──────────────────────────────────────────────────────────── */
+#tnc-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 9000;
+  align-items: flex-end;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+#tnc-modal.open { display: flex; }
+.tnc-sheet {
+  width: 100%; max-height: 90svh; overflow-y: auto;
+  background: #0A0E1A;
+  border-top: 1px solid rgba(43,70,232,.3);
+  border-radius: 20px 20px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+  scrollbar-width: thin; scrollbar-color: var(--blue-dim) transparent;
+  opacity: 0; transform: translateY(100%);
+  transition: opacity 400ms var(--ease-drawer), transform 400ms var(--ease-drawer);
+}
+#tnc-modal.open .tnc-sheet { opacity: 1; transform: translateY(0); }
+.tnc-sheet::-webkit-scrollbar { width: 3px; }
+.tnc-sheet::-webkit-scrollbar-thumb { background: var(--blue-dim); border-radius: 2px; }
+.tnc-header {
+  position: sticky; top: 0;
+  background: #0A0E1A; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; border-radius: 20px 20px 0 0; z-index: 1;
+}
+.tnc-title { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--white); }
+.tnc-sub { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 1.5px; color: var(--cyan-dim); margin-top: 2px; }
+.tnc-close {
+  background: rgba(255,255,255,.07); border: 1px solid var(--border);
+  color: var(--white); width: 32px; height: 32px;
+  border-radius: 50%; font-size: .9rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.tnc-close:active { transform: scale(0.93); }
+@media (hover: hover) and (pointer: fine) { .tnc-close:hover { background: rgba(255,255,255,.13); } }
+.tnc-body {
+  padding: 20px;
+  font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px; color: #7A8FAA; line-height: 1.85;
+}
+.tnc-h3 {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: .85rem; letter-spacing: 2px; color: var(--cyan);
+  margin: 22px 0 8px; text-transform: uppercase;
+}
+.tnc-h3:first-child { margin-top: 0; }
+.tnc-pts {
+  background: rgba(43,70,232,.08); border: 1px solid rgba(43,70,232,.2);
+  border-radius: 8px; padding: 12px 14px; margin-top: 8px;
+  font-family: 'DM Mono', monospace; font-size: 9px; line-height: 2; color: #6A7F9A;
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--blue-dim); border-radius: 2px; }
 </style>
 </head>
 <body>
 
+<!-- STICKY HEADER -->
+<header class="brand-header">
+  <div class="rx-logo">
+    <div style="background:#fff;border-radius:6px;padding:3px 6px;display:flex;align-items:center;">
+      <img src="./images/rexona-logo.png" alt="Rexona®" style="height:28px;width:auto;display:block;">
+    </div>
+  </div>
+  <div class="sync-status" id="sync-status">
+    <span class="sync-dot"></span>
+    <span>It Won't Let You Down.</span>
+  </div>
+</header>
+
+<!-- HERO -->
 <section class="hero">
-  <div class="hgrid"></div>
-  <div class="hglow"></div>
-  <div class="live-badge"><div class="ldot"></div>⚡ Fase 1 activa · Marzo–Mayo 2026</div>
-  <p class="super">🇲🇽 Squad Nanos · Rexona Men 2026</p>
-  <h1 class="htitle"><span class="l1">Rexona</span><span class="l2">Creators<br>Cup</span></h1>
+  <div class="hero-grid"></div>
+  <div class="hero-glow-top"></div>
+  <div class="hero-glow-btm"></div>
+
+  <div class="hero-logo-wrap">
+    <div class="hero-logo-plate">
+      <img class="hero-logo-img" src="./images/rexona-logo.png" alt="Rexona®">
+    </div>
+  </div>
+
+  <div class="live-badge">
+    <div class="ldot"></div>
+    Fase 1 activa · Marzo–Mayo 2026
+  </div>
+
+  <h1 class="htitle">
+    <span class="l1">Creators</span>
+    <span class="l2">Cup</span>
+  </h1>
+
   <p class="htag">🌍 La batalla por el mundial · #RexonaCreatorsCup</p>
+
   <div class="cdwrap">
-    <p class="cdlbl">⏱️ Tiempo restante — Corte Fase 1</p>
+    <p class="cdlbl">Tiempo restante — Corte Fase 1</p>
     <div class="cds">
       <div class="cdu"><span class="cdn" id="cd-d">--</span><span class="cdl">días</span></div>
       <div class="cdsep">:</div>
@@ -165,120 +712,292 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <div class="cdsep">:</div>
       <div class="cdu"><span class="cdn" id="cd-s">--</span><span class="cdl">seg</span></div>
     </div>
-    <p class="cdfooter">📅 Corte · <em>31 de Mayo 2026, 23:59</em></p>
+    <p class="cdfooter">Corte · <em>31 de Mayo 2026, 23:59</em></p>
   </div>
 </section>
 
+<!-- PHASES -->
 <div class="phases">
-  <div class="ph ph-on">⚽ Fase 1<br>Mar–May</div>
-  <div class="ph ph-off">🔍 Finalistas<br>1–7 Jun</div>
-  <div class="ph ph-off">⚡ Final<br>8–17 Jun</div>
-  <div class="ph ph-off">🏆 Premio<br>30 Jun</div>
+  <div class="ph ph-on">Fase 1<br>Mar–May</div>
+  <div class="ph ph-off">Finalistas<br>1–7 Jun</div>
+  <div class="ph ph-off">Final<br>8–17 Jun</div>
+  <div class="ph ph-off">Premio<br>30 Jun</div>
 </div>
 
-<div class="sec"><div class="sh"><div class="st">🎁 Lo que te llevas</div><div class="sp">SI GANAS</div></div></div>
+<!-- PRIZES -->
+<div class="sec">
+  <div class="sh">
+    <div class="st">Lo que te llevas</div>
+    <div class="sp">SI GANAS</div>
+  </div>
+</div>
 <div class="prow">
   <div class="pc star"><span class="pci">✈️</span><div class="pn">Boleto Triple</div><div class="pd">16avos · Estadio CDMX<br>30 de Junio 🏟️</div></div>
   <div class="pc"><span class="pci">🌟</span><div class="pn">Squad Rexona 2026</div><div class="pd">Creador oficial<br>todo el año</div></div>
   <div class="pc"><span class="pci">🎉</span><div class="pn">Eventos exclusivos</div><div class="pd">Watch parties<br>activaciones VIP</div></div>
   <div class="pc"><span class="pci">📦</span><div class="pn">Gifting Packs</div><div class="pd">Top posters<br>cada mes</div></div>
-  <div class="pc"><span class="pci">📲</span><div class="pn">Crecimiento de redes</div><div class="pd">Tus seguidores<br>en otro nivel 🚀</div></div>
+  <div class="pc"><span class="pci">📲</span><div class="pn">Crecimiento de redes</div><div class="pd">Tus seguidores<br>en otro nivel</div></div>
   <div class="pc"><span class="pci">🏅</span><div class="pn">Misiones 2026</div><div class="pd">Cobertura mundial<br>App M4TM + Liga MX</div></div>
 </div>
 
+<!-- POINTS SYSTEM -->
 <div class="sec">
-  <div class="sh"><div class="st">💎 Sistema de puntos</div></div>
+  <div class="sh"><div class="st">Sistema de puntos</div></div>
   <div class="ptgrid">
-    <div class="ptbox ng"><div class="ptnum">300</div><div class="ptsub">pts por contenido<br>obligatorio 📸</div><div class="pttag">2 por mes mínimo</div></div>
-    <div class="ptbox gd"><div class="ptnum">+50</div><div class="ptsub">pts por cada<br>contenido bonus 🔥</div><div class="pttag">¡Sin límite!</div></div>
+    <div class="ptbox blue">
+      <div class="ptnum">300</div>
+      <div class="ptsub">pts por contenido<br>obligatorio</div>
+      <div class="pttag">2 por mes mínimo</div>
+    </div>
+    <div class="ptbox gold">
+      <div class="ptnum">+50</div>
+      <div class="ptsub">pts por cada<br>contenido bonus</div>
+      <div class="pttag">¡Sin límite!</div>
+    </div>
   </div>
 </div>
 
+<!-- PROGRESS -->
 <div class="progwrap">
-  <div class="progtop"><div class="proglbl">📊 Squad activo</div><div class="progct">139 / 334</div></div>
-  <div class="progtr"><div class="progfill" id="prog-bar" style="width:0%"></div></div>
-  <div class="prognote"><b>⚡ 41.6% ya está sumando puntos</b><span>¿Y tú? 👀</span></div>
+  <div class="progtop">
+    <div class="proglbl">Squad activo</div>
+    <div class="progct" id="prog-label">139 / 334</div>
+  </div>
+  <div class="progtr">
+    <div class="progfill" id="prog-bar" style="width:0%"></div>
+  </div>
+  <div class="prognote">
+    <b id="prog-note">41.6% ya está sumando puntos</b>
+    <span>¿Y tú? 👀</span>
+  </div>
 </div>
 
+<!-- RANKING -->
 <div class="sec">
-  <div class="sh"><div class="st">🏅 Ranking semanal</div><div class="sp" id="plat-pill">TODOS</div></div>
-  <div class="tabs">
-    <button class="tab on" onclick="setPlat('all',this)">🌎 Todos</button>
-    <button class="tab" onclick="setPlat('Instagram',this)">📸 IG</button>
-    <button class="tab" onclick="setPlat('TikTok',this)">🎵 TikTok</button>
-    <button class="tab" onclick="setPlat('YouTube',this)">▶️ YT</button>
+  <div class="sh">
+    <div class="st">Ranking</div>
+    <div class="sp">EN VIVO</div>
   </div>
   <div class="ranking" id="ranking"></div>
-  <button class="morebtn" id="more-btn" onclick="more()">⬇️ Ver más creadores</button>
+  <button class="morebtn" id="more-btn" onclick="more()">Ver más creadores</button>
 </div>
 
+<!-- CTA -->
 <div class="mot">
-  <span class="mote">🌍 ⚽ 🔥</span>
+  <span class="mote">⚽</span>
   <div class="mott">El mundial te está esperando</div>
-  <div class="motb">Los <strong>33 creadores con más puntos</strong> al 31 de mayo pasan a la fase final 🏟️<br>Cada post suma. Cada bonus te acerca al estadio. No abandones ahora.<br><br>Publica y usa <span class="ht">#RexonaCreatorsCup</span> — que te vean 👁️</div>
-  <div class="motcta">⚡ PUBLICA HOY ⚡</div>
+  <div class="motb">
+    Los <strong>33 creadores con más puntos</strong> al 31 de mayo pasan a la fase final 🏟️<br>
+    Cada post suma. Cada bonus te acerca al estadio. No abandones ahora.<br><br>
+    Publica y usa <span class="ht">#RexonaCreatorsCup</span> — que te vean
+  </div>
+  <div class="motcta">PUBLICA HOY</div>
 </div>
 
 <!-- CONTENT GUIDES -->
 <div class="sec">
   <div class="sh">
-    <div class="st">📋 Sigue creando contenido</div>
+    <div class="st">Sigue creando</div>
     <div class="sp">GUÍAS</div>
   </div>
-  <p style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:1.1rem;line-height:1.6;">Usa estas guías oficiales para inspirarte y crear contenido que sume puntos 🎯</p>
+  <p style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:1.1rem;line-height:1.6;">Usa estas guías oficiales para crear contenido que sume puntos.</p>
   <div style="display:flex;flex-direction:column;gap:10px;">
-
-    <a href="https://docs.google.com/presentation/d/1JNmZ9d64RZB__eD7G081NNt3rZD0ekXYu3R4w_SOGRk/edit?slide=id.g3dcf58842b8_0_56#slide=id.g3dcf58842b8_0_56" target="_blank" style="text-decoration:none;">
-      <div class="guide-card">
-        <div class="gc-icon">🎬</div>
-        <div class="gc-body">
-          <div class="gc-title">Comercial Rexona</div>
-          <div class="gc-desc">Rexona arranca su campaña rumbo a la Copa Mundial de la FIFA 2026™</div>
-        </div>
-        <div class="gc-arrow">↗</div>
+    <a href="https://docs.google.com/presentation/d/1JNmZ9d64RZB__eD7G081NNt3rZD0ekXYu3R4w_SOGRk/edit?slide=id.g3dcf58842b8_0_56#slide=id.g3dcf58842b8_0_56" target="_blank" class="guide-card">
+      <div class="gc-icon">🎬</div>
+      <div class="gc-body">
+        <div class="gc-title">Comercial Rexona</div>
+        <div class="gc-desc">Rexona arranca su campaña rumbo a la Copa Mundial de la FIFA 2026™</div>
       </div>
+      <div class="gc-arrow">↗</div>
     </a>
-
-    <a href="https://docs.google.com/presentation/d/1r5pO49Fur4v84qvuVjzfMe3ZGomq7X2yOiYHxR0IrQo/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" style="text-decoration:none;">
-      <div class="guide-card">
-        <div class="gc-icon">🛒</div>
-        <div class="gc-body">
-          <div class="gc-title">Big Promo</div>
-          <div class="gc-desc">Compra desodorantes de la familia Unilever y vete al mundial</div>
-        </div>
-        <div class="gc-arrow">↗</div>
+    <a href="https://docs.google.com/presentation/d/1r5pO49Fur4v84qvuVjzfMe3ZGomq7X2yOiYHxR0IrQo/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" class="guide-card">
+      <div class="gc-icon">🛒</div>
+      <div class="gc-body">
+        <div class="gc-title">Big Promo</div>
+        <div class="gc-desc">Compra desodorantes de la familia Unilever y vete al mundial</div>
       </div>
+      <div class="gc-arrow">↗</div>
     </a>
-
-    <a href="https://docs.google.com/presentation/d/1TXE0ze9dDxhiFurSa_ZxIHnjGWeHQ1uU6N0J-RdAeks/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" style="text-decoration:none;">
-      <div class="guide-card">
-        <div class="gc-icon">🥤</div>
-        <div class="gc-body">
-          <div class="gc-title">Latas Edición Especial</div>
-          <div class="gc-desc">Rexona lanzó sus latas conmemorativas, edición especial de la Copa Mundial de la FIFA 2026™</div>
-        </div>
-        <div class="gc-arrow">↗</div>
+    <a href="https://docs.google.com/presentation/d/1TXE0ze9dDxhiFurSa_ZxIHnjGWeHQ1uU6N0J-RdAeks/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" class="guide-card">
+      <div class="gc-icon">🥤</div>
+      <div class="gc-body">
+        <div class="gc-title">Latas Edición Especial</div>
+        <div class="gc-desc">Latas conmemorativas — edición especial de la Copa Mundial de la FIFA 2026™</div>
       </div>
+      <div class="gc-arrow">↗</div>
     </a>
-
   </div>
 </div>
 
-<style>
-.guide-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:border-color .2s,background .2s,transform .15s;cursor:pointer;}
-.guide-card:hover{border-color:rgba(57,255,20,.35);background:#1d1d1d;transform:translateX(3px);}
-.gc-icon{font-size:26px;flex-shrink:0;width:42px;height:42px;background:var(--neon-dark);border:1px solid rgba(57,255,20,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.gc-body{flex:1;min-width:0;}
-.gc-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.5px;color:var(--white);line-height:1.1;margin-bottom:4px;}
-.gc-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;letter-spacing:.5px;}
-.gc-arrow{font-size:1.1rem;color:var(--neon);flex-shrink:0;font-family:'Bebas Neue',sans-serif;opacity:.7;}
-.guide-card:hover .gc-arrow{opacity:1;}
-</style>
+<!-- FOOTER -->
+<div class="footer">
+  Rexona Men 2026 · ThinkY © 2025 · <span>#RexonaCreatorsCup</span><br>
+  <button class="tnc-btn" onclick="openTnc()">Términos y Condiciones</button>
+</div>
 
-<div class="footer">Rexona Men 2026 · ThinkY © 2025 · <span>#RexonaCreatorsCup</span></div>
+<!-- T&C MODAL -->
+<div id="tnc-modal">
+  <div class="tnc-sheet">
+    <div class="tnc-header">
+      <div>
+        <div class="tnc-title">Términos y Condiciones</div>
+        <div class="tnc-sub">Dinámica Nano Creadores · Rexona Men Care</div>
+      </div>
+      <button class="tnc-close" onclick="closeTnc()">✕</button>
+    </div>
+    <div class="tnc-body">
+
+      <p style="color:#4A5B80;margin-bottom:20px;">La participación en la presente dinámica implica la aceptación expresa e irrevocable de los presentes Términos y Condiciones, así como de la mecánica de la dinámica y restricciones aplicables.</p>
+
+      <div class="tnc-h3">1. Generales</div>
+      <p>Think Y Medios Web, S.A. de C.V., con domicilio en Av. Álvaro Obregón 213 1-2, Roma Norte, Cuauhtémoc, Ciudad de México, CP 06700, con RFC TMW141002RK2 (el "Organizador"), es responsable de la Dinámica denominada <strong style="color:var(--white)">"Dinámica de Desempeño Nano Creadores Rexona Men Care"</strong>, promovida por la marca Rexona® propiedad de Unilever de México, S. de R.L. de C.V., Paseo de los Tamarindos 150, Bosques de las Lomas, Cuajimalpa, Ciudad de México, C.P. 05120.</p>
+
+      <div class="tnc-h3">2. Aceptación</div>
+      <p>2.1 Los presentes Términos rigen la Dinámica. Participar implica el conocimiento y aceptación total de los mismos.<br><br>2.2 Al participar, el participante acepta quedar obligado por las reglas y decisiones del Organizador, las cuales son definitivas y vinculantes.<br><br>2.3 El incumplimiento de los Términos podrá resultar en descalificación inmediata y cancelación del pago correspondiente.</p>
+
+      <div class="tnc-h3">3. Naturaleza de la Dinámica</div>
+      <p>La Dinámica es un programa de desempeño e incentivos basado en destreza y habilidad creativa, no en suerte o azar. Está dirigida exclusivamente a creadores de contenido previamente seleccionados por el Organizador y/o la Marca.</p>
+
+      <div class="tnc-h3">4. Participantes</div>
+      <p>Podrán participar únicamente creadores que cumplan con:<br>
+      • Ser mayores de edad (18 años) al inicio de la Dinámica.<br>
+      • Aceptar estos Términos y Condiciones.<br>
+      • Tener un mínimo de 1,000 seguidores en cada red social.<br>
+      • Tener presencia activa en al menos una de: Instagram, TikTok, X (Twitter), Facebook o YouTube Shorts.<br>
+      • Haber sido invitados y seleccionados directamente por el Organizador y/o la Marca.<br>
+      • Residir legalmente en la República Mexicana durante toda la vigencia.<br><br>
+      La Dinámica está limitada a un máximo de 333 creadores de contenido.</p>
+
+      <div class="tnc-h3">5. Vigencia</div>
+      <p>La Dinámica es válida únicamente en los Estados Unidos Mexicanos, del <strong style="color:var(--white)">1 de marzo de 2026</strong> al <strong style="color:var(--white)">25 de junio de 2026</strong>, conforme a las fases descritas en los presentes Términos.</p>
+
+      <div class="tnc-h3">8. Mecánica</div>
+      <p>Cada participante deberá generar un mínimo de 6 contenidos por mes, publicados en la red social y mes indicado por el Organizador, para acumular puntos. Por estos contenidos obligatorios se recibirá un pago fijo previamente acordado, independiente del desempeño en la Dinámica.</p>
+
+      <div class="tnc-h3">9. Sistema de puntos</div>
+      <div class="tnc-pts">
+        <strong style="color:var(--white)">Contenidos fijos (obligatorios):</strong><br>
+        TikTok / YouTube Shorts / Instagram Reels: <span style="color:var(--cyan)">300 pts</span> c/u<br><br>
+        <strong style="color:var(--white)">Contenidos Bonus:</strong><br>
+        TikTok / YouTube Shorts / Instagram Reels adicionales: <span style="color:var(--cyan)">300 pts</span> c/u<br>
+        Facebook Post / Reel / Story: <span style="color:var(--cyan)">50 pts</span><br>
+        Instagram Stories: <span style="color:var(--cyan)">50 pts</span><br>
+        Tweets (X): <span style="color:var(--cyan)">50 pts</span><br><br>
+        <strong style="color:var(--white)">Contenidos Réplica:</strong> Solo 1 réplica por contenido. La réplica en TikTok, YouTube Shorts o Instagram Reels: <span style="color:var(--cyan)">150 pts</span>
+      </div>
+
+      <div class="tnc-h3">12. Validación de puntaje</div>
+      <p>• Contenidos con cumplimiento 100%: puntaje completo.<br>
+      • Contenidos con cumplimiento parcial: 50% del puntaje.<br>
+      El Organizador y/o la Marca se reservan el derecho exclusivo de validar los contenidos y determinar el puntaje final.</p>
+
+      <div class="tnc-h3">16. Exclusividad de categoría</div>
+      <p>Durante la vigencia, los participantes <strong style="color:var(--white)">no podrán publicar contenido</strong> relacionado con otras marcas de antitranspirantes o desodorantes competidores.</p>
+
+      <div class="tnc-h3">17. Incentivo Principal</div>
+      <p>Los <strong style="color:var(--gold)">3 participantes con mayor puntaje acumulado</strong> recibirán un boleto triple para asistir a un partido de 16vos de la <strong style="color:var(--white)">Copa Mundial de la FIFA 2026</strong> el 30 de junio de 2026 (CDMX, Guadalajara o Monterrey).<br><br>
+      El <strong style="color:var(--gold)">1er lugar</strong> pasará a formar parte del squad de creadores de Rexona 2026, con acceso a eventos y beneficios exclusivos de julio a diciembre 2026, incluyendo:<br>
+      • Watch Party 5to partido (si México juega).<br>
+      • Asistencia a 1 evento de la Casa Fresh de Rexona.<br>
+      • Boletos dobles para 3 partidos de la Liga BBVA MX.<br>
+      • Participación en la Caravana MX: $20,000 MXN.</p>
+
+      <div class="tnc-h3">18. Incentivos Secundarios</div>
+      <p>Los <strong style="color:var(--white)">3 primeros lugares del ranking mensual</strong> (marzo, abril y mayo) recibirán como premio una estadía de una noche en hotel en la Ciudad de México — 9 ganadores en total.</p>
+
+      <div class="tnc-h3">19. Fases de la Dinámica</div>
+      <p><strong style="color:var(--white)">Fase 1 – Clasificatoria</strong><br>
+      1 de marzo al 31 de mayo de 2026. Los 333 participantes deben publicar mínimo 6 contenidos.<br><br>
+      <strong style="color:var(--white)">Fase 2 – Selección de Finalistas</strong><br>
+      1–7 de junio: conteo de puntos. 8 de junio: anuncio de los 33 finalistas (notificación vía WhatsApp).<br><br>
+      <strong style="color:var(--white)">Fase 3 – Final</strong><br>
+      8–17 de junio de 2026. Los 33 finalistas inician con puntaje en cero. Deben publicar 2 retos obligatorios y todos los Bonus que puedan.<br><br>
+      <strong style="color:var(--white)">Deliberación Final</strong><br>
+      18–25 de junio: la Marca evalúa puntaje y calidad. Los 3 ganadores se anuncian el 25 de junio vía WhatsApp.</p>
+
+      <div class="tnc-h3">21. Cesión de Derechos</div>
+      <p>Al aceptar estos Términos, los participantes ceden al Organizador y/o la Marca los derechos de uso, reproducción, adaptación y pauta del contenido generado, sin limitación territorial y de manera permanente, sin derecho a remuneración adicional.</p>
+
+      <div class="tnc-h3">22. Conducta y Descalificación</div>
+      <p>Cualquier contenido o declaración que perjudique la imagen o reputación del Organizador y/o la Marca será causa de descalificación inmediata.</p>
+
+      <div class="tnc-h3">24. Aviso de Privacidad</div>
+      <p>Al aceptar, los participantes autorizan a THINK Y MEDIOS WEB, S.A. DE C.V. y a la Marca para recolectar y almacenar sus datos personales conforme a la Ley Federal de Protección de Datos Personales. Para ejercer derechos ARCO: <strong style="color:var(--white)">rexonacreators@thinky.com.mx</strong></p>
+
+      <div class="tnc-h3">26. Aceptación</div>
+      <p style="color:var(--white)">La participación en la Dinámica implica la <strong>aceptación total</strong> de los presentes Términos y Condiciones.</p>
+
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);text-align:center;color:var(--muted2);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;line-height:2.2;">
+        REXONA MEN CARE · DINÁMICA NANO CREADORES · MÉXICO 2026<br>
+        THINK Y MEDIOS WEB, S.A. DE C.V. · RFC TMW141002RK2
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-const C=[
+/* ── GOOGLE SHEETS LIVE ─────────────────────────────────────────────────────
+   Sheet: Rexona Creators Cup Status
+   Columns: A=índice | B=Talento | C=Red Social | D=Puntaje Total
+   IMPORTANT: The Google Sheet must be "Anyone with the link can view"
+   for CSV export to work. Auto-refreshes every 5 minutes.
+──────────────────────────────────────────────────────────────────────────── */
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_DTgvLGsOFZnvlEnfbGBm0Tkwptipw_l1QaotVv7aTJHgNgi51srCgnPxHauXvM9QEF3i47cBTr3w/pub?gid=917633473&single=true&output=csv';
+
+async function fetchSheet() {
+  const ss = document.getElementById('sync-status');
+  try {
+    const r = await fetch(SHEET_URL + '&_t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const txt = await r.text();
+    const rows = txt.trim().split('\n');
+    const parseRow = row => {
+      const cols = []; let cur = '', inq = false;
+      for (const ch of row + ',') {
+        if (ch === '"') { inq = !inq; }
+        else if (ch === ',' && !inq) { cols.push(cur.trim()); cur = ''; }
+        else { cur += ch; }
+      }
+      return cols;
+    };
+    const parsed = rows.map(parseRow)
+      .filter(c => /^\d+$/.test(c[0]))
+      .map(c => ({ n: c[1]||'', p: c[2]||'Instagram', pts: parseInt(c[3])||0 }))
+      .filter(c => c.n);
+    parsed.sort((a,b) => b.pts - a.pts);
+    if (!parsed.length) return false;
+    C.splice(0, C.length, ...parsed);
+
+    const active = C.filter(c => c.pts >= 300).length;
+    const total  = Math.max(C.length, 334);
+    const pct    = Math.min(100, Math.round(active / total * 1000) / 10);
+
+    const lbl = document.getElementById('prog-label');
+    const pn  = document.getElementById('prog-note');
+    const bar = document.getElementById('prog-bar');
+    if (lbl) lbl.textContent = active + ' / ' + total;
+    if (pn)  pn.textContent  = pct + '% ya está sumando puntos';
+    if (bar) { bar.style.transition = 'width 1.4s cubic-bezier(.22,1,.36,1)'; bar.style.width = pct + '%'; }
+    if (ss)  ss.innerHTML = '<span class="sync-dot"></span><span>En vivo · ' + new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}) + '</span>';
+    return true;
+  } catch(e) {
+    console.warn('Sheets sync:', e.message);
+    if (ss) ss.innerHTML = '<span class="sync-dot off"></span><span>Sin conexión</span>';
+    return false;
+  }
+}
+
+async function initData() {
+  const loaded = await fetchSheet();
+  render();
+  if (!loaded) {
+    setTimeout(() => { const b = document.getElementById('prog-bar'); if (b) b.style.width = '41.6%'; }, 600);
+  }
+  setInterval(async () => { if (await fetchSheet()) render(); }, 5*60*1000);
+}
+
+/* ── DATA ─────────────────────────────────────────────────────────────────── */
+const C = [
   {n:"Soy joules",p:"YouTube",pts:900},{n:"Abimael Santos",p:"Instagram",pts:900},
   {n:"Soy Fuyuki",p:"Instagram",pts:750},{n:"Vero Pili García",p:"TikTok",pts:750},
   {n:"Bella Baumen",p:"Instagram",pts:700},{n:"Sonia Benitez",p:"Instagram",pts:700},
@@ -350,38 +1069,80 @@ const C=[
   {n:"Esmeralda Carmona",p:"Instagram",pts:300},{n:"Fadua Vera / Dua",p:"TikTok",pts:300},
   {n:"Andrea Osorio",p:"Instagram",pts:300},
 ];
-const PC={Instagram:{dot:'#E1306C'},TikTok:{dot:'#25F4EE'},YouTube:{dot:'#FF0000'},default:{dot:'#555'}};
-const AVC=['#39FF14','#FFD700','#25F4EE','#E1306C','#00b89c','#FF6B35'];
-function ini(n){return n.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
-function avc(n){let h=0;for(let i=0;i<n.length;i++)h=(h+n.charCodeAt(i))%AVC.length;return AVC[h];}
-let showing=15,curP='all',filtered=[];
-function setPlat(p,btn){curP=p;showing=15;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');document.getElementById('plat-pill').textContent=p==='all'?'TODOS':p.toUpperCase();render();}
-function render(){
-  filtered=curP==='all'?[...C]:C.filter(c=>c.p===curP);
-  const mx=filtered[0]?.pts||900;
-  document.getElementById('ranking').innerHTML=filtered.slice(0,showing).map((c,i)=>{
-    const r=i+1,pc=PC[c.p]||PC.default,ac=avc(c.n),pct=Math.round(c.pts/mx*100);
-    const med=r===1?'🥇':r===2?'🥈':r===3?'🥉':'';
-    const nc=r===1?'g':r===2?'s':r===3?'b':r<=33?'q':'x';
-    const ic=r===1?'r1':r===2?'r2':r===3?'r3':r<=33?'qual':'';
-    const bc=r===1?'#FFD700':r===2?'#C0C0C0':r===3?'#cd7f32':r<=33?'#39FF14':'#2a2a2a';
-    const qt=r>3&&r<=33?'<span class="qtag">⚽ TOP 33</span>':'';
-    return`<div class="ri ${ic}" style="animation-delay:${Math.min(i*.025,.4)}s"><div class="rn ${nc}">${med||r}</div><div class="avt" style="background:${ac}1a;color:${ac};">${ini(c.n)}</div><div class="riinfo"><div class="riname">${c.n}</div><div class="rimeta"><span class="pdot" style="background:${pc.dot}"></span><span class="riplat">${c.p}</span>${qt}</div><div class="bbar"><div class="bfill" style="width:${pct}%;background:${bc};opacity:.65"></div></div></div><div class="ripts"><div class="rinum">${c.pts}</div><div class="riunit">PTS</div></div></div>`;
+
+const PC  = { Instagram:{dot:'#E1306C'}, TikTok:{dot:'#25F4EE'}, YouTube:{dot:'#FF0000'}, default:{dot:'#334'} };
+const AVC = ['#2B46E8','#00C4FF','#E1306C','#25F4EE','#FFD700','#7C6FFF'];
+
+function ini(n) { return n.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase(); }
+function avc(n) { let h=0; for (let i=0;i<n.length;i++) h=(h+n.charCodeAt(i))%AVC.length; return AVC[h]; }
+
+let showing = 15;
+
+function render() {
+  const mx = C[0]?.pts || 900;
+  document.getElementById('ranking').innerHTML = C.slice(0, showing).map((c, i) => {
+    const r   = i+1;
+    const pc  = PC[c.p] || PC.default;
+    const ac  = avc(c.n);
+    const pct = Math.round(c.pts/mx*100);
+    const med = r===1?'🥇':r===2?'🥈':r===3?'🥉':'';
+    const nc  = r===1?'g':r===2?'s':r===3?'b':r<=33?'q':'x';
+    const ic  = r===1?'r1':r===2?'r2':r===3?'r3':r<=33?'qual':'';
+    const bc  = r===1?'#FFD700':r===2?'#C0C0C0':r===3?'#cd7f32':r<=33?'#2B46E8':'#1a2030';
+    const qt  = r>3&&r<=33?'<span class="qtag">TOP 33</span>':'';
+    const delay = Math.min(i*0.028, 0.5);
+    return `<div class="ri ${ic}" style="animation-delay:${delay}s">
+      <div class="rn ${nc}">${med||r}</div>
+      <div class="avt" style="background:${ac}18;color:${ac}">${ini(c.n)}</div>
+      <div class="riinfo">
+        <div class="riname">${c.n}</div>
+        <div class="rimeta">
+          <span class="pdot" style="background:${pc.dot}"></span>
+          <span class="riplat">${c.p}</span>
+          ${qt}
+        </div>
+        <div class="bbar"><div class="bfill" style="width:${pct}%;background:${bc};opacity:.7"></div></div>
+      </div>
+      <div class="ripts">
+        <div class="rinum">${c.pts}</div>
+        <div class="riunit">PTS</div>
+      </div>
+    </div>`;
   }).join('');
-  const btn=document.getElementById('more-btn');
-  if(showing>=filtered.length){btn.style.display='none';}else{btn.style.display='block';btn.textContent=`⬇️ Ver más · ${filtered.length-showing} creadores restantes`;}
+
+  const btn = document.getElementById('more-btn');
+  if (showing >= C.length) {
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = 'block';
+    btn.textContent = 'Ver más · ' + (C.length - showing) + ' creadores restantes';
+  }
 }
-function more(){showing+=15;render();}
-function tick(){
-  const diff=new Date('2026-05-31T23:59:59')-new Date();
-  if(diff<=0){['d','h','m','s'].forEach(u=>document.getElementById('cd-'+u).textContent='00');return;}
-  document.getElementById('cd-d').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
-  document.getElementById('cd-h').textContent=String(Math.floor(diff%86400000/3600000)).padStart(2,'0');
-  document.getElementById('cd-m').textContent=String(Math.floor(diff%3600000/60000)).padStart(2,'0');
-  document.getElementById('cd-s').textContent=String(Math.floor(diff%60000/1000)).padStart(2,'0');
+
+function more() { showing += 15; render(); }
+
+/* ── COUNTDOWN ──────────────────────────────────────────────────────────── */
+function tick() {
+  const diff = new Date('2026-05-31T23:59:59') - new Date();
+  if (diff <= 0) { ['d','h','m','s'].forEach(u => document.getElementById('cd-'+u).textContent='00'); return; }
+  document.getElementById('cd-d').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(Math.floor(diff%86400000/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(Math.floor(diff%3600000/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(Math.floor(diff%60000/1000)).padStart(2,'0');
 }
-render();tick();setInterval(tick,1000);
-setTimeout(()=>{const b=document.getElementById('prog-bar');if(b)b.style.width='41.6%';},500);
+
+/* ── T&C ────────────────────────────────────────────────────────────────── */
+const tncModal = document.getElementById('tnc-modal');
+function openTnc()  { tncModal.classList.add('open');    document.body.style.overflow='hidden'; }
+function closeTnc() { tncModal.classList.remove('open'); document.body.style.overflow=''; }
+tncModal.addEventListener('click', e => { if (e.target===tncModal) closeTnc(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeTnc(); });
+
+/* ── BOOT ───────────────────────────────────────────────────────────────── */
+window.addEventListener('load', () => {
+  setTimeout(() => { const b=document.getElementById('prog-bar'); if (b&&b.style.width==='0%') b.style.width='41.6%'; }, 600);
+});
+render(); tick(); setInterval(tick, 1000); initData();
 </script>
 </body>
 </html>
