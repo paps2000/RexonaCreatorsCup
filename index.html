@@ -195,26 +195,19 @@ body::after {
   opacity: .5;
 }
 
-/* Hero logo — PNG plate */
+/* Hero logo — transparent */
 .hero-logo-wrap {
   position: relative;
   z-index: 1;
   margin-bottom: 1.5rem;
   animation: fadeUp .6s var(--ease-out) both;
 }
-.hero-logo-plate {
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px 28px 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 60px rgba(43,70,232,.2), 0 20px 40px rgba(0,0,0,.4);
-}
 .hero-logo-img {
-  width: 140px;
+  width: 150px;
   height: auto;
   display: block;
+  filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(43,70,232,.5));
+  opacity: 0.92;
 }
 .live-badge {
   display: inline-flex;
@@ -316,7 +309,7 @@ body::after {
 .cdfooter {
   margin-top: .75rem;
   font-family: 'DM Mono', monospace;
-  font-size: 8px; color: var(--muted2); letter-spacing: 1.5px;
+  font-size: 8px; color: var(--muted); letter-spacing: 1.5px;
 }
 .cdfooter em { color: var(--cyan); font-style: normal; }
 
@@ -442,7 +435,7 @@ body::after {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
   animation: shimmer 2.5s ease-in-out infinite;
 }
-.prognote { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--muted2); }
+.prognote { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--muted); }
 .prognote b { color: var(--cyan); font-weight: 500; }
 
 /* ── RANKING ────────────────────────────────────────────────────────────── */
@@ -499,7 +492,7 @@ body::after {
 .ri.r3 .rinum { color: var(--bronze); }
 .ri.qual .rinum { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .ri:not(.r1):not(.r2):not(.r3):not(.qual) .rinum { color: var(--muted); }
-.riunit { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--muted2); letter-spacing: 1px; }
+.riunit { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 1px; }
 
 .morebtn {
   width: 100%; margin-top: 10px; padding: 13px;
@@ -536,7 +529,7 @@ body::after {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   margin-bottom: .75rem;
 }
-.motb { font-size: 13px; color: #5566; line-height: 1.75; margin-bottom: 1.25rem; position: relative; }
+.motb { font-size: 13px; color: rgba(160, 180, 210, 0.85); line-height: 1.75; margin-bottom: 1.25rem; position: relative; }
 .motb strong { color: var(--white); font-weight: 700; }
 .motb .ht { color: var(--cyan); font-weight: 700; }
 .motcta {
@@ -667,9 +660,7 @@ body::after {
 <!-- STICKY HEADER -->
 <header class="brand-header">
   <div class="rx-logo">
-    <div style="background:#fff;border-radius:6px;padding:3px 6px;display:flex;align-items:center;">
-      <img src="./images/rexona-logo.png" alt="Rexona®" style="height:28px;width:auto;display:block;">
-    </div>
+    <img src="./images/rexona-logo.png" alt="Rexona®" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9;">
   </div>
   <div class="sync-status" id="sync-status">
     <span class="sync-dot"></span>
@@ -684,9 +675,7 @@ body::after {
   <div class="hero-glow-btm"></div>
 
   <div class="hero-logo-wrap">
-    <div class="hero-logo-plate">
-      <img class="hero-logo-img" src="./images/rexona-logo.png" alt="Rexona®">
-    </div>
+    <img class="hero-logo-img" src="./images/rexona-logo.png" alt="Rexona®">
   </div>
 
   <div class="live-badge">
@@ -735,9 +724,8 @@ body::after {
   <div class="pc star"><span class="pci">✈️</span><div class="pn">Boleto Triple</div><div class="pd">16avos · Estadio CDMX<br>30 de Junio 🏟️</div></div>
   <div class="pc"><span class="pci">🌟</span><div class="pn">Squad Rexona 2026</div><div class="pd">Creador oficial<br>todo el año</div></div>
   <div class="pc"><span class="pci">🎉</span><div class="pn">Eventos exclusivos</div><div class="pd">Watch parties<br>activaciones VIP</div></div>
-  <div class="pc"><span class="pci">📦</span><div class="pn">Gifting Packs</div><div class="pd">Top posters<br>cada mes</div></div>
   <div class="pc"><span class="pci">📲</span><div class="pn">Crecimiento de redes</div><div class="pd">Tus seguidores<br>en otro nivel</div></div>
-  <div class="pc"><span class="pci">🏅</span><div class="pn">Misiones 2026</div><div class="pd">Cobertura mundial<br>App M4TM + Liga MX</div></div>
+  <div class="pc"><span class="pci">🏠</span><div class="pn">Casa Fresh</div><div class="pd">El top 9 se queda<br>una noche todo incluido</div></div>
 </div>
 
 <!-- POINTS SYSTEM -->
@@ -792,41 +780,6 @@ body::after {
     Publica y usa <span class="ht">#RexonaCreatorsCup</span> — que te vean
   </div>
   <div class="motcta">PUBLICA HOY</div>
-</div>
-
-<!-- CONTENT GUIDES -->
-<div class="sec">
-  <div class="sh">
-    <div class="st">Sigue creando</div>
-    <div class="sp">GUÍAS</div>
-  </div>
-  <p style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:1.1rem;line-height:1.6;">Usa estas guías oficiales para crear contenido que sume puntos.</p>
-  <div style="display:flex;flex-direction:column;gap:10px;">
-    <a href="https://docs.google.com/presentation/d/1JNmZ9d64RZB__eD7G081NNt3rZD0ekXYu3R4w_SOGRk/edit?slide=id.g3dcf58842b8_0_56#slide=id.g3dcf58842b8_0_56" target="_blank" class="guide-card">
-      <div class="gc-icon">🎬</div>
-      <div class="gc-body">
-        <div class="gc-title">Comercial Rexona</div>
-        <div class="gc-desc">Rexona arranca su campaña rumbo a la Copa Mundial de la FIFA 2026™</div>
-      </div>
-      <div class="gc-arrow">↗</div>
-    </a>
-    <a href="https://docs.google.com/presentation/d/1r5pO49Fur4v84qvuVjzfMe3ZGomq7X2yOiYHxR0IrQo/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" class="guide-card">
-      <div class="gc-icon">🛒</div>
-      <div class="gc-body">
-        <div class="gc-title">Big Promo</div>
-        <div class="gc-desc">Compra desodorantes de la familia Unilever y vete al mundial</div>
-      </div>
-      <div class="gc-arrow">↗</div>
-    </a>
-    <a href="https://docs.google.com/presentation/d/1TXE0ze9dDxhiFurSa_ZxIHnjGWeHQ1uU6N0J-RdAeks/edit?slide=id.g3c924ad7892_0_89#slide=id.g3c924ad7892_0_89" target="_blank" class="guide-card">
-      <div class="gc-icon">🥤</div>
-      <div class="gc-body">
-        <div class="gc-title">Latas Edición Especial</div>
-        <div class="gc-desc">Latas conmemorativas — edición especial de la Copa Mundial de la FIFA 2026™</div>
-      </div>
-      <div class="gc-arrow">↗</div>
-    </a>
-  </div>
 </div>
 
 <!-- FOOTER -->
