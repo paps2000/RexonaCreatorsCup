@@ -92,6 +92,31 @@ body::after {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(200%);  }
 }
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(43,70,232,.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(43,70,232,0); }
+  100% { box-shadow: 0 0 0 0 rgba(43,70,232,0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SCROLL ANIMATIONS ──────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .55s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .08s; }
+.reveal-delay-2 { transition-delay: .16s; }
+.reveal-delay-3 { transition-delay: .24s; }
+.reveal-delay-4 { transition-delay: .32s; }
 
 /* ── STICKY HEADER ──────────────────────────────────────────────────────── */
 .brand-header {
@@ -208,6 +233,7 @@ body::after {
   display: block;
   filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(43,70,232,.5));
   opacity: 0.92;
+  animation: floatLogo 4s ease-in-out infinite;
 }
 .live-badge {
   display: inline-flex;
@@ -225,7 +251,7 @@ body::after {
   margin-top: 1.5rem;
   margin-bottom: .75rem;
   position: relative; z-index: 1;
-  animation: fadeUp .5s var(--ease-out) .22s both;
+  animation: fadeUp .5s var(--ease-out) .22s both, pulse-ring 2.5s ease-out infinite;
 }
 .ldot {
   width: 6px; height: 6px;
@@ -413,6 +439,87 @@ body::after {
 }
 .ptbox.blue .pttag { background: rgba(43,70,232,.12); color: var(--cyan); border: 1px solid rgba(43,70,232,.28); }
 .ptbox.gold .pttag { background: #1c1200; color: var(--gold); border: 1px solid rgba(255,215,0,.18); }
+
+/* ptbox full-width + replica variant */
+.ptbox.full { grid-column: span 2; }
+.ptbox.rep  { border: 1px solid rgba(0,196,255,.28); --gc: rgba(0,196,255,.06); }
+.ptbox.rep .ptnum { color: var(--cyan); }
+.ptbox.rep .pttag { background: rgba(0,196,255,.1); color: var(--cyan); border: 1px solid rgba(0,196,255,.2); }
+
+/* points warning */
+.pts-warning {
+  margin: 12px 0 0;
+  padding: 11px 14px;
+  background: rgba(220,38,38,.1);
+  border: 1px solid rgba(220,38,38,.35);
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: #ff6b6b;
+  line-height: 1.65;
+  letter-spacing: .3px;
+}
+
+/* ── SEARCH ─────────────────────────────────────────────────────────────── */
+.search-wrap { padding: 0 1.5rem 1rem; }
+.search-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 16px 13px 42px;
+  color: var(--white);
+  font-family: 'GT Eesti', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  -webkit-appearance: none;
+}
+.search-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(43,70,232,.12);
+}
+.search-input::placeholder { color: var(--muted); }
+.search-box { position: relative; }
+.search-icon {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px; pointer-events: none;
+}
+.search-result-wrap { padding: 0 1.5rem; margin-bottom: .5rem; }
+.search-hit {
+  display: flex; align-items: center;
+  background: var(--card); border: 1px solid var(--blue);
+  border-radius: 12px; padding: 14px 16px; gap: 12px;
+  animation: fadeUp .3s var(--ease-out) both;
+  box-shadow: 0 0 24px rgba(43,70,232,.15);
+}
+.search-rank-badge {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1.5rem; min-width: 40px; text-align: center; line-height: 1;
+}
+.search-info { flex: 1; min-width: 0; }
+.search-name {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 15px; color: var(--white); line-height: 1.2;
+}
+.search-pos {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: var(--cyan); letter-spacing: 1px; margin-top: 3px;
+}
+.search-pts {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1.4rem; line-height: 1; text-align: right;
+}
+.search-pts-lbl {
+  font-family: 'DM Mono', monospace; font-size: 7px;
+  color: var(--muted); letter-spacing: 1px; margin-top: 2px;
+}
+.search-empty {
+  text-align: center; color: var(--muted);
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  padding: 14px; letter-spacing: 1px;
+}
 
 /* ── PROGRESS ───────────────────────────────────────────────────────────── */
 .progwrap { padding: 0 1.5rem; margin-bottom: 1.75rem; }
@@ -716,14 +823,14 @@ body::after {
 </div>
 
 <!-- PRIZES -->
-<div class="sec">
+<div class="sec reveal">
   <div class="sh">
     <div class="st">Lo que te llevas</div>
     <div class="sp">SI GANAS</div>
   </div>
 </div>
-<div class="prow">
-  <div class="pc star"><span class="pci">✈️</span><div class="pn">Boleto Triple</div><div class="pd">16avos · Estadio CDMX<br>30 de Junio 🏟️</div></div>
+<div class="prow reveal reveal-delay-1">
+  <div class="pc star"><span class="pci">🎟️</span><div class="pn">Boleto Triple</div><div class="pd">16avos · Estadio CDMX<br>30 de Junio 🏟️</div></div>
   <div class="pc"><span class="pci">🌟</span><div class="pn">Squad Rexona 2026</div><div class="pd">Creador oficial<br>todo el año</div></div>
   <div class="pc"><span class="pci">🎉</span><div class="pn">Eventos exclusivos</div><div class="pd">Watch parties<br>activaciones VIP</div></div>
   <div class="pc"><span class="pci">📲</span><div class="pn">Crecimiento de redes</div><div class="pd">Tus seguidores<br>en otro nivel</div></div>
@@ -731,24 +838,32 @@ body::after {
 </div>
 
 <!-- POINTS SYSTEM -->
-<div class="sec">
+<div class="sec reveal">
   <div class="sh"><div class="st">Sistema de puntos</div></div>
   <div class="ptgrid">
-    <div class="ptbox blue">
+    <div class="ptbox blue full reveal reveal-delay-1">
       <div class="ptnum">300</div>
-      <div class="ptsub">pts por contenido<br>obligatorio</div>
-      <div class="pttag">2 por mes mínimo</div>
+      <div class="ptsub">pts por contenido fijo<br>(TikTok, Reel o YouTube Short)</div>
+      <div class="pttag">Contenido obligatorio</div>
     </div>
-    <div class="ptbox gold">
-      <div class="ptnum">+50</div>
-      <div class="ptsub">pts por cada<br>contenido bonus</div>
-      <div class="pttag">¡Sin límite!</div>
+    <div class="ptbox gold reveal reveal-delay-2">
+      <div class="ptnum">50</div>
+      <div class="ptsub">pts por tweets<br>o historias de Instagram</div>
+      <div class="pttag">Bonus</div>
     </div>
+    <div class="ptbox rep reveal reveal-delay-3">
+      <div class="ptnum">150</div>
+      <div class="ptsub">pts por replicar<br>en otra plataforma</div>
+      <div class="pttag">Por réplica</div>
+    </div>
+  </div>
+  <div class="pts-warning reveal reveal-delay-4">
+    ⚠️ Recuerda: si tu contenido no cumple con los lineamientos de comunicación y/o de marca solo valdrá la mitad (150 pts)
   </div>
 </div>
 
 <!-- PROGRESS -->
-<div class="progwrap">
+<div class="progwrap reveal">
   <div class="progtop">
     <div class="proglbl">Squad activo</div>
     <div class="progct" id="prog-label">139 / 334</div>
@@ -762,6 +877,24 @@ body::after {
   </div>
 </div>
 
+<!-- SEARCH -->
+<div class="search-wrap reveal">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      id="search-input"
+      class="search-input"
+      placeholder="Busca tu nombre para ver tu posición…"
+      oninput="searchCreator(this.value)"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+    >
+  </div>
+</div>
+<div class="search-result-wrap" id="search-result"></div>
+
 <!-- RANKING -->
 <div class="sec">
   <div class="sh">
@@ -773,7 +906,7 @@ body::after {
 </div>
 
 <!-- CTA -->
-<div class="mot">
+<div class="mot reveal">
   <span class="mote">⚽</span>
   <div class="mott">El mundial te está esperando</div>
   <div class="motb">
@@ -1123,9 +1256,54 @@ function closeTnc() { tncModal.classList.remove('open'); document.body.style.ove
 tncModal.addEventListener('click', e => { if (e.target===tncModal) closeTnc(); });
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeTnc(); });
 
+/* ── SEARCH ─────────────────────────────────────────────────────────────── */
+function searchCreator(q) {
+  const wrap = document.getElementById('search-result');
+  q = q.trim();
+  if (!q) { wrap.innerHTML = ''; return; }
+
+  const hits = C.map((c, i) => ({ ...c, rank: i + 1 }))
+    .filter(c => c.n.toLowerCase().includes(q.toLowerCase()));
+
+  if (!hits.length) {
+    wrap.innerHTML = '<div class="search-empty">Sin resultados para "' + q + '" 😕</div>';
+    return;
+  }
+
+  wrap.innerHTML = hits.slice(0, 3).map(c => {
+    const r   = c.rank;
+    const med = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '#' + r;
+    const col = r === 1 ? 'var(--gold)' : r === 2 ? 'var(--silver)' : r === 3 ? 'var(--bronze)' : r <= 33 ? 'var(--cyan)' : 'var(--muted)';
+    const pos = r <= 3  ? 'TOP 3 🏆' : r <= 33 ? 'TOP 33 · Clasificado ✅' : 'Posición #' + r;
+    const ptsCol = r === 1 ? 'var(--gold)' : r <= 33 ? 'var(--cyan)' : 'var(--white)';
+    return `<div class="search-hit" style="margin-bottom:8px;">
+      <div class="search-rank-badge" style="color:${col}">${med}</div>
+      <div class="search-info">
+        <div class="search-name">${c.n}</div>
+        <div class="search-pos">${pos}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div class="search-pts" style="color:${ptsCol}">${c.pts}</div>
+        <div class="search-pts-lbl">PTS</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── SCROLL REVEAL ──────────────────────────────────────────────────────── */
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
 /* ── BOOT ───────────────────────────────────────────────────────────────── */
 window.addEventListener('load', () => {
   setTimeout(() => { const b=document.getElementById('prog-bar'); if (b&&b.style.width==='0%') b.style.width='41.6%'; }, 600);
+  initReveal();
 });
 render(); tick(); setInterval(tick, 1000); initData();
 </script>
