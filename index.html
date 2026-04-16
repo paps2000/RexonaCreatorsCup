@@ -261,12 +261,17 @@ body::after {
   z-index: 1;
   margin-bottom: 1.5rem;
   animation: fadeUp .6s var(--ease-out) both;
+  /* drop-shadow lives here so it doesn't interfere with invert on Safari */
+  filter: drop-shadow(0 0 18px rgba(43,70,232,.5));
+  -webkit-filter: drop-shadow(0 0 18px rgba(43,70,232,.5));
 }
 .hero-logo-img {
   width: 150px;
   height: auto;
   display: block;
-  filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(43,70,232,.5));
+  /* invert isolated — works on all browsers including iOS Safari */
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
   opacity: 0.92;
   animation: floatLogo 4s ease-in-out infinite;
 }
@@ -804,7 +809,7 @@ body::after {
 <!-- STICKY HEADER -->
 <header class="brand-header">
   <div class="rx-logo">
-    <img src="./images/rexona-logo.png" alt="Rexona®" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9;">
+    <img src="./images/rexona-logo.png" alt="Rexona®" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1);-webkit-filter:brightness(0) invert(1);opacity:0.9;">
   </div>
   <div class="sync-status" id="sync-status">
     <span class="sync-dot"></span>
