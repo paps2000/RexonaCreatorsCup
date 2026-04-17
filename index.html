@@ -797,24 +797,17 @@ body::after {
   font-family: 'DM Mono', monospace; font-size: 9px; line-height: 2; color: #6A7F9A;
 }
 
-/* ── FLOATING CANS (page background) ───────────────────────────────────── */
-.cans-bg {
+/* ── HERO CANS (mixed with emojis in hero) ──────────────────────────────── */
+.hero-can {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
   pointer-events: none;
-  overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: 0.22;
+  height: 230px;
+  width: auto;
+  filter: drop-shadow(0 4px 20px rgba(0,200,80,.18));
 }
-.can-float {
-  position: absolute;
-  width: 210px;
-  height: auto;
-  mix-blend-mode: screen;   /* removes black bg from product renders */
-  opacity: 0.13;
-}
-.can-float:nth-child(1) { left:-60px;  top:calc(100vh + 120px); animation: floatD 7s  ease-in-out infinite; }
-.can-float:nth-child(2) { right:-55px; top:calc(100vh + 520px); animation: floatA 6.5s ease-in-out infinite .8s; }
-.can-float:nth-child(3) { left:-65px;  top:calc(100vh + 1100px);animation: floatC 7.5s ease-in-out infinite 1.4s; }
-.can-float:nth-child(4) { right:-50px; top:calc(100vh + 1700px);animation: floatB 6.8s ease-in-out infinite .4s; }
 
 /* ── INSPIRATION EMBEDS ─────────────────────────────────────────────────── */
 .inspo-row {
@@ -867,14 +860,6 @@ body::after {
 </head>
 <body>
 
-<!-- FLOATING CANS BACKGROUND -->
-<div class="cans-bg" aria-hidden="true">
-  <img class="can-float" src="./images/can-marine.png"  alt="">
-  <img class="can-float" src="./images/can-mexico.png"  alt="">
-  <img class="can-float" src="./images/can-xtracool.png" alt="">
-  <img class="can-float" src="./images/can-fifa.png"    alt="">
-</div>
-
 <!-- STICKY HEADER -->
 <header class="brand-header">
   <div class="rx-logo">
@@ -891,6 +876,12 @@ body::after {
   <div class="hero-grid"></div>
   <div class="hero-glow-top"></div>
   <div class="hero-glow-btm"></div>
+
+  <!-- floating cans — mixed with emojis -->
+  <img class="hero-can" src="./images/can-marine.png"   alt="" style="left:-35px;top:32%;transform:rotate(-8deg);animation:floatD 7s ease-in-out infinite;">
+  <img class="hero-can" src="./images/can-mexico.png"   alt="" style="right:-40px;top:10%;transform:rotate(10deg);animation:floatA 6.5s ease-in-out infinite .7s;">
+  <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:-35px;bottom:8%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
+  <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:-25px;bottom:6%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
 
   <!-- floating background emojis -->
   <span class="hero-emoji" style="font-size:3.4rem;left:5%;top:13%;opacity:.28;animation:floatA 5.2s ease-in-out infinite;">⚽</span>
@@ -1044,7 +1035,7 @@ body::after {
     <div class="st">✨ Inspírate</div>
     <div class="sp">ASÍ SE HACE</div>
   </div>
-  <p style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:1.1rem;line-height:1.6;">El squad ya está publicando. Aquí va el tipo de contenido que suma puntos.</p>
+  <p style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(160,200,235,0.85);letter-spacing:.5px;margin-bottom:1.1rem;line-height:1.7;">El squad ya está publicando. Aquí va el tipo de contenido que suma puntos.</p>
 </div>
 <div class="inspo-row">
 
@@ -1061,7 +1052,7 @@ body::after {
     <div class="inspo-creator-tag">@the.only.keren</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
-      data-instgrm-permalink="https://www.instagram.com/the.only.keren/p/DW29mhwjakp/?utm_source=ig_embed&amp;utm_campaign=loading"
+      data-instgrm-permalink="https://www.instagram.com/p/DW29mhwjakp/?utm_source=ig_embed&amp;utm_campaign=loading"
       data-instgrm-version="14">
     </blockquote>
   </div>
@@ -1070,7 +1061,7 @@ body::after {
     <div class="inspo-creator-tag">@laurahernandez</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
-      data-instgrm-permalink="https://www.instagram.com/laurahernandez_______/p/DVb2Qv9kkq7/?utm_source=ig_embed&amp;utm_campaign=loading"
+      data-instgrm-permalink="https://www.instagram.com/p/DVb2Qv9kkq7/?utm_source=ig_embed&amp;utm_campaign=loading"
       data-instgrm-version="14">
     </blockquote>
   </div>
@@ -1079,7 +1070,7 @@ body::after {
     <div class="inspo-creator-tag">@manolobanes · reel</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
-      data-instgrm-permalink="https://www.instagram.com/reels/DVbnvxJFrd8/?utm_source=ig_embed&amp;utm_campaign=loading"
+      data-instgrm-permalink="https://www.instagram.com/reel/DVbnvxJFrd8/?utm_source=ig_embed&amp;utm_campaign=loading"
       data-instgrm-version="14">
     </blockquote>
   </div>
@@ -1088,7 +1079,7 @@ body::after {
 
 <!-- FOOTER -->
 <div class="footer">
-  Rexona Men 2026 · ThinkY © 2025 · <span>#RexonaCreatorsCup</span><br>
+  Rexona Men 2026 · ThinkY © 2026 · <span>#RexonaCreatorsCup</span><br>
   <button class="tnc-btn" onclick="openTnc()">Términos y Condiciones</button>
 </div>
 
