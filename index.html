@@ -146,6 +146,7 @@ body::after {
 .reveal-delay-2 { transition-delay: .16s; }
 .reveal-delay-3 { transition-delay: .24s; }
 .reveal-delay-4 { transition-delay: .32s; }
+.reveal-delay-5 { transition-delay: .40s; }
 
 /* ── HERO FLOATING EMOJIS ───────────────────────────────────────────────── */
 .hero-emoji {
@@ -935,6 +936,16 @@ body::after {
   min-width: unset !important;
   max-width: 100% !important;
 }
+/* TikTok embed inside card */
+.inspo-card .tiktok-embed {
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  min-width: unset !important;
+  max-width: 100% !important;
+}
 
 /* ── PAGE-WIDE EMOJI DECO ───────────────────────────────────────────────── */
 .page-deco {
@@ -1155,6 +1166,16 @@ body::after {
 <div class="inspo-row" id="inspo-row">
 
   <div class="inspo-card reveal reveal-delay-1">
+    <div class="inspo-creator-tag">@el_dominguez_mx</div>
+    <blockquote class="tiktok-embed"
+      cite="https://www.tiktok.com/@el_dominguez_mx/video/7629537491900501268"
+      data-video-id="7629537491900501268"
+      style="max-width:100%;min-width:unset;">
+      <section></section>
+    </blockquote>
+  </div>
+
+  <div class="inspo-card reveal reveal-delay-2">
     <div class="inspo-creator-tag">@manolobanes</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
@@ -1163,7 +1184,7 @@ body::after {
     </blockquote>
   </div>
 
-  <div class="inspo-card reveal reveal-delay-2">
+  <div class="inspo-card reveal reveal-delay-3">
     <div class="inspo-creator-tag">@the.only.keren</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
@@ -1172,7 +1193,7 @@ body::after {
     </blockquote>
   </div>
 
-  <div class="inspo-card reveal reveal-delay-3">
+  <div class="inspo-card reveal reveal-delay-4">
     <div class="inspo-creator-tag">@laurahernandez</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
@@ -1181,7 +1202,7 @@ body::after {
     </blockquote>
   </div>
 
-  <div class="inspo-card reveal reveal-delay-4">
+  <div class="inspo-card reveal reveal-delay-5">
     <div class="inspo-creator-tag">@manolobanes · reel</div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
@@ -1638,7 +1659,7 @@ function closePhase() {
 }
 phaseModal.addEventListener('click', e => { if (e.target === phaseModal) closePhase(); });
 
-/* ── INSTAGRAM LAZY EMBED ───────────────────────────────────────────────── */
+/* ── INSTAGRAM + TIKTOK LAZY EMBED ─────────────────────────────────────── */
 function initEmbeds() {
   const section = document.getElementById('inspo-section');
   if (!section) return;
@@ -1647,10 +1668,14 @@ function initEmbeds() {
     entries.forEach(e => {
       if (e.isIntersecting && !loaded) {
         loaded = true;
-        const s = document.createElement('script');
-        s.src = 'https://www.instagram.com/embed.js';
-        s.async = true;
-        document.body.appendChild(s);
+        const ig = document.createElement('script');
+        ig.src = 'https://www.instagram.com/embed.js';
+        ig.async = true;
+        document.body.appendChild(ig);
+        const tt = document.createElement('script');
+        tt.src = 'https://www.tiktok.com/embed.js';
+        tt.async = true;
+        document.body.appendChild(tt);
         io.unobserve(e.target);
       }
     });
