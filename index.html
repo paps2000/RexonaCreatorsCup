@@ -394,7 +394,87 @@ body::after {
   text-transform: uppercase; letter-spacing: .3px;
 }
 .ph-on  { background: var(--grad); color: #fff; }
-.ph-off { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+.ph-off {
+  background: var(--surface); color: var(--muted);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.ph-off:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) {
+  .ph-off:hover { border-color: rgba(43,70,232,.4); color: var(--cyan); }
+}
+
+/* ── PHASE INFO MODAL ───────────────────────────────────────────────────── */
+#phase-modal {
+  display: none; position: fixed; inset: 0; z-index: 9000;
+  align-items: flex-end;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+#phase-modal.open { display: flex; }
+.phase-sheet {
+  width: 100%; max-height: 80svh; overflow-y: auto;
+  background: #0A0E1A;
+  border-top: 1px solid rgba(43,70,232,.3);
+  border-radius: 20px 20px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+  scrollbar-width: thin; scrollbar-color: var(--blue-dim) transparent;
+  opacity: 0; transform: translateY(100%);
+  transition: opacity 400ms var(--ease-drawer), transform 400ms var(--ease-drawer);
+}
+#phase-modal.open .phase-sheet { opacity: 1; transform: translateY(0); }
+.phase-sheet-header {
+  position: sticky; top: 0;
+  background: #0A0E1A; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; border-radius: 20px 20px 0 0; z-index: 1;
+}
+.phase-sheet-title { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--white); }
+.phase-sheet-tag { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 1.5px; color: var(--cyan-dim); margin-top: 2px; }
+.phase-sheet-close {
+  background: rgba(255,255,255,.07); border: 1px solid var(--border);
+  color: var(--white); width: 32px; height: 32px; border-radius: 50%;
+  font-size: .9rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 160ms var(--ease-out);
+}
+.phase-sheet-close:active { transform: scale(0.93); }
+.phase-sheet-body {
+  padding: 22px 20px;
+  font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 13px; color: rgba(160,185,215,.85); line-height: 1.85;
+}
+.phase-body-hero {
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1.9rem; line-height: 1.1; letter-spacing: -.4px;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 1rem;
+}
+.phase-timeline {
+  display: flex; flex-direction: column; gap: 16px; margin: 1.25rem 0;
+}
+.phase-tl-item {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.phase-tl-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cyan); flex-shrink: 0; margin-top: 6px;
+  box-shadow: 0 0 8px var(--cyan);
+}
+.phase-tl-date {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  color: var(--cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px;
+}
+.phase-tl-text { font-size: 13px; color: rgba(160,185,215,.85); line-height: 1.7; }
+.phase-tl-text strong { color: var(--white); }
+.phase-callout {
+  background: rgba(43,70,232,.1); border: 1px solid rgba(43,70,232,.25);
+  border-radius: 12px; padding: 16px; margin-top: 1.25rem;
+  font-family: 'GT Eesti', sans-serif; font-weight: 700;
+  font-size: 1rem; color: var(--white); line-height: 1.5; text-align: center;
+}
 
 /* ── SECTIONS ───────────────────────────────────────────────────────────── */
 .sec { padding: 0 1.5rem 1.75rem; }
@@ -878,10 +958,10 @@ body::after {
   <div class="hero-glow-btm"></div>
 
   <!-- floating cans — mixed with emojis -->
-  <img class="hero-can" src="./images/can-marine.png"   alt="" style="left:-8px;top:30%;transform:rotate(-8deg);animation:floatD 7s ease-in-out infinite;">
-  <img class="hero-can" src="./images/can-mexico.png"   alt="" style="right:-10px;top:9%;transform:rotate(10deg);animation:floatA 6.5s ease-in-out infinite .7s;">
-  <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:-8px;bottom:9%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
-  <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:-5px;bottom:7%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
+  <img class="hero-can" src="./images/can-marine.png"   alt="" style="left:12px;top:30%;transform:rotate(-8deg);animation:floatD 7s ease-in-out infinite;">
+  <img class="hero-can" src="./images/can-mexico.png"   alt="" style="right:10px;top:9%;transform:rotate(10deg);animation:floatA 6.5s ease-in-out infinite .7s;">
+  <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:10px;bottom:9%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
+  <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:12px;bottom:7%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
 
   <!-- floating background emojis -->
   <span class="hero-emoji" style="font-size:3.4rem;left:5%;top:13%;opacity:.28;animation:floatA 5.2s ease-in-out infinite;">⚽</span>
@@ -929,9 +1009,22 @@ body::after {
 <!-- PHASES -->
 <div class="phases">
   <div class="ph ph-on">Fase 1<br>Mar–May</div>
-  <div class="ph ph-off">Finalistas<br>1–7 Jun</div>
-  <div class="ph ph-off">Final<br>8–17 Jun</div>
-  <div class="ph ph-off">Premio<br>30 Jun</div>
+  <div class="ph ph-off" onclick="openPhase('f2')">Fase 2<br>Finalistas ↗</div>
+  <div class="ph ph-off" onclick="openPhase('f3')">Fase 3<br>¡Ganador! ↗</div>
+</div>
+
+<!-- PHASE INFO MODAL -->
+<div id="phase-modal">
+  <div class="phase-sheet">
+    <div class="phase-sheet-header">
+      <div>
+        <div class="phase-sheet-title" id="phase-title"></div>
+        <div class="phase-sheet-tag" id="phase-tag"></div>
+      </div>
+      <button class="phase-sheet-close" onclick="closePhase()">✕</button>
+    </div>
+    <div class="phase-sheet-body" id="phase-body"></div>
+  </div>
 </div>
 
 <!-- PRIZES -->
@@ -1030,13 +1123,7 @@ body::after {
 </div>
 
 <!-- INSPIRATION EMBEDS (fused with CTA above) -->
-<div class="sec reveal" id="inspo-section" style="padding-top:.75rem;">
-  <div class="sh">
-    <div class="st">✨ Inspírate</div>
-    <div class="sp">ASÍ SE HACE</div>
-  </div>
-  <p style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(160,200,235,0.85);letter-spacing:.5px;margin-bottom:1.1rem;line-height:1.7;">El squad ya está publicando. Aquí va el tipo de contenido que suma puntos.</p>
-</div>
+<div id="inspo-section"></div>
 <div class="inspo-row" id="inspo-row">
 
   <div class="inspo-card reveal reveal-delay-1">
@@ -1449,6 +1536,79 @@ function searchCreator(q) {
     </div>`;
   }).join('');
 }
+
+/* ── PHASE MODAL ────────────────────────────────────────────────────────── */
+const PHASES = {
+  f2: {
+    title: 'Fase 2 · Finalistas',
+    tag: '1 DE JUNIO – 17 DE JUNIO 2026',
+    body: `
+      <div class="phase-body-hero">Los 33 mejores<br>van por todo.</div>
+      <p>Llegaste hasta aquí porque eres constante. Ahora empieza la parte que separa a los buenos de los grandes.</p>
+      <div class="phase-timeline">
+        <div class="phase-tl-item">
+          <div class="phase-tl-dot"></div>
+          <div>
+            <div class="phase-tl-date">1 – 7 de junio</div>
+            <div class="phase-tl-text">El equipo Rexona hace el corte final del ranking. Los <strong>33 creadores con más puntos acumulados</strong> reciben una notificación directa por WhatsApp — si estás en el top, te vamos a contactar.</div>
+          </div>
+        </div>
+        <div class="phase-tl-item">
+          <div class="phase-tl-dot"></div>
+          <div>
+            <div class="phase-tl-date">8 – 17 de junio</div>
+            <div class="phase-tl-text">Los 33 finalistas <strong>arrancan desde cero</strong>. Nuevos retos, nuevas reglas, mismo espíritu. Dos contenidos obligatorios + todos los bonus posibles. Los temas y formatos se revelan en el momento. Diez días para darlo todo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="phase-callout">Solo los 3 con más puntos ganan.<br>¿Vas a estar entre ellos? 🏆</div>`
+  },
+  f3: {
+    title: 'Fase 3 · ¡Ganador!',
+    tag: '18 – 25 DE JUNIO 2026',
+    body: `
+      <div class="phase-body-hero">El momento<br>que lo cambia todo.</div>
+      <p>El final de la Creators Cup no es solo un ranking — es el inicio de algo mucho más grande.</p>
+      <div class="phase-timeline">
+        <div class="phase-tl-item">
+          <div class="phase-tl-dot"></div>
+          <div>
+            <div class="phase-tl-date">18 – 25 de junio</div>
+            <div class="phase-tl-text">El equipo Rexona evalúa puntaje y calidad creativa de los 33 finalistas. <strong>No solo cuenta el número — cuenta el impacto.</strong></div>
+          </div>
+        </div>
+        <div class="phase-tl-item">
+          <div class="phase-tl-dot"></div>
+          <div>
+            <div class="phase-tl-date">25 de junio</div>
+            <div class="phase-tl-text">Los <strong>3 ganadores son notificados por WhatsApp</strong>. Un mensaje que no vas a querer perderte.</div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:1rem;">Los premios para los 3 ganadores:</p>
+      <div class="phase-timeline" style="margin-top:.75rem;">
+        <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🎟️ Boleto triple</strong> para los 16avos del Mundial FIFA 2026 (30 de junio, CDMX)</div></div>
+        <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🌟 Squad oficial Rexona 2026</strong> — julio a diciembre, eventos y activaciones exclusivas</div></div>
+        <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🏠 Casa Fresh</strong> — una noche todo incluido para el top 9</div></div>
+      </div>
+      <div class="phase-callout">Cada post que publicas hoy<br>es un paso más cerca de este momento. 🔥</div>`
+  }
+};
+
+const phaseModal = document.getElementById('phase-modal');
+function openPhase(id) {
+  const p = PHASES[id];
+  document.getElementById('phase-title').textContent = p.title;
+  document.getElementById('phase-tag').textContent   = p.tag;
+  document.getElementById('phase-body').innerHTML    = p.body;
+  phaseModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePhase() {
+  phaseModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+phaseModal.addEventListener('click', e => { if (e.target === phaseModal) closePhase(); });
 
 /* ── INSTAGRAM LAZY EMBED ───────────────────────────────────────────────── */
 function initEmbeds() {
