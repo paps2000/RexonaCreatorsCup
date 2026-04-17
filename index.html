@@ -657,7 +657,7 @@ body::after {
 
 /* ── MOTIVATIONAL BANNER ────────────────────────────────────────────────── */
 .mot {
-  margin: 0 1.5rem 2.5rem;
+  margin: 0 1.5rem 0;
   background: linear-gradient(145deg, rgba(43,70,232,.1), rgba(0,196,255,.05));
   border: 1px solid rgba(43,70,232,.32);
   border-radius: 16px; padding: 2rem 1.5rem;
@@ -878,10 +878,10 @@ body::after {
   <div class="hero-glow-btm"></div>
 
   <!-- floating cans — mixed with emojis -->
-  <img class="hero-can" src="./images/can-marine.png"   alt="" style="left:-35px;top:32%;transform:rotate(-8deg);animation:floatD 7s ease-in-out infinite;">
-  <img class="hero-can" src="./images/can-mexico.png"   alt="" style="right:-40px;top:10%;transform:rotate(10deg);animation:floatA 6.5s ease-in-out infinite .7s;">
-  <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:-35px;bottom:8%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
-  <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:-25px;bottom:6%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
+  <img class="hero-can" src="./images/can-marine.png"   alt="" style="left:-8px;top:30%;transform:rotate(-8deg);animation:floatD 7s ease-in-out infinite;">
+  <img class="hero-can" src="./images/can-mexico.png"   alt="" style="right:-10px;top:9%;transform:rotate(10deg);animation:floatA 6.5s ease-in-out infinite .7s;">
+  <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:-8px;bottom:9%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
+  <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:-5px;bottom:7%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
 
   <!-- floating background emojis -->
   <span class="hero-emoji" style="font-size:3.4rem;left:5%;top:13%;opacity:.28;animation:floatA 5.2s ease-in-out infinite;">⚽</span>
@@ -1026,18 +1026,18 @@ body::after {
     Cada post suma. Cada bonus te acerca al estadio. No abandones ahora.<br><br>
     Publica y usa <span class="ht">#RexonaCreatorsCup</span> — que te vean
   </div>
-  <div class="motcta">PUBLICA HOY</div>
+  <a class="motcta" href="#inspo-row" style="text-decoration:none;">Inspírate con los siguientes contenidos y publica hoy ↓</a>
 </div>
 
-<!-- INSPIRATION EMBEDS -->
-<div class="sec reveal" id="inspo-section">
+<!-- INSPIRATION EMBEDS (fused with CTA above) -->
+<div class="sec reveal" id="inspo-section" style="padding-top:.75rem;">
   <div class="sh">
     <div class="st">✨ Inspírate</div>
     <div class="sp">ASÍ SE HACE</div>
   </div>
   <p style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(160,200,235,0.85);letter-spacing:.5px;margin-bottom:1.1rem;line-height:1.7;">El squad ya está publicando. Aquí va el tipo de contenido que suma puntos.</p>
 </div>
-<div class="inspo-row">
+<div class="inspo-row" id="inspo-row">
 
   <div class="inspo-card reveal reveal-delay-1">
     <div class="inspo-creator-tag">@manolobanes</div>
