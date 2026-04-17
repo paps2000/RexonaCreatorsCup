@@ -52,6 +52,10 @@
 
   --grad: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
 
+  --green:      #00c852;
+  --green-dim:  #008f3a;
+  --green-glow: rgba(0,200,82,.18);
+
   --gold:    #FFD700;
   --silver:  #C0C0C0;
   --bronze:  #CD7F32;
@@ -167,6 +171,8 @@ body::after {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
+  /* green accent line at the bottom of header */
+  box-shadow: 0 1px 0 0 rgba(0,200,82,.25);
 }
 .rx-logo { display: flex; align-items: center; gap: 10px; }
 .rx-tick  { width: 22px; height: 28px; flex-shrink: 0; }
@@ -393,7 +399,7 @@ body::after {
   font-size: 10px; line-height: 1.5;
   text-transform: uppercase; letter-spacing: .3px;
 }
-.ph-on  { background: var(--grad); color: #fff; }
+.ph-on  { background: linear-gradient(135deg, var(--green-dim) 0%, var(--green) 100%); color: #fff; box-shadow: 0 0 18px rgba(0,200,82,.3); }
 .ph-off {
   background: var(--surface); color: var(--muted);
   border: 1px solid var(--border);
@@ -489,9 +495,9 @@ body::after {
 }
 .sp {
   font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 1.5px;
-  color: var(--cyan);
-  background: rgba(0,196,255,.08);
-  border: 1px solid rgba(0,196,255,.2);
+  color: var(--green);
+  background: rgba(0,200,82,.08);
+  border: 1px solid rgba(0,200,82,.3);
   padding: 3px 10px; border-radius: 2px;
 }
 
@@ -597,8 +603,8 @@ body::after {
   -webkit-appearance: none;
 }
 .search-input:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(43,70,232,.12);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(0,200,82,.12);
 }
 .search-input::placeholder { color: var(--muted); }
 .search-box { position: relative; }
@@ -664,7 +670,7 @@ body::after {
   animation: shimmer 2.5s ease-in-out infinite;
 }
 .prognote { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--muted); }
-.prognote b { color: var(--cyan); font-weight: 500; }
+.prognote b { color: var(--green); font-weight: 500; }
 
 /* ── RANKING ────────────────────────────────────────────────────────────── */
 .ranking { display: flex; flex-direction: column; gap: 5px; }
@@ -682,7 +688,7 @@ body::after {
 .ri.r1 { border-color: rgba(255,215,0,.3); background: linear-gradient(90deg, #130f00, var(--card)); }
 .ri.r2 { border-color: rgba(192,192,192,.18); }
 .ri.r3 { border-color: rgba(205,127,50,.18); }
-.ri.qual { border-left: 2px solid rgba(43,70,232,.5); }
+.ri.qual { border-left: 2px solid rgba(0,200,82,.5); }
 
 .rn { font-family: 'GT Eesti', sans-serif; font-weight: 700; font-size: 1.1rem; min-width: 26px; text-align: center; line-height: 1; }
 .rn.g { color: var(--gold); }
@@ -718,7 +724,7 @@ body::after {
 .ri.r1 .rinum { color: var(--gold); }
 .ri.r2 .rinum { color: var(--silver); }
 .ri.r3 .rinum { color: var(--bronze); }
-.ri.qual .rinum { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ri.qual .rinum { color: var(--green); }
 .ri:not(.r1):not(.r2):not(.r3):not(.qual) .rinum { color: var(--muted); }
 .riunit { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 1px; }
 
@@ -883,10 +889,10 @@ body::after {
   z-index: 0;
   pointer-events: none;
   mix-blend-mode: screen;
-  opacity: 0.22;
+  opacity: 0.25;
   height: 230px;
   width: auto;
-  filter: drop-shadow(0 4px 20px rgba(0,200,80,.18));
+  filter: drop-shadow(0 4px 24px rgba(0,200,82,.28));
 }
 
 /* ── INSPIRATION EMBEDS ─────────────────────────────────────────────────── */
@@ -930,6 +936,21 @@ body::after {
   max-width: 100% !important;
 }
 
+/* ── PAGE-WIDE EMOJI DECO ───────────────────────────────────────────────── */
+.page-deco {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.deco-emoji {
+  position: absolute;
+  font-size: 2.2rem;
+  opacity: 0.12;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+  line-height: 1;
+}
+
 /* ── SCROLLBAR ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -939,6 +960,18 @@ body::after {
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+
+<!-- PAGE-WIDE EMOJI DECORATIONS (below hero) -->
+<div class="page-deco" aria-hidden="true">
+  <span class="deco-emoji" style="right:6%;top:calc(100vh + 80px);animation:floatA 6s ease-in-out infinite;">🎟️</span>
+  <span class="deco-emoji" style="left:5%;top:calc(100vh + 260px);animation:floatB 5.5s ease-in-out infinite .5s;">⭐</span>
+  <span class="deco-emoji" style="right:7%;top:calc(100vh + 500px);animation:floatC 7s ease-in-out infinite 1s;">🏟️</span>
+  <span class="deco-emoji" style="left:4%;top:calc(100vh + 750px);animation:floatD 5.8s ease-in-out infinite .3s;">📱</span>
+  <span class="deco-emoji" style="right:5%;top:calc(100vh + 1050px);animation:floatA 6.5s ease-in-out infinite 1.2s;">🎯</span>
+  <span class="deco-emoji" style="left:6%;top:calc(100vh + 1350px);animation:floatB 5.2s ease-in-out infinite .7s;">⚡</span>
+  <span class="deco-emoji" style="right:6%;top:calc(100vh + 1650px);animation:floatC 6.8s ease-in-out infinite .9s;">👟</span>
+  <span class="deco-emoji" style="left:5%;top:calc(100vh + 1950px);animation:floatD 5.6s ease-in-out infinite 1.4s;">🌟</span>
+</div>
 
 <!-- STICKY HEADER -->
 <header class="brand-header">
@@ -963,17 +996,12 @@ body::after {
   <img class="hero-can" src="./images/can-xtracool.png" alt="" style="right:10px;bottom:9%;transform:rotate(-11deg);animation:floatC 7.2s ease-in-out infinite 1.3s;">
   <img class="hero-can" src="./images/can-fifa.png"     alt="" style="left:12px;bottom:7%;transform:rotate(7deg);animation:floatB 6.8s ease-in-out infinite .4s;">
 
-  <!-- floating background emojis -->
+  <!-- floating background emojis (hero — 5 max) -->
   <span class="hero-emoji" style="font-size:3.4rem;left:5%;top:13%;opacity:.28;animation:floatA 5.2s ease-in-out infinite;">⚽</span>
   <span class="hero-emoji" style="font-size:3rem;right:4%;top:11%;opacity:.25;animation:floatB 4.8s ease-in-out infinite .6s;">🏆</span>
-  <span class="hero-emoji" style="font-size:3.6rem;right:2%;top:40%;opacity:.22;animation:floatC 6.1s ease-in-out infinite 1.1s;">🎟️</span>
-  <span class="hero-emoji" style="font-size:3.2rem;left:1%;top:50%;opacity:.2;animation:floatD 5.7s ease-in-out infinite .3s;">🏟️</span>
-  <span class="hero-emoji" style="font-size:3rem;right:6%;bottom:18%;opacity:.25;animation:floatA 4.4s ease-in-out infinite .9s;">📱</span>
   <span class="hero-emoji" style="font-size:3.4rem;left:4%;bottom:16%;opacity:.22;animation:floatB 5.9s ease-in-out infinite 1.5s;">🌍</span>
-  <span class="hero-emoji" style="font-size:2.8rem;left:14%;top:22%;opacity:.2;animation:floatC 5s ease-in-out infinite .4s;">⭐</span>
-  <span class="hero-emoji" style="font-size:2.8rem;right:14%;top:28%;opacity:.2;animation:floatD 4.6s ease-in-out infinite 1.8s;">🥇</span>
-  <span class="hero-emoji" style="font-size:2.6rem;left:10%;bottom:28%;opacity:.18;animation:floatA 6.3s ease-in-out infinite .7s;">🔥</span>
-  <span class="hero-emoji" style="font-size:2.6rem;right:10%;bottom:30%;opacity:.18;animation:floatB 5.4s ease-in-out infinite 2.1s;">🎯</span>
+  <span class="hero-emoji" style="font-size:2.8rem;right:14%;top:28%;opacity:.22;animation:floatD 4.6s ease-in-out infinite 1.8s;">🥇</span>
+  <span class="hero-emoji" style="font-size:2.8rem;left:14%;bottom:26%;opacity:.2;animation:floatC 5.8s ease-in-out infinite .5s;">🔥</span>
 
   <div class="hero-logo-wrap">
     <img class="hero-logo-img" src="./images/rexona-logo.png" alt="Rexona®">
@@ -1567,7 +1595,7 @@ const PHASES = {
     title: 'Fase 3 · ¡Ganador!',
     tag: '18 – 25 DE JUNIO 2026',
     body: `
-      <div class="phase-body-hero">El momento<br>que lo cambia todo.</div>
+      <div class="phase-body-hero">Un solo creador<br>se lleva todo.</div>
       <p>El final de la Creators Cup no es solo un ranking — es el inicio de algo mucho más grande.</p>
       <div class="phase-timeline">
         <div class="phase-tl-item">
@@ -1581,15 +1609,15 @@ const PHASES = {
           <div class="phase-tl-dot"></div>
           <div>
             <div class="phase-tl-date">25 de junio</div>
-            <div class="phase-tl-text">Los <strong>3 ganadores son notificados por WhatsApp</strong>. Un mensaje que no vas a querer perderte.</div>
+            <div class="phase-tl-text"><strong>El ganador es notificado por WhatsApp</strong>. Un mensaje que no vas a querer perderte.</div>
           </div>
         </div>
       </div>
-      <p style="margin-top:1rem;">Los premios para los 3 ganadores:</p>
+      <p style="margin-top:1rem;">Lo que se lleva el ganador:</p>
       <div class="phase-timeline" style="margin-top:.75rem;">
         <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🎟️ Boleto triple</strong> para los 16avos del Mundial FIFA 2026 (30 de junio, CDMX)</div></div>
         <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🌟 Squad oficial Rexona 2026</strong> — julio a diciembre, eventos y activaciones exclusivas</div></div>
-        <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🏠 Casa Fresh</strong> — una noche todo incluido para el top 9</div></div>
+        <div class="phase-tl-item"><div class="phase-tl-dot"></div><div class="phase-tl-text"><strong>🏠 Casa Fresh</strong> — una noche todo incluido en la Casa Fresh de Rexona</div></div>
       </div>
       <div class="phase-callout">Cada post que publicas hoy<br>es un paso más cerca de este momento. 🔥</div>`
   }
