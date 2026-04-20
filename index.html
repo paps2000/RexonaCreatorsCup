@@ -1611,8 +1611,8 @@ body::after {
   <div class="stats">
     <div class="stat">
       <div class="stat-k">Creadores activos</div>
-      <div class="stat-v accent"><span class="count" data-to="139">0</span></div>
-      <div class="stat-trend">de 334 inscritos</div>
+      <div class="stat-v accent"><span class="count" id="stat-creadores" data-to="139">0</span></div>
+      <div class="stat-trend">con contenido publicado</div>
     </div>
     <div class="stat">
       <div class="stat-k">Puntos en juego</div>
@@ -1621,7 +1621,7 @@ body::after {
     </div>
     <div class="stat">
       <div class="stat-k">Contenidos publicados</div>
-      <div class="stat-v"><span class="count" data-to="267">0</span></div>
+      <div class="stat-v"><span class="count" id="stat-contenidos" data-to="267">0</span></div>
       <div class="stat-trend">y sumando</div>
     </div>
     <div class="stat">
@@ -1971,15 +1971,18 @@ async function fetchSheet() {
       return cols;
     };
     const map = new Map();
+    let totalContenidos = 0; // cada fila (no-header, nombre no vacío) = 1 contenido
     for (const row of rows) {
       const c = parseRow(row);
       const name = (c[0] || '').trim();
       if (!name || /^nombres?$/i.test(name)) continue;
+      totalContenidos++; // cuenta la fila como un contenido publicado
       const tipo = (c[2] || '').trim().toLowerCase();
       const pts = parseInt(c[5]) || 0;
       let platform = 'Instagram';
       if (tipo.includes('tiktok')) platform = 'TikTok';
       else if (tipo.includes('youtube') || tipo.includes('short')) platform = 'YouTube';
+      // Agrupamos por NOMBRE (c[0]), no por handle — un creador = una entrada
       if (map.has(name)) {
         const entry = map.get(name);
         entry.pts += pts;
@@ -1992,6 +1995,10 @@ async function fetchSheet() {
     result.sort((a,b) => b.pts - a.pts);
     if (!result.length) return false;
     C.splice(0, C.length, ...result);
+    // Actualizar stats con datos reales del sheet
+    const uniqueCreadores = map.size; // creadores únicos por nombre
+    updateStat('stat-contenidos', totalContenidos);
+    updateStat('stat-creadores', uniqueCreadores);
     updateProgress();
     if (st) st.textContent = 'SYNC · ' + new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
     s.classList.remove('off');
@@ -2010,9 +2017,36 @@ async function initData() {
   setInterval(async () => { if (await fetchSheet()) render(); }, 5*60*1000);
 }
 
+/* Anima un .count span hacia un nuevo valor, desde lo que ya muestra */
+function animateCountEl(el, to) {
+  if (!el) return;
+  const from = parseFloat(el.textContent.replace(/[^0-9.]/g, '')) || 0;
+  if (from === to) return;
+  const dur = 1200;
+  const start = performance.now();
+  const step = t => {
+    const p = Math.min((t - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * eased).toLocaleString('es-MX');
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = to.toLocaleString('es-MX');
+  };
+  requestAnimationFrame(step);
+}
+
+/* Actualiza un stat card: cambia data-to y re-anima si ya es visible */
+function updateStat(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.dataset.to = val;
+  // Si el elemento ya fue animado (textContent > 0) lo re-animamos con el valor real
+  const current = parseFloat(el.textContent.replace(/[^0-9.]/g, '')) || 0;
+  if (current > 0 || el.closest('.stat')) animateCountEl(el, val);
+}
+
 function updateProgress() {
-  const active = C.filter(c => c.pts >= 300).length;
-  const total = Math.max(C.length, 334);
+  const active = C.length; // todos los creadores únicos por nombre que han publicado algo
+  const total = Math.max(active, 334);
   const pct = Math.min(100, Math.round(active / total * 1000) / 10);
   document.getElementById('prog-active').textContent = active;
   document.getElementById('prog-pct').textContent = pct + '%';
@@ -2336,6 +2370,7 @@ function initCountUp() {
         const eased = 1 - Math.pow(1 - p, 3);
         el.textContent = Math.round(to * eased).toLocaleString('es-MX');
         if (p < 1) requestAnimationFrame(step);
+        else el.dataset.animated = '1'; // marcar como ya animado
       };
       requestAnimationFrame(step);
       io.unobserve(el);
