@@ -1279,7 +1279,7 @@ body::after {
 .globe-svg { width: 100%; height: 100%; display: block; }
 .globe-rot { transform-origin: 100px 100px; animation: globeTilt 24s linear infinite; }
 .globe-spin ellipse { transform-origin: 100px 100px; animation: globeSpin 8s linear infinite; }
-.globe-pin { animation: pinPulse 2.2s ease-in-out infinite; }
+.globe-pin { transform-origin: 80px 90px; animation: pinPulse 2.2s ease-in-out infinite; }
 @keyframes globeTilt {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -1458,11 +1458,11 @@ body::after {
   <div class="header-center">
     <div class="hticker">
       <span><em>LIVE</em> Fase 1 · Clasificatoria</span>
-      <span><em>334</em> creadores inscritos</span>
+      <span><em>333</em> creadores inscritos</span>
       <span><em>33</em> plazas al final</span>
       <span><em>#</em>CreatorsCup</span>
       <span><em>LIVE</em> Fase 1 · Clasificatoria</span>
-      <span><em>334</em> creadores inscritos</span>
+      <span><em>333</em> creadores inscritos</span>
       <span><em>33</em> plazas al final</span>
       <span><em>#</em>CreatorsCup</span>
     </div>
@@ -1485,66 +1485,26 @@ body::after {
           <stop offset="70%" stop-color="oklch(0.76 0.19 148 / .05)"/>
           <stop offset="100%" stop-color="transparent"/>
         </radialGradient>
-        <!-- Clip al círculo de la esfera -->
-        <clipPath id="sphere-clip">
-          <circle cx="100" cy="100" r="89.5"/>
-        </clipPath>
       </defs>
-
       <circle cx="100" cy="100" r="95" fill="url(#glow)"/>
-
-      <!-- Todo dentro del clip gira junto: grid + continentes -->
-      <g class="globe-rot" clip-path="url(#sphere-clip)">
-
-        <!-- Grid de meridianos y paralelos -->
-        <g fill="none" stroke="oklch(0.76 0.19 148 / .40)" stroke-width="0.6">
-          <ellipse cx="100" cy="100" rx="90" ry="30"/>
-          <ellipse cx="100" cy="100" rx="90" ry="60"/>
-          <ellipse cx="100" cy="100" rx="30" ry="90"/>
-          <ellipse cx="100" cy="100" rx="60" ry="90"/>
-          <line x1="10" y1="100" x2="190" y2="100"/>
-          <line x1="100" y1="10" x2="100" y2="190"/>
-        </g>
-
-        <!-- Continentes — proyección equirectangular (x=100+lon*0.5, y=100-lat) -->
-        <g fill="none" stroke="oklch(0.76 0.19 148 / .85)" stroke-width="0.9"
-           stroke-linejoin="round" stroke-linecap="round">
-          <!-- América del Norte -->
-          <polygon points="30.0,28.0 15.0,42.0 34.0,48.0 37.5,52.0 39.0,62.0 47.0,78.0 54.5,85.0 56.5,80.0 60.0,74.0 62.0,62.0 65.0,53.0 72.0,48.0 67.5,40.0 64.0,32.0 55.0,27.0 42.5,27.0 30.0,28.0"/>
-          <!-- Centroamérica -->
-          <polygon points="55.0,78.0 56.0,82.0 58.5,90.0 61.5,92.0 62.5,90.0 54.5,85.0 55.0,78.0"/>
-          <!-- Groenlandia -->
-          <polygon points="64.0,24.0 79.0,17.0 89.0,22.0 89.0,30.0 79.0,38.0 73.0,35.0 64.0,24.0"/>
-          <!-- América del Sur -->
-          <polygon points="69.0,90.0 61.5,93.0 60.0,100.0 59.5,105.0 65.0,118.0 64.0,133.0 66.0,155.0 68.0,156.0 81.0,156.0 79.0,122.0 82.5,108.0 74.0,95.0 69.0,90.0"/>
-          <!-- Europa -->
-          <polygon points="96.0,64.0 99.5,56.0 101.0,52.0 102.5,48.0 104.0,42.0 102.5,38.0 114.0,29.0 112.0,35.0 111.0,40.0 111.0,45.0 109.0,50.0 106.5,54.0 107.0,58.0 107.5,62.0 102.5,64.0 96.0,64.0"/>
-          <!-- África -->
-          <polygon points="105.0,63.0 97.0,65.0 91.5,86.0 97.5,96.0 105.0,105.0 106.0,118.0 109.0,134.0 113.0,134.0 117.5,120.0 121.0,102.0 121.0,88.0 118.5,78.0 105.0,63.0"/>
-          <!-- Asia -->
-          <polygon points="113.5,62.0 121.0,58.0 120.0,45.0 129.0,38.0 131.0,28.0 153.0,28.0 171.0,32.0 171.0,44.0 166.0,58.0 160.0,65.0 160.0,78.0 152.5,90.0 151.5,99.0 150.0,92.0 146.0,80.0 134.0,78.0 129.0,78.0 125.0,72.0 119.0,80.0 118.5,62.0 113.5,62.0"/>
-          <!-- Australia -->
-          <polygon points="164.0,114.0 169.0,114.0 173.0,118.0 177.0,128.0 173.5,138.0 170.0,138.0 168.0,134.0 157.0,122.0 161.0,122.0 164.0,114.0"/>
-          <!-- Japón -->
-          <polygon points="165.0,69.0 165.0,66.0 168.0,65.0 170.0,62.0 171.0,58.0 173.0,56.0 172.5,57.0 169.0,64.0 167.0,66.0 165.0,69.0"/>
-        </g>
-
-        <!-- Pin México — lat 19.4°N, lon 99.1°W → (50.5, 80.6) -->
-        <g class="globe-pin" style="transform-origin:50.5px 80.6px">
-          <circle cx="50.5" cy="80.6" r="2.2" fill="oklch(0.76 0.19 148)"/>
-          <circle cx="50.5" cy="80.6" r="5.5" fill="none" stroke="oklch(0.76 0.19 148)" stroke-width="0.7"/>
-        </g>
-
-      </g><!-- /globe-rot -->
-
-      <!-- Meridiano destacado que gira más rápido (spinning highlight) -->
-      <g class="globe-spin" fill="none" stroke="oklch(0.76 0.19 148 / .8)" stroke-width="1">
-        <ellipse cx="100" cy="100" rx="90" ry="45"/>
+      <g class="globe-rot" fill="none" stroke="oklch(0.76 0.19 148 / .55)" stroke-width="0.7">
+        <circle cx="100" cy="100" r="90"/>
+        <ellipse cx="100" cy="100" rx="90" ry="30"/>
+        <ellipse cx="100" cy="100" rx="90" ry="60"/>
+        <ellipse cx="100" cy="100" rx="30" ry="90"/>
+        <ellipse cx="100" cy="100" rx="60" ry="90"/>
+        <line x1="10" y1="100" x2="190" y2="100"/>
+        <line x1="100" y1="10" x2="100" y2="190"/>
       </g>
-
-      <!-- Círculo exterior estático -->
-      <circle cx="100" cy="100" r="90" fill="none" stroke="oklch(0.76 0.19 148 / .30)" stroke-width="1.2"/>
-
+      <g class="globe-spin" fill="none" stroke="oklch(0.76 0.19 148 / .9)" stroke-width="1.1">
+        <ellipse cx="100" cy="100" rx="90" ry="45" transform="rotate(0 100 100)"/>
+      </g>
+      <circle cx="100" cy="100" r="90" fill="none" stroke="oklch(0.76 0.19 148 / .25)" stroke-width="1.2"/>
+      <!-- MX pin — señala México, sede del Mundial 2026 -->
+      <g class="globe-pin">
+        <circle cx="80" cy="90" r="2.5" fill="oklch(0.76 0.19 148)"/>
+        <circle cx="80" cy="90" r="6" fill="none" stroke="oklch(0.76 0.19 148)" stroke-width="0.6"/>
+      </g>
     </svg>
   </div>
 
@@ -1610,7 +1570,7 @@ body::after {
       <div class="ph-cell live" onclick="/*current*/ void 0">
         <div class="ph-filler"></div>
         <div class="ph-idx">Fase 01 / 03</div>
-        <div class="ph-big">334</div>
+        <div class="ph-big">333</div>
         <div class="ph-name2">Clasificatoria abierta</div>
         <div class="ph-kpi">creadores compitiendo · <b>139 activos</b></div>
         <div class="ph-status"><span class="ldot"></span>En curso</div>
@@ -1677,7 +1637,7 @@ body::after {
       <div class="prog-count">
         <span id="prog-active">139</span>
         <span class="slash">/</span>
-        <span class="of">334</span>
+        <span class="of">333</span>
       </div>
     </div>
     <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
@@ -2086,7 +2046,7 @@ function updateStat(id, val) {
 
 function updateProgress() {
   const active = C.length; // todos los creadores únicos por nombre que han publicado algo
-  const total = Math.max(active, 334);
+  const total = Math.max(active, 333);
   const pct = Math.min(100, Math.round(active / total * 1000) / 10);
   document.getElementById('prog-active').textContent = active;
   document.getElementById('prog-pct').textContent = pct + '%';
@@ -2426,7 +2386,7 @@ function initProgFill() {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const active = +document.getElementById('prog-active').textContent;
-      const total = 334;
+      const total = 333;
       const pct = Math.min(100, active / total * 100);
       fill.style.transform = `scaleX(${pct / 100})`;
       io.unobserve(e.target);
