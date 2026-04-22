@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1000">
+<title>WA Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('./fonts/GT-Eesti-Pro-Display-Bold.OTF') format('opentype');
+  font-weight: 700;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 1000px; height: 1000px;
+  overflow: hidden;
+  background: #07110A;
+}
+
+.canvas {
+  width: 1000px; height: 1000px;
+  position: relative;
+  background: #07110A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Grid */
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(oklch(0.76 0.19 148 / .06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.76 0.19 148 / .06) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 20%, transparent 80%);
+}
+
+/* Radial glow */
+.glow {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 50%, oklch(0.76 0.19 148 / .20), transparent 65%),
+    radial-gradient(ellipse 50% 40% at 50% 15%, oklch(0.76 0.19 148 / .12), transparent 60%);
+}
+
+/* Globe */
+.globe-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.22;
+}
+.globe-wrap svg {
+  width: 820px; height: 820px;
+}
+
+/* Content */
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  z-index: 10;
+}
+
+.logo {
+  height: 64px;
+  filter: brightness(0) invert(1);
+  margin-bottom: 40px;
+}
+
+.title {
+  font-family: 'GT Eesti', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-size: 160px;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+
+.ln1 {
+  display: block;
+  color: #F2F7F3;
+}
+
+.ln2 {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 2.5px oklch(0.76 0.19 148);
+  position: relative;
+}
+
+.ln2-fill {
+  position: absolute;
+  inset: 0;
+  color: oklch(0.76 0.19 148);
+  -webkit-text-stroke: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 0 55%);
+}
+
+/* Bottom tag */
+.tag {
+  margin-top: 42px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: oklch(0.76 0.19 148 / .7);
+  padding: 8px 20px;
+  border: 1px solid oklch(0.76 0.19 148 / .3);
+  border-radius: 2px;
+}
+
+/* Corner accents */
+.corner {
+  position: absolute;
+  width: 40px; height: 40px;
+}
+.corner::before, .corner::after {
+  content: '';
+  position: absolute;
+  background: oklch(0.76 0.19 148 / .5);
+}
+.corner::before { width: 100%; height: 1.5px; top: 0; left: 0; }
+.corner::after  { width: 1.5px; height: 100%; top: 0; left: 0; }
+
+.tl { top: 40px; left: 40px; }
+.tr { top: 40px; right: 40px; transform: scaleX(-1); }
+.bl { bottom: 40px; left: 40px; transform: scaleY(-1); }
+.br { bottom: 40px; right: 40px; transform: scale(-1); }
+
+/* Green line top */
+.top-line {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, oklch(0.76 0.19 148), transparent);
+}
+.bot-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, oklch(0.76 0.19 148 / .4), transparent);
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="glow"></div>
+  <div class="grid"></div>
+
+  <!-- Globe background -->
+  <div class="globe-wrap">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" stroke="oklch(0.76 0.19 148)" stroke-width="0.7"/>
+      <ellipse cx="100" cy="100" rx="90" ry="30" stroke="oklch(0.76 0.19 148)" stroke-width="0.6"/>
+      <ellipse cx="100" cy="100" rx="90" ry="60" stroke="oklch(0.76 0.19 148)" stroke-width="0.6"/>
+      <ellipse cx="100" cy="100" rx="30" ry="90" stroke="oklch(0.76 0.19 148)" stroke-width="0.6"/>
+      <ellipse cx="100" cy="100" rx="60" ry="90" stroke="oklch(0.76 0.19 148)" stroke-width="0.6"/>
+      <line x1="10" y1="100" x2="190" y2="100" stroke="oklch(0.76 0.19 148)" stroke-width="0.5"/>
+      <line x1="100" y1="10" x2="100" y2="190" stroke="oklch(0.76 0.19 148)" stroke-width="0.5"/>
+      <ellipse cx="100" cy="100" rx="90" ry="45" stroke="oklch(0.76 0.19 148)" stroke-width="1.2"/>
+      <!-- MX pin -->
+      <circle cx="80" cy="90" r="3" fill="oklch(0.76 0.19 148)"/>
+      <circle cx="80" cy="90" r="7" fill="none" stroke="oklch(0.76 0.19 148)" stroke-width="0.8"/>
+    </svg>
+  </div>
+
+  <!-- Corner accents -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Lines -->
+  <div class="top-line"></div>
+  <div class="bot-line"></div>
+
+  <!-- Main content -->
+  <div class="content">
+    <img src="./images/rexona-logo.png" class="logo" alt="Rexona">
+
+    <div class="title">
+      <span class="ln1">Creators</span>
+      <span class="ln2" style="position:relative;display:block;">
+        Cup
+        <span class="ln2-fill" aria-hidden="true">Cup</span>
+      </span>
+    </div>
+
+    <div class="tag">EDICIÓN 2026 · MÉXICO</div>
+  </div>
+</div>
+</body>
+</html>
