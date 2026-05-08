@@ -1461,6 +1461,98 @@ body::after {
   .ph-arrow-deco { right: auto; top: auto; left: 50%; bottom: -14px; transform: translateX(-50%); }
 }
 
+/* ═══════════ CASA FRESH · GANADORES MENSUALES ═══════════ */
+.cf-intro {
+  font-family: var(--ff-mono); font-size: 13px;
+  color: var(--fg-muted); letter-spacing: .04em;
+  text-align: center; max-width: 640px;
+  margin: -.5rem auto 2rem;
+}
+.cf-intro strong { color: var(--green); font-weight: 500; }
+
+.cf-months {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+.cf-month {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem 1.25rem 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .35s var(--ease-out), transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+.cf-month::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green-dim), transparent);
+  opacity: .6;
+}
+.cf-month:hover {
+  border-color: var(--line-hi);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -16px oklch(0.76 0.19 148 / .3);
+}
+.cf-month-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding-bottom: .9rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: .9rem;
+}
+.cf-month-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 1.5rem; letter-spacing: -.02em;
+  color: var(--fg);
+  text-transform: uppercase;
+}
+.cf-month-tag {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--green);
+  padding: 3px 8px;
+  border: 1px solid var(--green-dim);
+  border-radius: 3px;
+  background: oklch(0.76 0.19 148 / .06);
+}
+.cf-podium { display: flex; flex-direction: column; gap: 4px; }
+.cf-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 8px;
+  border-radius: 6px;
+  transition: background .25s var(--ease-out);
+}
+.cf-row:hover { background: oklch(0.15 0.03 148 / .25); }
+.cf-pos {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 1.05rem; line-height: 1;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.cf-row.r1 .cf-pos { color: var(--gold); font-size: 1.25rem; }
+.cf-row.r2 .cf-pos { color: var(--fg); }
+.cf-row.r3 .cf-pos { color: var(--fg); }
+.cf-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg);
+  line-height: 1.2;
+}
+.cf-handle {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--green);
+  margin-top: 3px;
+}
+.cf-medal {
+  font-size: 22px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+
 /* ═══════════ SECTION HEAD EXTRA POLISH (centered) ═══════════ */
 .section-head .section-num {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1622,7 +1714,7 @@ body::after {
         <div class="ph-idx">Fase 03 / 03</div>
         <div class="ph-big">1</div>
         <div class="ph-name2">Gana todo</div>
-        <div class="ph-kpi">viaje al mundial · <b>+ 1 millón MXN</b></div>
+        <div class="ph-kpi">viaje al mundial · <b>premios finales</b></div>
         <div class="ph-status">Final</div>
         <div class="ph-dates2">18 — 25 JUN 2026</div>
       </div>
@@ -1774,6 +1866,87 @@ body::after {
         <div class="prize-desc">Top 9 del ranking mensual: una noche todo incluido en CDMX.</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CASA FRESH · GANADORES MENSUALES ══════════════════ -->
+<section class="section reveal">
+  <div class="section-head">
+    <div>
+      <div class="section-num">§ 04.5 — Casa Fresh</div>
+      <h2 class="section-title">Ganadores<br>mensuales.</h2>
+    </div>
+    <div class="section-sub">PODIO · TOP 3 / MES</div>
+  </div>
+
+  <p class="cf-intro">Cada mes el podio se queda en la <strong>House of Fresh</strong>. Estos creadores ya aseguraron su lugar.</p>
+
+  <div class="cf-months">
+    <article class="cf-month">
+      <div class="cf-month-head">
+        <span class="cf-month-name">Marzo</span>
+        <span class="cf-month-tag">CERRADO</span>
+      </div>
+      <div class="cf-podium">
+        <div class="cf-row r1">
+          <div class="cf-pos">01</div>
+          <div class="cf-info">
+            <div class="cf-name">JBeligol</div>
+            <div class="cf-handle">@jbellingham_10</div>
+          </div>
+          <div class="cf-medal">🥇</div>
+        </div>
+        <div class="cf-row r2">
+          <div class="cf-pos">02</div>
+          <div class="cf-info">
+            <div class="cf-name">Soy Joules</div>
+            <div class="cf-handle">@soyjoules</div>
+          </div>
+          <div class="cf-medal">🥈</div>
+        </div>
+        <div class="cf-row r3">
+          <div class="cf-pos">03</div>
+          <div class="cf-info">
+            <div class="cf-name">Yami Gutiérrez</div>
+            <div class="cf-handle">@yami.ordaz</div>
+          </div>
+          <div class="cf-medal">🥉</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cf-month">
+      <div class="cf-month-head">
+        <span class="cf-month-name">Abril</span>
+        <span class="cf-month-tag">CERRADO</span>
+      </div>
+      <div class="cf-podium">
+        <div class="cf-row r1">
+          <div class="cf-pos">01</div>
+          <div class="cf-info">
+            <div class="cf-name">Keri Arath Avila Amador</div>
+            <div class="cf-handle">@keri_arath</div>
+          </div>
+          <div class="cf-medal">🥇</div>
+        </div>
+        <div class="cf-row r2">
+          <div class="cf-pos">02</div>
+          <div class="cf-info">
+            <div class="cf-name">Dulce María BA</div>
+            <div class="cf-handle">@jaditips</div>
+          </div>
+          <div class="cf-medal">🥈</div>
+        </div>
+        <div class="cf-row r3">
+          <div class="cf-pos">03</div>
+          <div class="cf-info">
+            <div class="cf-name">Eduardo Aguilar S</div>
+            <div class="cf-handle">@laloaguilaryt</div>
+          </div>
+          <div class="cf-medal">🥉</div>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
