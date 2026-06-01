@@ -2699,6 +2699,45 @@ initData();
   function onKey(e){ if(e.key==='Escape') close(); }
   overlay.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
   document.addEventListener('keydown',onKey);
+
+  // Evasive buttons — playful dodge on hover/touch
+  const card = overlay.querySelector('.phase-end__card');
+  const dodgers = overlay.querySelectorAll('.phase-end__close, .phase-end__cta');
+  let dodgeCount = 0;
+  function dodge(btn){
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const maxX = Math.max(40, cardRect.width  - btnRect.width  - 24);
+    const maxY = Math.max(40, cardRect.height - btnRect.height - 24);
+    const cx = cardRect.width/2  - btnRect.width/2;
+    const cy = cardRect.height/2 - btnRect.height/2;
+    let x, y, tries = 0;
+    do {
+      x = Math.random()*maxX - cx;
+      y = Math.random()*maxY - cy;
+      tries++;
+    } while ((Math.abs(x)<60 && Math.abs(y)<40) && tries<6);
+    btn.style.transition = 'transform .25s cubic-bezier(.34,1.56,.64,1)';
+    btn.style.transform = `translate(${x}px, ${y}px) rotate(${(Math.random()*30-15)|0}deg)`;
+    dodgeCount++;
+    if (dodgeCount > 8) {
+      btn.style.transform = '';
+      dodgeCount = 0;
+    }
+  }
+  dodgers.forEach(btn=>{
+    btn.addEventListener('mouseenter',()=>dodge(btn));
+    btn.addEventListener('touchstart',e=>{e.preventDefault();dodge(btn);},{passive:false});
+  });
+  // Pointer near button also triggers dodge (mobile-friendly: also on touchmove)
+  overlay.addEventListener('pointermove',(e)=>{
+    dodgers.forEach(btn=>{
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width/2);
+      const dy = e.clientY - (r.top  + r.height/2);
+      if (Math.hypot(dx,dy) < 70) dodge(btn);
+    });
+  });
   requestAnimationFrame(()=>{
     overlay.classList.add('is-open');
     document.body.classList.add('phase-end-locked');
