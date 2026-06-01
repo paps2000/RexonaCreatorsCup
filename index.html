@@ -2658,9 +2658,9 @@ initData();
   overlay.setAttribute('aria-modal','true');
   overlay.setAttribute('aria-labelledby','phaseEndTitle');
   overlay.innerHTML = `
-    <div class="phase-end__backdrop" data-close></div>
+    <div class="phase-end__backdrop"></div>
     <div class="phase-end__card" role="document">
-      <button class="phase-end__close" aria-label="Cerrar" data-close>&times;</button>
+      <button class="phase-end__close" aria-label="Cerrar">&times;</button>
       <div class="phase-end__eyebrow"><span class="dot"></span>FASE 01 · CERRADA</div>
       <div class="phase-end__badge">¡TIEMPO!</div>
       <h2 id="phaseEndTitle" class="phase-end__title">Se terminó la<br/>primera fase</h2>
@@ -2696,9 +2696,8 @@ initData();
     setTimeout(()=>overlay.remove(),350);
     document.removeEventListener('keydown',onKey);
   }
-  function onKey(e){ if(e.key==='Escape') close(); }
+  function onKey(){}
   overlay.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
-  document.addEventListener('keydown',onKey);
 
   // Evasive buttons — playful dodge on hover/touch
   const card = overlay.querySelector('.phase-end__card');
