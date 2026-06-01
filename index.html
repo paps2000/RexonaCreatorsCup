@@ -2661,28 +2661,32 @@ initData();
     <div class="phase-end__backdrop" data-close></div>
     <div class="phase-end__card" role="document">
       <button class="phase-end__close" aria-label="Cerrar" data-close>&times;</button>
+      <div class="phase-end__eyebrow"><span class="dot"></span>FASE 01 · CERRADA</div>
       <div class="phase-end__badge">¡TIEMPO!</div>
-      <h2 id="phaseEndTitle" class="phase-end__title">Se terminó la primera fase</h2>
+      <h2 id="phaseEndTitle" class="phase-end__title">Se terminó la<br/>primera fase</h2>
       <p class="phase-end__text">Danos un momento para calcular los porcentajes. Muy pronto podrás ver a los <strong>3 seleccionados</strong>.</p>
-      <button class="phase-end__cta" data-close>Entendido</button>
+      <button class="phase-end__cta" data-close>ENTENDIDO</button>
     </div>`;
   const style = document.createElement('style');
   style.textContent = `
-    #phaseEndModal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    #phaseEndModal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .35s var(--ease-out,cubic-bezier(.22,1,.36,1));font-family:var(--ff-body)}
     #phaseEndModal.is-open{opacity:1;pointer-events:auto}
-    #phaseEndModal .phase-end__backdrop{position:absolute;inset:0;background:rgba(5,10,25,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-    #phaseEndModal .phase-end__card{position:relative;max-width:480px;width:100%;background:linear-gradient(160deg,#0b1530 0%,#111b3d 100%);border:1px solid rgba(120,160,255,.25);border-radius:20px;padding:36px 28px 30px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04) inset;transform:translateY(20px) scale(.96);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
-    #phaseEndModal.is-open .phase-end__card{transform:translateY(0) scale(1)}
-    #phaseEndModal .phase-end__close{position:absolute;top:12px;right:14px;background:transparent;border:0;color:#aab4d4;font-size:28px;line-height:1;cursor:pointer;padding:4px 10px;border-radius:8px;transition:background .2s,color .2s}
-    #phaseEndModal .phase-end__close:hover{background:rgba(255,255,255,.08);color:#fff}
-    #phaseEndModal .phase-end__badge{display:inline-block;font-weight:900;letter-spacing:.18em;font-size:13px;color:#0b1530;background:linear-gradient(90deg,#ffd84d,#ff9d3d);padding:8px 16px;border-radius:999px;margin-bottom:18px;box-shadow:0 8px 24px rgba(255,157,61,.35)}
-    #phaseEndModal .phase-end__title{margin:0 0 12px;font-size:26px;line-height:1.2;color:#fff;font-weight:800}
-    #phaseEndModal .phase-end__text{margin:0 0 24px;color:#c8d0ec;font-size:15.5px;line-height:1.55}
-    #phaseEndModal .phase-end__text strong{color:#fff}
-    #phaseEndModal .phase-end__cta{appearance:none;border:0;cursor:pointer;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;color:#0b1530;background:linear-gradient(90deg,#7ce0ff,#5ab8ff);box-shadow:0 10px 28px rgba(90,184,255,.35);transition:transform .15s ease,box-shadow .2s}
-    #phaseEndModal .phase-end__cta:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(90,184,255,.45)}
+    #phaseEndModal .phase-end__backdrop{position:absolute;inset:0;background:rgba(7,17,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    #phaseEndModal .phase-end__card{position:relative;max-width:480px;width:100%;background:linear-gradient(180deg,var(--surface,#0D1C14) 0%,var(--bg-2,#0A1710) 100%);border:1px solid var(--line-hi,#245438);border-radius:4px;padding:34px 30px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.02) inset,0 0 60px var(--green-glow,rgba(0,200,120,.18));transform:translateY(14px);transition:transform .45s var(--ease-out,cubic-bezier(.22,1,.36,1));overflow:hidden}
+    #phaseEndModal .phase-end__card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,var(--green-glow,rgba(0,200,120,.15)) 100%);pointer-events:none}
+    #phaseEndModal.is-open .phase-end__card{transform:translateY(0)}
+    #phaseEndModal .phase-end__close{position:absolute;top:10px;right:12px;background:transparent;border:0;color:var(--fg-muted,#6A8274);font-family:var(--ff-mono);font-size:24px;line-height:1;cursor:pointer;padding:6px 10px;border-radius:2px;transition:color .2s;z-index:2}
+    #phaseEndModal .phase-end__close:hover{color:var(--fg,#F2F7F3)}
+    #phaseEndModal .phase-end__eyebrow{position:relative;font-family:var(--ff-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted,#6A8274);margin-bottom:22px}
+    #phaseEndModal .phase-end__eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green,#3ad17a);margin-right:8px;vertical-align:2px;box-shadow:0 0 10px var(--green,#3ad17a);animation:pulse 2s ease-in-out infinite}
+    #phaseEndModal .phase-end__badge{position:relative;display:inline-block;font-family:var(--ff-mono);font-weight:700;letter-spacing:.22em;font-size:12px;color:var(--green,#3ad17a);border:1px solid var(--green-dim,#1a5234);background:rgba(58,209,122,.06);padding:7px 14px;border-radius:2px;margin-bottom:18px}
+    #phaseEndModal .phase-end__title{position:relative;margin:0 0 16px;font-family:var(--ff-display);font-weight:700;font-size:34px;line-height:1.05;letter-spacing:-.02em;color:var(--fg,#F2F7F3);text-transform:uppercase}
+    #phaseEndModal .phase-end__text{position:relative;margin:0 0 26px;color:var(--fg-dim,#B5C9BC);font-size:15px;line-height:1.55}
+    #phaseEndModal .phase-end__text strong{color:var(--green,#3ad17a);font-weight:600}
+    #phaseEndModal .phase-end__cta{position:relative;appearance:none;cursor:pointer;font-family:var(--ff-mono);font-weight:700;font-size:11px;letter-spacing:.22em;padding:14px 30px;border-radius:2px;color:var(--bg,#07110A);background:var(--green,#3ad17a);border:1px solid var(--green,#3ad17a);transition:background .2s,transform .15s ease}
+    #phaseEndModal .phase-end__cta:hover{background:var(--green-2,#2bb867);transform:translateY(-1px)}
     body.phase-end-locked{overflow:hidden}
-    @media (max-width:480px){#phaseEndModal .phase-end__title{font-size:22px}#phaseEndModal .phase-end__card{padding:30px 22px 24px}}
+    @media (max-width:480px){#phaseEndModal .phase-end__title{font-size:28px}#phaseEndModal .phase-end__card{padding:28px 22px 24px}}
   `;
   document.head.appendChild(style);
   document.body.appendChild(overlay);
