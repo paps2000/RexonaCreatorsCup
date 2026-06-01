@@ -2650,6 +2650,57 @@ tick();
 setInterval(tick, 1000);
 initData();
 
+(function initPhaseEndModal(){
+  if (document.getElementById('phaseEndModal')) return;
+  const overlay = document.createElement('div');
+  overlay.id = 'phaseEndModal';
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.setAttribute('aria-labelledby','phaseEndTitle');
+  overlay.innerHTML = `
+    <div class="phase-end__backdrop" data-close></div>
+    <div class="phase-end__card" role="document">
+      <button class="phase-end__close" aria-label="Cerrar" data-close>&times;</button>
+      <div class="phase-end__badge">¡TIEMPO!</div>
+      <h2 id="phaseEndTitle" class="phase-end__title">Se terminó la primera fase</h2>
+      <p class="phase-end__text">Danos un momento para calcular los porcentajes. Muy pronto podrás ver a los <strong>3 seleccionados</strong>.</p>
+      <button class="phase-end__cta" data-close>Entendido</button>
+    </div>`;
+  const style = document.createElement('style');
+  style.textContent = `
+    #phaseEndModal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    #phaseEndModal.is-open{opacity:1;pointer-events:auto}
+    #phaseEndModal .phase-end__backdrop{position:absolute;inset:0;background:rgba(5,10,25,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    #phaseEndModal .phase-end__card{position:relative;max-width:480px;width:100%;background:linear-gradient(160deg,#0b1530 0%,#111b3d 100%);border:1px solid rgba(120,160,255,.25);border-radius:20px;padding:36px 28px 30px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04) inset;transform:translateY(20px) scale(.96);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
+    #phaseEndModal.is-open .phase-end__card{transform:translateY(0) scale(1)}
+    #phaseEndModal .phase-end__close{position:absolute;top:12px;right:14px;background:transparent;border:0;color:#aab4d4;font-size:28px;line-height:1;cursor:pointer;padding:4px 10px;border-radius:8px;transition:background .2s,color .2s}
+    #phaseEndModal .phase-end__close:hover{background:rgba(255,255,255,.08);color:#fff}
+    #phaseEndModal .phase-end__badge{display:inline-block;font-weight:900;letter-spacing:.18em;font-size:13px;color:#0b1530;background:linear-gradient(90deg,#ffd84d,#ff9d3d);padding:8px 16px;border-radius:999px;margin-bottom:18px;box-shadow:0 8px 24px rgba(255,157,61,.35)}
+    #phaseEndModal .phase-end__title{margin:0 0 12px;font-size:26px;line-height:1.2;color:#fff;font-weight:800}
+    #phaseEndModal .phase-end__text{margin:0 0 24px;color:#c8d0ec;font-size:15.5px;line-height:1.55}
+    #phaseEndModal .phase-end__text strong{color:#fff}
+    #phaseEndModal .phase-end__cta{appearance:none;border:0;cursor:pointer;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;color:#0b1530;background:linear-gradient(90deg,#7ce0ff,#5ab8ff);box-shadow:0 10px 28px rgba(90,184,255,.35);transition:transform .15s ease,box-shadow .2s}
+    #phaseEndModal .phase-end__cta:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(90,184,255,.45)}
+    body.phase-end-locked{overflow:hidden}
+    @media (max-width:480px){#phaseEndModal .phase-end__title{font-size:22px}#phaseEndModal .phase-end__card{padding:30px 22px 24px}}
+  `;
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+  function close(){
+    overlay.classList.remove('is-open');
+    document.body.classList.remove('phase-end-locked');
+    setTimeout(()=>overlay.remove(),350);
+    document.removeEventListener('keydown',onKey);
+  }
+  function onKey(e){ if(e.key==='Escape') close(); }
+  overlay.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+  document.addEventListener('keydown',onKey);
+  requestAnimationFrame(()=>{
+    overlay.classList.add('is-open');
+    document.body.classList.add('phase-end-locked');
+  });
+})();
+
 </script>
 </body>
 </html>
