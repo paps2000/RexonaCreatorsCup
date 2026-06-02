@@ -2665,6 +2665,7 @@ initData();
       <div class="phase-end__badge">¡TIEMPO!</div>
       <h2 id="phaseEndTitle" class="phase-end__title">Se terminó la<br/>primera fase</h2>
       <p class="phase-end__text">Danos un momento para calcular los porcentajes. Muy pronto podrás ver a los <strong>33 seleccionados</strong>.</p>
+      <div class="phase-end__mock" aria-live="polite"><span class="phase-end__mock-count">0</span> <span class="phase-end__mock-msg">intentos fallidos</span></div>
       <button class="phase-end__cta" data-close>ENTENDIDO</button>
     </div>`;
   const style = document.createElement('style');
@@ -2685,6 +2686,14 @@ initData();
     #phaseEndModal .phase-end__text strong{color:var(--green,#3ad17a);font-weight:600}
     #phaseEndModal .phase-end__cta{position:relative;appearance:none;cursor:pointer;font-family:var(--ff-mono);font-weight:700;font-size:11px;letter-spacing:.22em;padding:14px 30px;border-radius:2px;color:var(--bg,#07110A);background:var(--green,#3ad17a);border:1px solid var(--green,#3ad17a);transition:background .2s,transform .15s ease}
     #phaseEndModal .phase-end__cta:hover{background:var(--green-2,#2bb867);transform:translateY(-1px)}
+    #phaseEndModal .phase-end__mock{position:relative;font-family:var(--ff-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted,#6A8274);margin:0 0 18px;min-height:16px;opacity:0;transition:opacity .25s ease,color .25s ease}
+    #phaseEndModal .phase-end__mock.is-on{opacity:1}
+    #phaseEndModal .phase-end__mock.is-hot{color:var(--gold,#f5c34b)}
+    #phaseEndModal .phase-end__mock.is-rage{color:#ff5d5d;animation:phaseMockShake .35s ease}
+    #phaseEndModal .phase-end__mock-count{font-weight:700;color:var(--fg,#F2F7F3)}
+    #phaseEndModal .phase-end__mock.is-hot .phase-end__mock-count{color:var(--gold,#f5c34b)}
+    #phaseEndModal .phase-end__mock.is-rage .phase-end__mock-count{color:#ff5d5d}
+    @keyframes phaseMockShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
     body.phase-end-locked{overflow:hidden}
     @media (max-width:480px){#phaseEndModal .phase-end__title{font-size:28px}#phaseEndModal .phase-end__card{padding:28px 22px 24px}}
   `;
@@ -2698,6 +2707,45 @@ initData();
   }
   function onKey(){}
   overlay.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+
+  // Miss counter + escalating mockery
+  const mockEl = overlay.querySelector('.phase-end__mock');
+  const mockCount = overlay.querySelector('.phase-end__mock-count');
+  const mockMsg = overlay.querySelector('.phase-end__mock-msg');
+  let misses = 0;
+  const taunts = [
+    [1,  'intento fallido'],
+    [2,  'intentos fallidos'],
+    [3,  '¿en serio?'],
+    [5,  'le erraste 5 veces 💀'],
+    [7,  'mala puntería, eh?'],
+    [10, 'deja de intentar 🤡'],
+    [13, 'no vas a poder'],
+    [17, 'esto ya es vergonzoso'],
+    [22, 'te tenemos lástima'],
+    [30, 'récord mundial de fracaso'],
+    [42, 'la respuesta es 42, no clicks'],
+    [69, 'noice... pero sigues sin pegarle'],
+    [100,'CENTENARIO DEL FAIL 🏆']
+  ];
+  function updateMock(){
+    let label = taunts[0][1];
+    for (const [n,t] of taunts) if (misses>=n) label = t;
+    mockCount.textContent = misses;
+    mockMsg.textContent = label;
+    mockEl.classList.toggle('is-on', misses>0);
+    mockEl.classList.toggle('is-hot', misses>=5 && misses<13);
+    mockEl.classList.remove('is-rage');
+    if (misses>=13) {
+      mockEl.classList.add('is-rage');
+      void mockEl.offsetWidth;
+    }
+  }
+  overlay.addEventListener('click',(e)=>{
+    if (e.target.closest('.phase-end__cta[data-close]')) return; // real close click
+    misses++;
+    updateMock();
+  });
 
   // Evasive buttons — playful dodge on hover/touch
   const card = overlay.querySelector('.phase-end__card');
