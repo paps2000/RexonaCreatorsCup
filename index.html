@@ -2193,6 +2193,219 @@ body::after {
 }
 .results-action-btn:hover { background: var(--surface-2); border-color: var(--green-dim); }
 
+.kpi-foot code {
+  font-family: var(--ff-mono); font-size: 9px;
+  background: var(--bg-2); padding: 1px 5px; border-radius: 3px;
+  color: var(--fg-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · CHARTS
+   ═══════════════════════════════════════════════════════════════════════ */
+.chart-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 1.5rem 1.4rem 1.25rem;
+  margin-top: 2rem;
+  position: relative;
+}
+.chart-card-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.chart-card-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg);
+}
+.chart-card-sub {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.chart-legend {
+  display: flex; gap: 1.5rem;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 14px;
+}
+.chart-key { display: inline-flex; align-items: center; gap: 8px; }
+.chart-key-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.chart-key-dot.views { background: var(--green); box-shadow: 0 0 10px var(--green-glow); }
+.chart-key-dot.eng   { background: var(--gold); box-shadow: 0 0 10px oklch(0.82 0.15 92 / .35); }
+
+/* Line chart */
+.chart-area {
+  position: relative;
+  height: 220px;
+  overflow: visible;
+}
+.chart-area svg { width: 100%; height: 100%; display: block; }
+.chart-xaxis {
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Bar chart (horizontal) */
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 100px;
+  align-items: center; gap: 14px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 600px) {
+  .bar-row { grid-template-columns: 1fr 90px; gap: 6px 10px; }
+  .bar-row .bar-track { grid-column: 1 / -1; order: 3; }
+}
+.bar-label {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  display: flex; align-items: center; gap: 8px;
+}
+.bar-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--bc, var(--green));
+  box-shadow: 0 0 8px var(--bc, var(--green));
+}
+.bar-track {
+  height: 12px; background: var(--bg-2);
+  border-radius: 6px; overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--bc, var(--green)) 70%, transparent), var(--bc, var(--green)));
+  border-radius: 6px;
+  transform-origin: left;
+  transform: scaleX(var(--w, 0));
+  transition: transform 1.4s var(--ease-out);
+}
+.bar-value {
+  text-align: right;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg);
+}
+.bar-value span {
+  display: block;
+  font-family: var(--ff-mono); font-size: 9px;
+  font-weight: 400; color: var(--fg-muted);
+  letter-spacing: .15em; text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Months grid */
+.months-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+@media (max-width: 760px) { .months-grid { grid-template-columns: repeat(2, 1fr); } }
+.month-tile {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: var(--surface);
+}
+.month-tile .m-name {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 8px;
+}
+.month-tile .m-v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.month-tile .m-foot {
+  display: flex; justify-content: space-between;
+  margin-top: 8px;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-dim); letter-spacing: .05em;
+}
+.month-tile .m-foot b { color: var(--green); font-weight: 500; }
+
+/* Metric tabs (highlights) */
+.metric-tabs {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 1.5rem; margin-bottom: 14px;
+}
+.metric-tab {
+  appearance: none; border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg-dim);
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 999px;
+  cursor: pointer;
+  transition: color .25s, border-color .25s, background .25s;
+}
+.metric-tab:hover { color: var(--fg); border-color: var(--line-hi); }
+.metric-tab.is-active {
+  background: var(--green);
+  color: #07110A;
+  border-color: var(--green);
+}
+.metric-hint {
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--fg-muted); letter-spacing: .05em;
+  margin-bottom: 1rem;
+}
+
+/* Insights cards */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+@media (max-width: 880px) { .insights-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .insights-grid { grid-template-columns: 1fr; } }
+.insight {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem;
+  background: var(--surface);
+  position: relative;
+}
+.insight-tag {
+  display: inline-block;
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--green);
+  padding: 3px 9px;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .06);
+  margin-bottom: 14px;
+}
+.insight-h {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 18px; line-height: 1.2;
+  color: var(--fg);
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.insight-h em {
+  font-style: normal; color: var(--green);
+}
+.insight-p {
+  font-size: 13px;
+  color: var(--fg-dim); line-height: 1.5;
+}
+.insight-p b { color: var(--fg); font-weight: 500; }
+
 /* ═══════════════════════════════════════════════════════════════════════
    TOP CAPTCHA — imposible, solo en página principal sobre el ranking
    ═══════════════════════════════════════════════════════════════════════ */
@@ -2944,372 +3157,175 @@ body::after {
 
   <!-- HERO RESULTADOS -->
   <section class="results-hero">
-    <div class="data-badge">Datos · pendiente sync Google Sheets</div>
-    <div class="results-eyebrow">Reporte · Edición 2026</div>
+    <div class="data-badge">Datos · live · sync Reporting Sheet</div>
+    <div class="results-eyebrow">Reporte · Edición 2026 · MX</div>
     <h1 class="results-title">Resultados<br><em>de la campaña.</em></h1>
     <p class="results-sub">
-      Cierre oficial de Creators Cup México 2026. Métricas consolidadas de las tres fases,
-      desempeño por plataforma, ranking final y los contenidos que marcaron la pauta.
+      Snapshot consolidado de Creators Cup México 2026. Views, engagement, ER, VR,
+      desempeño por plataforma y los contenidos que marcaron la pauta.
     </p>
     <div class="results-meta-row">
-      <span>Periodo · <b>1 MAR — 25 JUN 2026</b></span>
-      <span>Creadores · <b>333</b></span>
-      <span>Última sync · <b id="results-sync">— · —</b></span>
+      <span>Periodo · <b>MAR — JUN 2026</b></span>
+      <span>Contenidos · <b id="hero-contents">—</b></span>
+      <span>Creadores · <b id="hero-creators">—</b></span>
+      <span>Última sync · <b id="results-sync">—</b></span>
     </div>
   </section>
 
-  <!-- KPIs GLOBALES -->
+  <!-- § R01 — KPIs GLOBALES -->
   <section class="section reveal">
     <div class="section-head">
       <div>
         <div class="section-num">§ R01 — Cifras globales</div>
         <h2 class="section-title">La campaña<br>en una mirada.</h2>
       </div>
-      <div class="section-sub">CONSOLIDADO · 3 FASES</div>
+      <div class="section-sub">CONSOLIDADO · TEMPORADA</div>
     </div>
 
-    <div class="kpi-grid">
-      <div class="kpi">
-        <div class="kpi-k">Alcance total</div>
-        <div class="kpi-v accent">—<span class="u">imp</span></div>
-        <div class="kpi-foot">Suma de impresiones reportadas</div>
-      </div>
+    <div class="kpi-grid" id="kpi-grid">
       <div class="kpi">
         <div class="kpi-k">Views totales</div>
-        <div class="kpi-v">—<span class="u">views</span></div>
-        <div class="kpi-foot">Reels · Shorts · TikTok</div>
+        <div class="kpi-v accent" id="kpi-views">—</div>
+        <div class="kpi-foot">Suma <code>Organic_Views</code></div>
       </div>
       <div class="kpi">
         <div class="kpi-k">Engagement total</div>
-        <div class="kpi-v">—<span class="u">int</span></div>
-        <div class="kpi-foot">Likes + comentarios + shares + saves</div>
+        <div class="kpi-v" id="kpi-eng">—</div>
+        <div class="kpi-foot">Likes + Comments + Shares + Saves</div>
       </div>
       <div class="kpi">
-        <div class="kpi-k">Engagement rate</div>
-        <div class="kpi-v">—<span class="u">%</span></div>
-        <div class="kpi-foot"><span class="up">▲</span> vs benchmark categoría</div>
+        <div class="kpi-k">Engagement rate global</div>
+        <div class="kpi-v" id="kpi-er">—<span class="u">%</span></div>
+        <div class="kpi-foot">Engagement / Views</div>
       </div>
       <div class="kpi">
         <div class="kpi-k">Contenidos publicados</div>
-        <div class="kpi-v">—</div>
-        <div class="kpi-foot">Validados por la organización</div>
+        <div class="kpi-v" id="kpi-content">—</div>
+        <div class="kpi-foot">Rows con creador asignado</div>
       </div>
       <div class="kpi">
         <div class="kpi-k">Creadores activos</div>
-        <div class="kpi-v">— <span class="u">de 333</span></div>
-        <div class="kpi-foot">Generaron mínimo 1 contenido</div>
+        <div class="kpi-v" id="kpi-creators">—</div>
+        <div class="kpi-foot">Handles únicos con contenido</div>
       </div>
       <div class="kpi">
-        <div class="kpi-k">Réplicas generadas</div>
-        <div class="kpi-v">—</div>
-        <div class="kpi-foot">Cross-posting multi-plataforma</div>
+        <div class="kpi-k">Likes totales</div>
+        <div class="kpi-v" id="kpi-likes">—</div>
+        <div class="kpi-foot">Suma <code>Organic_Likes</code></div>
       </div>
       <div class="kpi">
-        <div class="kpi-k">Puntos otorgados</div>
-        <div class="kpi-v accent">—<span class="u">pts</span></div>
-        <div class="kpi-foot">Score total de la temporada</div>
+        <div class="kpi-k">Shares</div>
+        <div class="kpi-v" id="kpi-shares">—</div>
+        <div class="kpi-foot">Suma <code>Organic_Shares</code></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Saves</div>
+        <div class="kpi-v" id="kpi-saves">—</div>
+        <div class="kpi-foot">Suma <code>Organic_Saves</code></div>
       </div>
     </div>
   </section>
 
-  <!-- PODIO FINAL -->
+  <!-- § R02 — TENDENCIA MENSUAL -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R02 — Podio final</div>
-        <h2 class="section-title">Los que se llevaron<br>el Mundial.</h2>
+        <div class="section-num">§ R02 — Tendencia mensual</div>
+        <h2 class="section-title">Mes por mes.<br>Curva de la campaña.</h2>
       </div>
-      <div class="section-sub">TOP 3 · TEMPORADA</div>
+      <div class="section-sub">VIEWS · ENGAGEMENT</div>
     </div>
-
-    <div class="podio">
-      <article class="podium-card p2">
-        <div class="podium-rank">02</div>
-        <div class="podium-medal">— Plata —</div>
-        <div class="podium-avt">—</div>
-        <div class="podium-name">Pendiente</div>
-        <div class="podium-handle">@handle</div>
-        <div class="podium-pts">—</div>
-        <div class="podium-pts-lbl">puntos</div>
-      </article>
-
-      <article class="podium-card p1">
-        <div class="podium-rank">01</div>
-        <div class="podium-medal">★ Campeón ★</div>
-        <div class="podium-avt">—</div>
-        <div class="podium-name">Pendiente</div>
-        <div class="podium-handle">@handle</div>
-        <div class="podium-pts">—</div>
-        <div class="podium-pts-lbl">puntos</div>
-      </article>
-
-      <article class="podium-card p3">
-        <div class="podium-rank">03</div>
-        <div class="podium-medal">— Bronce —</div>
-        <div class="podium-avt">—</div>
-        <div class="podium-name">Pendiente</div>
-        <div class="podium-handle">@handle</div>
-        <div class="podium-pts">—</div>
-        <div class="podium-pts-lbl">puntos</div>
-      </article>
+    <div class="chart-card">
+      <div class="chart-legend">
+        <span class="chart-key"><span class="chart-key-dot views"></span>Views</span>
+        <span class="chart-key"><span class="chart-key-dot eng"></span>Engagement</span>
+      </div>
+      <div class="chart-area" id="trend-chart"></div>
+      <div class="chart-xaxis" id="trend-xaxis"></div>
     </div>
+    <div class="months-grid" id="months-grid"></div>
   </section>
 
-  <!-- BREAKDOWN POR FASE -->
+  <!-- § R03 — TOP CREADORES -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R03 — Fase por fase</div>
-        <h2 class="section-title">Tres fases.<br>Tres resultados.</h2>
+        <div class="section-num">§ R03 — Top creadores</div>
+        <h2 class="section-title">Los que más<br>views generaron.</h2>
       </div>
-      <div class="section-sub">CLASIFICATORIA → SEMIS → FINAL</div>
+      <div class="section-sub">RANKING POR VIEWS ACUMULADOS</div>
     </div>
 
-    <div class="phase-results">
-      <article class="phase-result done">
-        <div class="phase-result-head">
-          <div class="phase-result-num">Fase 01 / 03</div>
-          <div class="phase-result-status">Cerrada</div>
-        </div>
-        <div class="phase-result-title">Clasificatoria</div>
-        <div class="phase-result-dates">1 MAR — 31 MAY 2026</div>
-        <div class="phase-result-stats">
-          <div class="phase-result-stat">
-            <div class="k">Creadores activos</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Contenidos</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Views</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Engagement</div>
-            <div class="v accent">—</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="phase-result">
-        <div class="phase-result-head">
-          <div class="phase-result-num">Fase 02 / 03</div>
-          <div class="phase-result-status pending">Pendiente</div>
-        </div>
-        <div class="phase-result-title">Semifinal</div>
-        <div class="phase-result-dates">1 — 20 JUN 2026</div>
-        <div class="phase-result-stats">
-          <div class="phase-result-stat">
-            <div class="k">Top 33 clasificados</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Contenidos</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Views</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Engagement</div>
-            <div class="v accent">—</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="phase-result">
-        <div class="phase-result-head">
-          <div class="phase-result-num">Fase 03 / 03</div>
-          <div class="phase-result-status pending">Pendiente</div>
-        </div>
-        <div class="phase-result-title">Final</div>
-        <div class="phase-result-dates">21 — 25 JUN 2026</div>
-        <div class="phase-result-stats">
-          <div class="phase-result-stat">
-            <div class="k">Finalistas</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Contenidos</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Views</div>
-            <div class="v">—</div>
-          </div>
-          <div class="phase-result-stat">
-            <div class="k">Engagement</div>
-            <div class="v accent">—</div>
-          </div>
-        </div>
-      </article>
-    </div>
+    <div class="podio" id="podio-creators"></div>
   </section>
 
-  <!-- BREAKDOWN POR PLATAFORMA -->
+  <!-- § R04 — POR PLATAFORMA -->
   <section class="section reveal">
     <div class="section-head">
       <div>
         <div class="section-num">§ R04 — Por plataforma</div>
         <h2 class="section-title">Dónde<br>se jugó.</h2>
       </div>
-      <div class="section-sub">VIEWS · ENGAGEMENT · CONTENIDOS</div>
+      <div class="section-sub">VIEWS · ENGAGEMENT · ER</div>
     </div>
 
-    <div class="plat-grid">
-      <article class="plat-card" style="--pc: oklch(0.75 0.21 25);">
-        <div class="plat-card-head">
-          <span class="plat-card-dot"></span>
-          <span class="plat-card-name">TikTok</span>
-        </div>
-        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
-        <div class="plat-card-row"><span>Contenidos</span><b>—</b></div>
-        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
-        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
-      </article>
+    <div class="plat-grid" id="plat-grid"></div>
 
-      <article class="plat-card" style="--pc: oklch(0.72 0.19 330);">
-        <div class="plat-card-head">
-          <span class="plat-card-dot"></span>
-          <span class="plat-card-name">Instagram</span>
-        </div>
-        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
-        <div class="plat-card-row"><span>Reels + Posts + Stories</span><b>—</b></div>
-        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
-        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
-      </article>
-
-      <article class="plat-card" style="--pc: oklch(0.78 0.18 25);">
-        <div class="plat-card-head">
-          <span class="plat-card-dot"></span>
-          <span class="plat-card-name">YouTube Shorts</span>
-        </div>
-        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
-        <div class="plat-card-row"><span>Shorts publicados</span><b>—</b></div>
-        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
-        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
-      </article>
-
-      <article class="plat-card" style="--pc: oklch(0.72 0.15 240);">
-        <div class="plat-card-head">
-          <span class="plat-card-dot"></span>
-          <span class="plat-card-name">Facebook + X</span>
-        </div>
-        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
-        <div class="plat-card-row"><span>Posts + Tweets</span><b>—</b></div>
-        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
-        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
-      </article>
+    <div class="chart-card" style="margin-top:1.5rem;">
+      <div class="chart-card-head">
+        <div class="chart-card-title">Views por plataforma</div>
+        <div class="chart-card-sub">Distribución absoluta</div>
+      </div>
+      <div class="bar-chart" id="plat-bars"></div>
     </div>
   </section>
 
-  <!-- BREAKDOWN POR TIPO DE CONTENIDO -->
+  <!-- § R05 — POR TIER -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R05 — Por tipo de contenido</div>
-        <h2 class="section-title">Qué<br>se publicó.</h2>
+        <div class="section-num">§ R05 — Por tier de creador</div>
+        <h2 class="section-title">Nano vs<br>Micro vs Mid vs Macro.</h2>
       </div>
-      <div class="section-sub">DISTRIBUCIÓN POR FORMATO</div>
+      <div class="section-sub">VOLUMEN · ER</div>
     </div>
-
-    <div class="ctype-list">
-      <div class="ctype-row">
-        <div class="ctype-name">TikTok<span>Verticales · 9:16</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .85;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
-      <div class="ctype-row">
-        <div class="ctype-name">Reels<span>Instagram · 9:16</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .78;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
-      <div class="ctype-row">
-        <div class="ctype-name">YouTube Shorts<span>Vertical · 9:16</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .55;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
-      <div class="ctype-row">
-        <div class="ctype-name">Instagram Stories<span>Efímero · 24h</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .42;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
-      <div class="ctype-row">
-        <div class="ctype-name">Facebook Post + Reel<span>Mixto</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .28;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
-      <div class="ctype-row">
-        <div class="ctype-name">Tweets (X)<span>Texto · imagen</span></div>
-        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .18;"></div></div>
-        <div class="ctype-v">—<span>Contenidos</span></div>
-      </div>
+    <div class="chart-card">
+      <div class="bar-chart" id="tier-bars"></div>
     </div>
   </section>
 
-  <!-- TOP CONTENIDOS -->
+  <!-- § R06 — HIGHLIGHTS DE CONTENIDOS -->
   <section class="section reveal">
     <div class="section-head">
       <div>
         <div class="section-num">§ R06 — Highlights</div>
         <h2 class="section-title">Los contenidos<br>que la rompieron.</h2>
       </div>
-      <div class="section-sub">TOP PERFORMANCE</div>
+      <div class="section-sub">4 RANKINGS POR MÉTRICA</div>
     </div>
 
-    <div class="hl-grid">
-      <article class="hl-card" style="--pc: oklch(0.75 0.21 25);">
-        <div class="hl-card-head">
-          <span class="hl-card-handle">@handle</span>
-          <span class="hl-card-plat">TikTok</span>
-        </div>
-        <div class="hl-card-thumb">CONTENIDO</div>
-        <div class="hl-card-metrics">
-          <div><b>—</b>Views</div>
-          <div><b>—</b>Likes</div>
-          <div><b>—</b>Shares</div>
-        </div>
-      </article>
-
-      <article class="hl-card" style="--pc: oklch(0.72 0.19 330);">
-        <div class="hl-card-head">
-          <span class="hl-card-handle">@handle</span>
-          <span class="hl-card-plat">Reel</span>
-        </div>
-        <div class="hl-card-thumb">CONTENIDO</div>
-        <div class="hl-card-metrics">
-          <div><b>—</b>Views</div>
-          <div><b>—</b>Likes</div>
-          <div><b>—</b>Shares</div>
-        </div>
-      </article>
-
-      <article class="hl-card" style="--pc: oklch(0.78 0.18 25);">
-        <div class="hl-card-head">
-          <span class="hl-card-handle">@handle</span>
-          <span class="hl-card-plat">Shorts</span>
-        </div>
-        <div class="hl-card-thumb">CONTENIDO</div>
-        <div class="hl-card-metrics">
-          <div><b>—</b>Views</div>
-          <div><b>—</b>Likes</div>
-          <div><b>—</b>Shares</div>
-        </div>
-      </article>
+    <div class="metric-tabs" role="tablist" id="metric-tabs">
+      <button class="metric-tab is-active" data-metric="views" role="tab">Más Views</button>
+      <button class="metric-tab"            data-metric="eng"   role="tab">Más Engagement</button>
+      <button class="metric-tab"            data-metric="er"    role="tab">Mejor ER</button>
+      <button class="metric-tab"            data-metric="vr"    role="tab">Mejor VR</button>
     </div>
+
+    <div class="metric-hint" id="metric-hint">
+      Top 5 contenidos por views totales.
+    </div>
+
+    <div class="hl-grid" id="hl-grid"></div>
   </section>
 
-  <!-- RANKING FINAL -->
+  <!-- § R07 — RANKING FINAL -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R07 — Ranking final</div>
-        <h2 class="section-title">Tabla<br>completa.</h2>
+        <div class="section-num">§ R07 — Ranking creadores</div>
+        <h2 class="section-title">Tabla<br>Top 50.</h2>
       </div>
-      <div class="section-sub">TOP 33 + ACTIVOS</div>
+      <div class="section-sub">VIEWS ACUMULADOS</div>
     </div>
 
     <div class="final-rank">
@@ -3318,49 +3334,26 @@ body::after {
         <div>Creador</div>
         <div class="col-content">Contenidos</div>
         <div class="col-views">Views</div>
-        <div class="col-pts">Puntos</div>
+        <div class="col-pts">ER</div>
       </div>
-
-      <div class="final-rank-row r1">
-        <div class="col-rank">01</div>
-        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
-        <div class="col-content">—</div>
-        <div class="col-views">—</div>
-        <div class="col-pts">—</div>
-      </div>
-      <div class="final-rank-row r2">
-        <div class="col-rank">02</div>
-        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
-        <div class="col-content">—</div>
-        <div class="col-views">—</div>
-        <div class="col-pts">—</div>
-      </div>
-      <div class="final-rank-row r3">
-        <div class="col-rank">03</div>
-        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
-        <div class="col-content">—</div>
-        <div class="col-views">—</div>
-        <div class="col-pts">—</div>
-      </div>
-      <div class="final-rank-row">
-        <div class="col-rank">04</div>
-        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
-        <div class="col-content">—</div>
-        <div class="col-views">—</div>
-        <div class="col-pts">—</div>
-      </div>
-      <div class="final-rank-row">
-        <div class="col-rank">05</div>
-        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
-        <div class="col-content">—</div>
-        <div class="col-views">—</div>
-        <div class="col-pts">—</div>
-      </div>
+      <div id="final-rank-body"></div>
     </div>
 
     <div class="results-section-actions">
-      <button class="results-action-btn" type="button">Ver Top 33 completo</button>
+      <button class="results-action-btn" type="button" id="rank-more-btn">Ver más</button>
     </div>
+  </section>
+
+  <!-- § R08 — LECTURAS RÁPIDAS -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R08 — Insights</div>
+        <h2 class="section-title">Lo que dicen<br>los datos.</h2>
+      </div>
+      <div class="section-sub">QUICK READS</div>
+    </div>
+    <div class="insights-grid" id="insights-grid"></div>
   </section>
 
 </div><!-- /#view-results -->
@@ -3990,6 +3983,332 @@ render();
 tick();
 setInterval(tick, 1000);
 initData();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS DATA & RENDER — Creators Cup MX 2026
+   Fuente: Reporting Sheet (Rexona Creators Cup)
+   Métricas: Engagement = Likes+Coms+Shares+Saves · ER = Eng/Views · VR = Views/Followers
+   ═══════════════════════════════════════════════════════════════════════ */
+const RESULTS_DATA = {"totals":{"views":1731910.0,"eng":96214.0,"likes":83898.0,"coms":6857.0,"shares":2227.0,"saves":3232.0,"contents":2104,"creators":605,"active":605,"er":5.555369505343811},"platforms":[{"name":"TikTok","views":753835.0,"eng":58683.0,"er":7.784594772065505,"cnt":992,"creators":251},{"name":"Instagram","views":860460.0,"eng":35799.0,"er":4.160449062129558,"cnt":974,"creators":366},{"name":"YouTube","views":65271.0,"eng":960.0,"er":1.4707910097899526,"cnt":82,"creators":35},{"name":"Facebook","views":41714.0,"eng":747.0,"er":1.79076569017596,"cnt":55,"creators":30},{"name":"X","views":10630.0,"eng":25.0,"er":0.23518344308560676,"cnt":1,"creators":1}],"tiers":[{"name":"Nano","views":881733.0,"eng":47186.0,"er":5.351506635228579,"cnt":1456},{"name":"Micro","views":570823.0,"eng":34260.0,"er":6.001860471634815,"cnt":492},{"name":"Mid","views":207650.0,"eng":9192.0,"er":4.426679508788827,"cnt":129},{"name":"Macro","views":71704.0,"eng":5576.0,"er":7.776414147048979,"cnt":27}],"tops":{"er":[{"handle":"makeupyazcielo","platform":"Instagram","views":1321.0,"eng":853.0,"er":64.57229371688115,"vr":25.16669841874643,"followers":5249.0,"link":"https://www.instagram.com/p/DYX84oHya4s/"},{"handle":"jaditips","platform":"Instagram","views":1006.0,"eng":533.0,"er":52.98210735586481,"vr":8.610065046217048,"followers":11684.0,"link":"https://www.instagram.com/p/DW9SlAPDv_M/"},{"handle":"nellyvlog","platform":"Instagram","views":1231.0,"eng":590.0,"er":47.9285134037368,"vr":19.794179128477246,"followers":6219.0,"link":"https://www.instagram.com/p/DXkVQ9SiYHZ/"},{"handle":"nellyvlog","platform":"Instagram","views":1811.0,"eng":802.0,"er":44.28492545554942,"vr":28.723235527359236,"followers":6305.0,"link":"https://www.instagram.com/p/DYnX8hypUlR/"},{"handle":"dulcetoys","platform":"Instagram","views":1575.0,"eng":616.0,"er":39.111111111111114,"vr":8.535197528857097,"followers":18453.0,"link":"https://www.instagram.com/p/DXfa6iXES_q/"}],"vr":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"futsalvaje","platform":"Instagram","views":4330.0,"eng":17.0,"er":0.39260969976905313,"vr":472.70742358078604,"followers":916.0,"link":"https://www.instagram.com/p/DZAoxW9yMUH/"},{"handle":"beto_covarrubias","platform":"TikTok","views":10200.0,"eng":260.0,"er":2.549019607843137,"vr":434.96801705756934,"followers":2345.0,"link":"https://www.tiktok.com/@beto_covarrubias/video/7645414927657602322"},{"handle":"bxxv_05","platform":"TikTok","views":3670.0,"eng":282.0,"er":7.68392370572207,"vr":411.8967452300786,"followers":891.0,"link":"https://www.tiktok.com/@jbellingham_10/video/7630311886650739976?reply_id=7633873396632568597"},{"handle":"alexmontgomeryyyy","platform":"Instagram","views":2474.0,"eng":61.0,"er":2.465642683912692,"vr":327.682119205298,"followers":755.0,"link":"https://www.instagram.com/p/DWecGGkEb5M/"}],"views":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"josebenjamin23","platform":"Instagram","views":15486.0,"eng":16.0,"er":0.10331912695337724,"vr":12.685540155313083,"followers":122076.0,"link":"https://www.instagram.com/p/DVb2Pa4ElRj/"},{"handle":"algunavezfuichef","platform":"TikTok","views":13300.0,"eng":977.0,"er":7.345864661654135,"vr":162.03703703703704,"followers":8208.0,"link":"https://www.tiktok.com/@algunavezfuichef/video/7638471756738481429"}],"eng":[{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"hctorcuevaf","platform":"TikTok","views":11300.0,"eng":2490.0,"er":22.035398230088497,"vr":27.36077481840194,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7629546328837737736"},{"handle":"hctorcuevaf","platform":"TikTok","views":8270.0,"eng":1745.0,"er":21.100362756952844,"vr":20.024213075060533,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7634708908996709650"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"hctorcuevaf","platform":"TikTok","views":8965.0,"eng":1036.0,"er":11.556051310652538,"vr":22.412499999999998,"followers":40000.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7623153520119647496"}]},"ranking":[{"handle":"hctorcuevaf","cnt":5,"views":50121.0,"eng":8927.0,"er":17.810897627740868,"fol":41900.0,"plats":["TikTok"]},{"handle":"melisservin","cnt":10,"views":41167.0,"eng":788.0,"er":1.914154541258775,"fol":20078.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruiz","cnt":10,"views":40625.0,"eng":3991.0,"er":9.824,"fol":669500.0,"plats":["TikTok"]},{"handle":"_crisho","cnt":5,"views":38748.0,"eng":1223.0,"er":3.156291937648395,"fol":19112.0,"plats":["Instagram"]},{"handle":"pilarozuna","cnt":7,"views":37814.0,"eng":336.0,"er":0.8885597926693818,"fol":4532.0,"plats":["TikTok"]},{"handle":"algunavezfuichef","cnt":8,"views":32436.0,"eng":2297.0,"er":7.08163768652115,"fol":9133.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"da_shania","cnt":6,"views":29567.0,"eng":1970.0,"er":6.662833564446849,"fol":83300.0,"plats":["TikTok"]},{"handle":"josebenjamin23","cnt":3,"views":27936.0,"eng":24.0,"er":0.0859106529209622,"fol":125501.0,"plats":["Instagram"]},{"handle":"alexcamisetero","cnt":9,"views":24385.0,"eng":844.0,"er":3.4611441459913883,"fol":106000.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruizoz","cnt":10,"views":24157.0,"eng":1252.0,"er":5.182762760276524,"fol":82049.0,"plats":["Instagram","YouTube"]},{"handle":"andreaagascaa","cnt":4,"views":23194.0,"eng":808.0,"er":3.4836595671294304,"fol":5726.0,"plats":["Instagram"]},{"handle":"brandonbeaver123","cnt":8,"views":22656.0,"eng":1437.0,"er":6.342690677966102,"fol":44300.0,"plats":["TikTok"]},{"handle":"_cesar.castolo_","cnt":5,"views":19285.0,"eng":253.0,"er":1.3119004407570651,"fol":35001.0,"plats":["Instagram"]},{"handle":"mfernandabarajasm","cnt":8,"views":18227.0,"eng":474.0,"er":2.600537663905196,"fol":4600.0,"plats":["Instagram","TikTok"]},{"handle":"tacodeojoficial","cnt":5,"views":16370.0,"eng":240.0,"er":1.4660965180207697,"fol":13165.0,"plats":["Instagram"]},{"handle":"anasophileyva","cnt":7,"views":16060.0,"eng":333.0,"er":2.0734744707347446,"fol":13200.0,"plats":["Instagram","TikTok"]},{"handle":"beto_covarrubias","cnt":3,"views":15422.0,"eng":478.0,"er":3.0994682920503176,"fol":2345.0,"plats":["TikTok"]},{"handle":"tacodeojonyt","cnt":6,"views":15340.0,"eng":377.0,"er":2.457627118644068,"fol":41700.0,"plats":["Facebook","TikTok"]},{"handle":"anahy.giron.7564","cnt":6,"views":15088.0,"eng":4506.0,"er":29.86479321314952,"fol":12666.0,"plats":["Instagram"]},{"handle":"abrilyaremi","cnt":2,"views":14836.0,"eng":446.0,"er":3.0062011323806956,"fol":4529.0,"plats":["Instagram"]},{"handle":"marianacorcas_","cnt":3,"views":14771.0,"eng":322.0,"er":2.1799471938257398,"fol":9071.0,"plats":["Instagram"]},{"handle":"la_caza_ofertas","cnt":4,"views":14060.0,"eng":194.0,"er":1.379800853485064,"fol":154944.0,"plats":["Instagram"]},{"handle":"danizunzaa","cnt":5,"views":13368.0,"eng":235.0,"er":1.757929383602633,"fol":7997.0,"plats":["Instagram"]},{"handle":"electromanmx","cnt":9,"views":13363.0,"eng":778.0,"er":5.82204594776622,"fol":401300.0,"plats":["Instagram","TikTok"]},{"handle":"samira_alatrach","cnt":6,"views":13313.0,"eng":162.0,"er":1.2168557049500488,"fol":31000.0,"plats":["Instagram","TikTok"]},{"handle":"soyjoules","cnt":9,"views":12958.0,"eng":365.0,"er":2.8167927149251426,"fol":17400.0,"plats":["Instagram","YouTube"]},{"handle":"b.erenice.varela","cnt":10,"views":12489.0,"eng":298.0,"er":2.38609976779566,"fol":50000.0,"plats":["Instagram","TikTok"]},{"handle":"edytorres4398","cnt":6,"views":11932.0,"eng":224.0,"er":1.8773047267851155,"fol":8610.0,"plats":["YouTube"]},{"handle":"bel.igol10","cnt":4,"views":11916.0,"eng":257.0,"er":2.156764014770057,"fol":12697.0,"plats":["Instagram"]},{"handle":"mateorojasj","cnt":2,"views":11644.0,"eng":601.0,"er":5.161456544142906,"fol":2290.0,"plats":["Instagram"]},{"handle":"the.only.keren","cnt":6,"views":11591.0,"eng":393.0,"er":3.3905616426537835,"fol":8852.0,"plats":["Instagram","TikTok"]},{"handle":"jbellingham_10","cnt":6,"views":11328.0,"eng":950.0,"er":8.386299435028247,"fol":89400.0,"plats":["TikTok"]},{"handle":"Gaspar_Sparco","cnt":1,"views":10630.0,"eng":25.0,"er":0.23518344308560676,"fol":39669.0,"plats":["X"]},{"handle":"zara_garciaa","cnt":2,"views":10523.0,"eng":18.0,"er":0.17105388197282143,"fol":4445.0,"plats":["Instagram"]},{"handle":"amxilx_","cnt":5,"views":10475.0,"eng":1010.0,"er":9.64200477326969,"fol":7846.0,"plats":["Instagram"]},{"handle":"re.alor","cnt":8,"views":10253.0,"eng":1062.0,"er":10.357944016385447,"fol":2515.0,"plats":["Instagram","TikTok"]},{"handle":"laurahernandez_______","cnt":3,"views":10128.0,"eng":395.0,"er":3.900078988941548,"fol":8038.0,"plats":["Instagram"]},{"handle":"zaragarciaa","cnt":6,"views":9998.0,"eng":1116.0,"er":11.162232446489298,"fol":10700.0,"plats":["TikTok"]},{"handle":"nataliafloreseli","cnt":6,"views":9974.0,"eng":53.0,"er":0.5313815921395628,"fol":8924.0,"plats":["Facebook","Instagram"]},{"handle":"jossue.nicolas","cnt":6,"views":9734.0,"eng":447.0,"er":4.592151222519006,"fol":1851.0,"plats":["Instagram","TikTok"]},{"handle":"baby.chaar","cnt":4,"views":9655.0,"eng":69.0,"er":0.7146556188503366,"fol":3705.0,"plats":["Instagram"]},{"handle":"martinalonsomx","cnt":10,"views":9603.0,"eng":245.0,"er":2.551286056440696,"fol":151000.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"jessica_con_j","cnt":6,"views":9050.0,"eng":293.0,"er":3.2375690607734806,"fol":59000.0,"plats":["TikTok"]},{"handle":"tesito.dementa","cnt":4,"views":8595.0,"eng":217.0,"er":2.5247236765561376,"fol":64300.0,"plats":["TikTok"]},{"handle":"runnerreyna","cnt":15,"views":8443.0,"eng":216.0,"er":2.558332346322397,"fol":14000.0,"plats":["Facebook","Instagram","TikTok","YouTube"]},{"handle":"dulcetoys","cnt":4,"views":8430.0,"eng":1907.0,"er":22.62158956109134,"fol":18553.0,"plats":["Instagram"]},{"handle":"keri_arath","cnt":14,"views":8332.0,"eng":336.0,"er":4.0326452232357175,"fol":43600.0,"plats":["Instagram","TikTok"]},{"handle":"MaferShOf","cnt":1,"views":8019.0,"eng":237.0,"er":2.955480733258511,"fol":161000.0,"plats":["Facebook"]},{"handle":"lu1sitop_","cnt":3,"views":7910.0,"eng":767.0,"er":9.696586599241467,"fol":4294.0,"plats":["TikTok"]},{"handle":"hanna_kinn","cnt":7,"views":7761.0,"eng":500.0,"er":6.442468754026542,"fol":173300.0,"plats":["TikTok"]}],"months":[{"m":"2026-03","views":487889.0,"eng":27356.0,"cnt":288},{"m":"2026-04","views":507996.0,"eng":26204.0,"cnt":846},{"m":"2026-05","views":250523.0,"eng":10920.0,"cnt":265},{"m":"2026-06","views":19672.0,"eng":660.0,"cnt":18}]};
+const RESULTS_SYNC_LABEL = '08 Jun 2026 · 15:53';
+
+const PLAT_COLOR = {
+  TikTok:    'oklch(0.75 0.21 25)',
+  Instagram: 'oklch(0.72 0.19 330)',
+  YouTube:   'oklch(0.78 0.18 25)',
+  Facebook:  'oklch(0.72 0.15 240)',
+  X:         'oklch(0.85 0.02 240)',
+};
+const TIER_COLOR = {
+  Nano:  'oklch(0.76 0.19 148)',
+  Micro: 'oklch(0.72 0.19 200)',
+  Mid:   'oklch(0.78 0.18 60)',
+  Macro: 'oklch(0.82 0.15 92)',
+};
+
+function fmtN(n) {
+  if (n == null) return '—';
+  n = +n;
+  if (n >= 1e6) return (n/1e6).toFixed(2).replace(/\.?0+$/,'') + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(n>=10e3 ? 1 : 2).replace(/\.?0+$/,'') + 'K';
+  return n.toLocaleString('es-MX', {maximumFractionDigits:0});
+}
+function fmtPct(n, d=2) {
+  if (n == null || !isFinite(n)) return '—';
+  return (+n).toFixed(d) + '%';
+}
+function avtChar(s) {
+  return (s||'?').replace(/^@/,'').slice(0,2).toUpperCase();
+}
+
+function renderKPIs() {
+  const t = RESULTS_DATA.totals;
+  const set = (id,v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('kpi-views',    fmtN(t.views));
+  set('kpi-eng',      fmtN(t.eng));
+  set('kpi-er',       (+t.er).toFixed(2));
+  set('kpi-content',  fmtN(t.contents));
+  set('kpi-creators', fmtN(t.creators));
+  set('kpi-likes',    fmtN(t.likes));
+  set('kpi-shares',   fmtN(t.shares));
+  set('kpi-saves',    fmtN(t.saves));
+  set('hero-contents', fmtN(t.contents));
+  set('hero-creators', fmtN(t.creators));
+  set('results-sync', RESULTS_SYNC_LABEL);
+}
+
+function renderTrend() {
+  const months = RESULTS_DATA.months;
+  if (!months.length) return;
+  const W = 1000, H = 220, padL = 40, padR = 20, padT = 16, padB = 28;
+  const maxV = Math.max(...months.map(m=>m.views), 1);
+  const maxE = Math.max(...months.map(m=>m.eng), 1);
+  const xs = i => padL + (i/(Math.max(months.length-1,1))) * (W-padL-padR);
+  const yV = v => padT + (1 - v/maxV) * (H-padT-padB);
+  const yE = v => padT + (1 - v/maxE) * (H-padT-padB);
+
+  const ptsV = months.map((m,i)=>`${xs(i)},${yV(m.views)}`).join(' ');
+  const ptsE = months.map((m,i)=>`${xs(i)},${yE(m.eng)}`).join(' ');
+
+  const grid = [.25,.5,.75,1].map(f => {
+    const y = padT + (1-f) * (H-padT-padB);
+    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/>`;
+  }).join('');
+
+  const dots = (yfn, color) => months.map((m,i)=>
+    `<circle cx="${xs(i)}" cy="${yfn(yfn===yV?m.views:m.eng)}" r="4" fill="${color}" stroke="var(--bg)" stroke-width="2"/>`
+  ).join('');
+
+  const svg = `
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Trend">
+      ${grid}
+      <polyline points="${ptsV}" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <polyline points="${ptsE}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round" stroke-linecap="round"/>
+      ${months.map((m,i)=>`<circle cx="${xs(i)}" cy="${yV(m.views)}" r="4.5" fill="var(--green)" stroke="var(--bg)" stroke-width="2"/>`).join('')}
+      ${months.map((m,i)=>`<circle cx="${xs(i)}" cy="${yE(m.eng)}" r="3.5" fill="var(--gold)" stroke="var(--bg)" stroke-width="2"/>`).join('')}
+    </svg>`;
+  const chart = document.getElementById('trend-chart');
+  if (chart) chart.innerHTML = svg;
+
+  const monthNames = {'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May','06':'Jun','07':'Jul','08':'Ago','09':'Sep','10':'Oct','11':'Nov','12':'Dic'};
+  const xaxis = document.getElementById('trend-xaxis');
+  if (xaxis) {
+    xaxis.style.gridTemplateColumns = `repeat(${months.length}, 1fr)`;
+    xaxis.innerHTML = months.map(m => {
+      const [Y,M] = m.m.split('-');
+      return `<div>${monthNames[M]||M} ${Y.slice(2)}</div>`;
+    }).join('');
+  }
+
+  const grid2 = document.getElementById('months-grid');
+  if (grid2) {
+    grid2.innerHTML = months.map(m => {
+      const [Y,M] = m.m.split('-');
+      const er = m.views ? (m.eng/m.views*100) : 0;
+      return `<div class="month-tile">
+        <div class="m-name">${monthNames[M]||M} ${Y}</div>
+        <div class="m-v">${fmtN(m.views)}</div>
+        <div class="m-foot">
+          <span>${m.cnt} contenidos</span>
+          <span><b>${er.toFixed(2)}%</b> ER</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderPodio() {
+  const top3 = RESULTS_DATA.ranking.slice(0, 3);
+  const order = [top3[1], top3[0], top3[2]].filter(Boolean); // 2,1,3 layout
+  const classMap = new Map([[top3[0]?.handle,'p1'],[top3[1]?.handle,'p2'],[top3[2]?.handle,'p3']]);
+  const rankMap = new Map([[top3[0]?.handle,1],[top3[1]?.handle,2],[top3[2]?.handle,3]]);
+  const medalMap = {1:'★ Campeón ★', 2:'— Plata —', 3:'— Bronce —'};
+  const root = document.getElementById('podio-creators');
+  if (!root) return;
+  root.innerHTML = order.map(c => {
+    const cls = classMap.get(c.handle);
+    const rank = rankMap.get(c.handle);
+    return `<article class="podium-card ${cls}">
+      <div class="podium-rank">${String(rank).padStart(2,'0')}</div>
+      <div class="podium-medal">${medalMap[rank]}</div>
+      <div class="podium-avt">${avtChar(c.handle)}</div>
+      <div class="podium-name">${c.handle}</div>
+      <div class="podium-handle">@${c.handle.replace(/^@/,'')}</div>
+      <div class="podium-pts">${fmtN(c.views)}</div>
+      <div class="podium-pts-lbl">views totales · ${c.cnt} contenidos</div>
+    </article>`;
+  }).join('');
+}
+
+function renderPlatforms() {
+  const plats = RESULTS_DATA.platforms;
+  const grid = document.getElementById('plat-grid');
+  if (grid) {
+    grid.innerHTML = plats.map(p => `
+      <article class="plat-card" style="--pc: ${PLAT_COLOR[p.name]||'var(--green)'};">
+        <div class="plat-card-head">
+          <span class="plat-card-dot"></span>
+          <span class="plat-card-name">${p.name}</span>
+        </div>
+        <div class="plat-card-v">${fmtN(p.views)}<span style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
+        <div class="plat-card-row"><span>Contenidos</span><b>${fmtN(p.cnt)}</b></div>
+        <div class="plat-card-row"><span>Engagement</span><b>${fmtN(p.eng)}</b></div>
+        <div class="plat-card-row"><span>ER global</span><b>${(+p.er).toFixed(2)}%</b></div>
+        <div class="plat-card-row"><span>Creadores</span><b>${fmtN(p.creators)}</b></div>
+      </article>`).join('');
+  }
+
+  const bars = document.getElementById('plat-bars');
+  if (bars) {
+    const max = Math.max(...plats.map(p=>p.views), 1);
+    bars.innerHTML = plats.map(p => `
+      <div class="bar-row" style="--bc: ${PLAT_COLOR[p.name]||'var(--green)'};">
+        <div class="bar-label"><span class="bar-dot"></span>${p.name}</div>
+        <div class="bar-track"><div class="bar-fill" style="--w: ${(p.views/max).toFixed(4)};"></div></div>
+        <div class="bar-value">${fmtN(p.views)}<span>views · ${(p.views/RESULTS_DATA.totals.views*100).toFixed(1)}%</span></div>
+      </div>`).join('');
+    // animate after layout
+    requestAnimationFrame(()=> bars.querySelectorAll('.bar-fill').forEach(b=>{}));
+  }
+}
+
+function renderTiers() {
+  const tiers = RESULTS_DATA.tiers;
+  const bars = document.getElementById('tier-bars');
+  if (!bars) return;
+  const max = Math.max(...tiers.map(t=>t.views), 1);
+  bars.innerHTML = tiers.map(t => `
+    <div class="bar-row" style="--bc: ${TIER_COLOR[t.name]||'var(--green)'};">
+      <div class="bar-label"><span class="bar-dot"></span>${t.name} <span style="color:var(--fg-muted);font-weight:400;font-size:10px;font-family:var(--ff-mono);margin-left:4px;">${t.cnt} contenidos</span></div>
+      <div class="bar-track"><div class="bar-fill" style="--w: ${(t.views/max).toFixed(4)};"></div></div>
+      <div class="bar-value">${fmtN(t.views)}<span>views · ${(+t.er).toFixed(2)}% ER</span></div>
+    </div>`).join('');
+}
+
+function renderHighlights(metric='views') {
+  const list = RESULTS_DATA.tops[metric] || [];
+  const root = document.getElementById('hl-grid');
+  if (!root) return;
+  const hints = {
+    views: 'Top 5 contenidos por views absolutos.',
+    eng:   'Top 5 contenidos por engagement total (likes + comentarios + shares + saves).',
+    er:    'Top 5 contenidos con mejor engagement rate · piso 1,000 views para evitar ruido.',
+    vr:    'Top 5 contenidos con mejor view rate (views / followers) · piso 500 followers y 500 views.',
+  };
+  const hintEl = document.getElementById('metric-hint');
+  if (hintEl) hintEl.textContent = hints[metric] || '';
+
+  root.innerHTML = list.map(c => {
+    const link = c.link && /^https?:\/\//.test(c.link) ? c.link : null;
+    const inner = `
+      <div class="hl-card-head">
+        <span class="hl-card-handle">@${c.handle.replace(/^@/,'')}</span>
+        <span class="hl-card-plat">${c.platform}</span>
+      </div>
+      <div class="hl-card-thumb">${avtChar(c.handle)}</div>
+      <div class="hl-card-metrics">
+        <div><b>${fmtN(c.views)}</b>Views</div>
+        <div><b>${fmtN(c.eng)}</b>Eng</div>
+        <div><b>${(+c.er).toFixed(1)}%</b>ER · ${c.vr ? (+c.vr).toFixed(0)+'% VR' : '—'}</div>
+      </div>`;
+    const cardStyle = `--pc: ${PLAT_COLOR[c.platform]||'var(--green)'};`;
+    return link
+      ? `<a class="hl-card" style="${cardStyle};text-decoration:none;color:inherit;" href="${link}" target="_blank" rel="noopener">${inner}</a>`
+      : `<article class="hl-card" style="${cardStyle}">${inner}</article>`;
+  }).join('');
+}
+
+function renderRanking(limit=10) {
+  const rk = RESULTS_DATA.ranking;
+  const body = document.getElementById('final-rank-body');
+  if (!body) return;
+  body.innerHTML = rk.slice(0, limit).map((c, idx) => {
+    const i = idx+1;
+    const rcls = i<=3 ? `r${i}` : '';
+    return `<div class="final-rank-row ${rcls}">
+      <div class="col-rank">${String(i).padStart(2,'0')}</div>
+      <div class="col-name">
+        <div class="a">${avtChar(c.handle)}</div>
+        <div><div class="n">${c.handle}</div><div class="h">@${c.handle.replace(/^@/,'')} · ${c.cnt} contenidos · ${c.plats.join(' / ')}</div></div>
+      </div>
+      <div class="col-content">${fmtN(c.cnt)}</div>
+      <div class="col-views">${fmtN(c.views)}</div>
+      <div class="col-pts">${(+c.er).toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderInsights() {
+  const t = RESULTS_DATA.totals;
+  const plats = RESULTS_DATA.platforms;
+  const tiers = RESULTS_DATA.tiers;
+  const tt = plats.find(p=>p.name==='TikTok');
+  const ig = plats.find(p=>p.name==='Instagram');
+  const macroTier = tiers.find(x=>x.name==='Macro');
+  const nanoTier  = tiers.find(x=>x.name==='Nano');
+  const topER = RESULTS_DATA.tops.er[0];
+  const topV  = RESULTS_DATA.tops.views[0];
+  const months = RESULTS_DATA.months;
+  const peak = months.reduce((a,b)=> b.views>a.views?b:a, months[0]||{m:'',views:0});
+
+  const insights = [
+    {
+      tag: 'Plataforma líder',
+      h: `TikTok pone el <em>engagement rate</em> más alto`,
+      p: tt ? `TikTok cierra con <b>${(+tt.er).toFixed(2)}% ER</b> vs <b>${ig?(+ig.er).toFixed(2):'—'}% de Instagram</b>. IG gana en views absolutos (${fmtN(ig?.views||0)}) pero TikTok mueve más interacción por view.` : '—'
+    },
+    {
+      tag: 'Tier sweet spot',
+      h: `Macro convierte mejor, <em>Nano</em> carga el volumen`,
+      p: macroTier && nanoTier ? `Macro: <b>${(+macroTier.er).toFixed(2)}% ER</b> con ${macroTier.cnt} contenidos. Nano: <b>${nanoTier.cnt} contenidos</b> · ${fmtN(nanoTier.views)} views (el grueso de la campaña).` : '—'
+    },
+    {
+      tag: 'Mes más fuerte',
+      h: `<em>${peak.m}</em> fue el pico`,
+      p: `Acumuló <b>${fmtN(peak.views)} views</b> y <b>${fmtN(peak.eng)} engagement</b> en ${peak.cnt} contenidos. La campaña arrancó fuerte y se sostuvo.`
+    },
+    {
+      tag: 'Estrella de ER',
+      h: `<em>@${topER?.handle||'—'}</em> rompe la curva`,
+      p: topER ? `Contenido en ${topER.platform} con <b>${fmtPct(topER.er,1)} ER</b> sobre ${fmtN(topER.views)} views. Caso a estudiar para próximos briefs.` : '—'
+    },
+    {
+      tag: 'Estrella de Views',
+      h: `<em>@${topV?.handle||'—'}</em> rompió en alcance`,
+      p: topV ? `Single drop con <b>${fmtN(topV.views)} views</b> en ${topV.platform}. ER del ${fmtPct(topV.er,1)} — alcance masivo y consistente.` : '—'
+    },
+    {
+      tag: 'Salud global',
+      h: `ER global <em>${(+t.er).toFixed(2)}%</em>`,
+      p: `Sobre ${fmtN(t.contents)} contenidos de ${fmtN(t.creators)} creadores. Likes (${fmtN(t.likes)}) dominan el mix; saves (${fmtN(t.saves)}) son el indicador de intent más bajo.`
+    },
+  ];
+  const root = document.getElementById('insights-grid');
+  if (!root) return;
+  root.innerHTML = insights.map(i => `
+    <article class="insight">
+      <span class="insight-tag">${i.tag}</span>
+      <div class="insight-h">${i.h}</div>
+      <div class="insight-p">${i.p}</div>
+    </article>`).join('');
+}
+
+function initMetricTabs() {
+  const tabs = document.getElementById('metric-tabs');
+  if (!tabs) return;
+  tabs.addEventListener('click', e => {
+    const btn = e.target.closest('.metric-tab');
+    if (!btn) return;
+    tabs.querySelectorAll('.metric-tab').forEach(b => b.classList.toggle('is-active', b===btn));
+    renderHighlights(btn.dataset.metric);
+  });
+}
+
+let __rankLimit = 10;
+function initRankMore() {
+  const btn = document.getElementById('rank-more-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    __rankLimit = (__rankLimit >= RESULTS_DATA.ranking.length) ? 10 : Math.min(__rankLimit + 20, RESULTS_DATA.ranking.length);
+    btn.textContent = __rankLimit >= RESULTS_DATA.ranking.length ? 'Colapsar' : 'Ver más';
+    renderRanking(__rankLimit);
+  });
+}
+
+function renderResults() {
+  if (!RESULTS_DATA || !RESULTS_DATA.totals) return;
+  renderKPIs();
+  renderTrend();
+  renderPodio();
+  renderPlatforms();
+  renderTiers();
+  renderHighlights('views');
+  renderRanking(10);
+  renderInsights();
+}
+initMetricTabs();
+initRankMore();
+renderResults();
 
 /* ═══════════════════════════════════════════════════════════════════════
    TOP CAPTCHA — imposible (no hay balones en la grilla, nunca)
