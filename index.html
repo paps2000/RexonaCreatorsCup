@@ -1570,6 +1570,838 @@ body::after {
 /* center rank-tools */
 .rank-tools { justify-content: center; }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   TABS — Vista Campaña / Resultados
+   ═══════════════════════════════════════════════════════════════════════ */
+.tabs {
+  position: sticky; top: 60px; z-index: 190;
+  display: flex; justify-content: center;
+  padding: 12px var(--gutter);
+  background: color-mix(in oklab, var(--bg) 92%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+}
+.tabs-inner {
+  display: inline-flex; gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.tab-btn {
+  appearance: none; border: 0; background: transparent;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 9px 22px; border-radius: 999px;
+  cursor: pointer;
+  transition: color .25s var(--ease-out), background .25s var(--ease-out);
+  display: inline-flex; align-items: center; gap: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.tab-btn:hover { color: var(--fg); }
+.tab-btn[aria-selected="true"] {
+  background: var(--green);
+  color: #07110A;
+}
+.tab-btn .tab-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; opacity: .7;
+}
+.tab-btn[aria-selected="true"] .tab-dot { background: #07110A; opacity: 1; }
+.tab-btn .tab-tag {
+  font-family: var(--ff-mono); font-size: 9px;
+  padding: 2px 7px; border-radius: 999px;
+  background: oklch(1 0 0 / .08);
+  letter-spacing: .1em;
+}
+.tab-btn[aria-selected="true"] .tab-tag {
+  background: oklch(0 0 0 / .15);
+}
+
+.view { display: none; }
+.view.is-active { display: block; animation: viewIn .45s var(--ease-out); }
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · HERO
+   ═══════════════════════════════════════════════════════════════════════ */
+.results-hero {
+  position: relative;
+  padding: clamp(3rem, 8vh, 6rem) var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+.results-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, var(--green-glow), transparent 70%),
+    linear-gradient(180deg, transparent 0%, var(--bg-2) 100%);
+  pointer-events: none;
+}
+.results-hero > * { position: relative; z-index: 1; }
+.results-eyebrow {
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1rem;
+}
+.results-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(2.6rem, 7.5vw, 5.5rem);
+  line-height: .95; letter-spacing: -.03em;
+  color: var(--fg);
+  margin-bottom: 1.25rem;
+}
+.results-title em { font-style: normal; color: var(--green); }
+.results-sub {
+  max-width: 620px; margin: 0 auto;
+  color: var(--fg-dim); font-size: 15px;
+  line-height: 1.55;
+}
+.results-meta-row {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 1.25rem 2.25rem; margin-top: 2.25rem;
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.results-meta-row b { color: var(--fg); font-weight: 500; }
+
+.data-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  border: 1px dashed var(--green-dim);
+  border-radius: 999px;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--green);
+  background: oklch(0.76 0.19 148 / .06);
+  margin-bottom: 1.25rem;
+}
+.data-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: blinkSoft 1.8s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · KPI GRID
+   ═══════════════════════════════════════════════════════════════════════ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+@media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
+.kpi {
+  padding: 1.6rem 1.4rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: background .3s var(--ease-out);
+}
+.kpi:hover { background: oklch(0.15 0.03 148 / .25); }
+.kpi:nth-child(4n) { border-right: none; }
+.kpi:nth-last-child(-n+4) { border-bottom: none; }
+@media (max-width: 900px) {
+  .kpi { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .kpi:nth-child(2n) { border-right: none; }
+  .kpi:nth-last-child(-n+2) { border-bottom: none; }
+}
+@media (max-width: 480px) {
+  .kpi { border-right: none; }
+  .kpi:not(:last-child) { border-bottom: 1px solid var(--line); }
+}
+.kpi-k {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 12px;
+}
+.kpi-v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  line-height: 1; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.kpi-v.accent { color: var(--green); }
+.kpi-v .u {
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--fg-muted); margin-left: 6px; letter-spacing: .1em;
+  font-weight: 400;
+}
+.kpi-foot {
+  margin-top: 12px;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-dim); letter-spacing: .08em;
+  display: flex; align-items: center; gap: 6px;
+}
+.kpi-foot .up   { color: var(--green); }
+.kpi-foot .down { color: oklch(0.7 0.15 30); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · PODIO
+   ═══════════════════════════════════════════════════════════════════════ */
+.podio {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 14px;
+  align-items: end;
+  margin-top: 2rem;
+}
+@media (max-width: 760px) {
+  .podio { grid-template-columns: 1fr; gap: 12px; align-items: stretch; }
+}
+.podium-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 1.6rem 1.25rem 1.4rem;
+  text-align: center;
+  overflow: hidden;
+  transition: transform .35s var(--ease-out), border-color .35s var(--ease-out);
+}
+.podium-card:hover { transform: translateY(-4px); }
+.podium-card.p1 {
+  border-color: var(--gold-dim);
+  background: linear-gradient(180deg, oklch(0.82 0.15 92 / .12), var(--surface) 60%);
+  padding-top: 2.2rem; padding-bottom: 1.8rem;
+}
+.podium-card.p1::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.82 0.15 92 / .22), transparent 70%);
+  pointer-events: none;
+}
+.podium-card.p1 > * { position: relative; z-index: 1; }
+.podium-card.p2 { border-color: oklch(0.65 0 0 / .35); }
+.podium-card.p3 { border-color: oklch(0.55 0.08 30 / .35); }
+.podium-rank {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 56px; line-height: 1;
+  color: var(--fg-ghost);
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.podium-card.p1 .podium-rank { color: var(--gold); font-size: 76px; }
+.podium-card.p2 .podium-rank { color: var(--fg); }
+.podium-card.p3 .podium-rank { color: oklch(0.7 0.1 30); }
+.podium-medal {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 14px;
+}
+.podium-card.p1 .podium-medal { color: var(--gold); }
+.podium-avt {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-hi);
+  color: var(--fg);
+}
+.podium-card.p1 .podium-avt {
+  width: 84px; height: 84px; font-size: 28px;
+  border-color: var(--gold-dim);
+  background: linear-gradient(145deg, oklch(0.82 0.15 92 / .3), oklch(0.62 0.13 92 / .15));
+  color: var(--gold);
+  box-shadow: 0 8px 32px oklch(0.82 0.15 92 / .25);
+}
+.podium-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 16px; color: var(--fg);
+  margin-bottom: 4px;
+}
+.podium-handle {
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--fg-muted); margin-bottom: 16px;
+  letter-spacing: .04em;
+}
+.podium-pts {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 28px; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.podium-card.p1 .podium-pts { color: var(--gold); font-size: 36px; }
+.podium-pts-lbl {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--fg-muted); margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · PHASE BREAKDOWN
+   ═══════════════════════════════════════════════════════════════════════ */
+.phase-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 2rem;
+}
+@media (max-width: 880px) { .phase-results { grid-template-columns: 1fr; } }
+.phase-result {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.5rem 1.4rem;
+  background: var(--surface);
+  position: relative;
+}
+.phase-result.done { border-color: var(--green-dim); }
+.phase-result-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.phase-result-num {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.phase-result-status {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--green);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.phase-result-status::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+}
+.phase-result-status.pending { color: var(--fg-muted); }
+.phase-result-status.pending::before { background: var(--fg-ghost); }
+.phase-result-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px; color: var(--fg);
+  margin-bottom: 4px;
+  letter-spacing: -.01em;
+}
+.phase-result-dates {
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .1em;
+  margin-bottom: 1.2rem;
+}
+.phase-result-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px;
+  font-variant-numeric: tabular-nums;
+}
+.phase-result-stat .k {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 4px;
+}
+.phase-result-stat .v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px; color: var(--fg);
+  letter-spacing: -.01em;
+}
+.phase-result-stat .v.accent { color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · PLATFORM GRID
+   ═══════════════════════════════════════════════════════════════════════ */
+.plat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 2rem;
+}
+@media (max-width: 900px) { .plat-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .plat-grid { grid-template-columns: 1fr; } }
+.plat-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.4rem 1.25rem;
+  background: var(--surface);
+  position: relative;
+  transition: border-color .25s var(--ease-out);
+}
+.plat-card:hover { border-color: var(--line-hi); }
+.plat-card-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.1rem;
+}
+.plat-card-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--pc, var(--green));
+  box-shadow: 0 0 12px var(--pc, var(--green));
+}
+.plat-card-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg);
+  letter-spacing: .02em;
+}
+.plat-card-v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.6rem, 2.6vw, 2rem);
+  color: var(--fg);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.plat-card-row {
+  display: flex; justify-content: space-between;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--fg-dim);
+  letter-spacing: .03em;
+}
+.plat-card-row:first-of-type { margin-top: 14px; }
+.plat-card-row b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · CONTENT TYPE BREAKDOWN
+   ═══════════════════════════════════════════════════════════════════════ */
+.ctype-list {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 2rem;
+}
+.ctype-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 120px;
+  align-items: center; gap: 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  transition: background .25s var(--ease-out);
+}
+.ctype-row:hover { background: oklch(0.15 0.03 148 / .2); }
+@media (max-width: 680px) {
+  .ctype-row { grid-template-columns: 1fr 90px; gap: 6px 12px; padding: 12px 14px; }
+  .ctype-row .ctype-bar-wrap { grid-column: 1 / -1; order: 3; }
+}
+.ctype-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  letter-spacing: .02em;
+}
+.ctype-name span {
+  display: block;
+  font-family: var(--ff-mono); font-size: 10px;
+  font-weight: 400; color: var(--fg-muted);
+  letter-spacing: .1em;
+  margin-top: 3px;
+}
+.ctype-bar-wrap {
+  height: 8px; background: var(--bg-2);
+  border-radius: 4px; overflow: hidden;
+}
+.ctype-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-3), var(--green));
+  border-radius: 4px;
+  transform-origin: left; transform: scaleX(var(--w, 0));
+  transition: transform 1.4s var(--ease-out);
+}
+.ctype-v {
+  text-align: right;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 18px; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.ctype-v span {
+  display: block;
+  font-family: var(--ff-mono); font-size: 9px;
+  font-weight: 400; color: var(--fg-muted);
+  letter-spacing: .18em; text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · TOP CONTENT HIGHLIGHTS
+   ═══════════════════════════════════════════════════════════════════════ */
+.hl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 2rem;
+}
+@media (max-width: 900px) { .hl-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .hl-grid { grid-template-columns: 1fr; } }
+.hl-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.2rem 1.2rem 1.3rem;
+  background: var(--surface);
+  display: flex; flex-direction: column; gap: 12px;
+  transition: transform .3s var(--ease-out), border-color .3s var(--ease-out);
+}
+.hl-card:hover { transform: translateY(-3px); border-color: var(--line-hi); }
+.hl-card-head {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.hl-card-handle {
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--fg); letter-spacing: .04em;
+}
+.hl-card-plat {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--pc, var(--green));
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .12);
+}
+.hl-card-thumb {
+  aspect-ratio: 9 / 16;
+  background: linear-gradient(135deg, var(--surface-2), var(--bg-2));
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-ghost); letter-spacing: .25em;
+}
+.hl-card-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .12em; text-transform: uppercase;
+}
+.hl-card-metrics b {
+  display: block;
+  font-family: var(--ff-display);
+  font-size: 16px; color: var(--fg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+  text-transform: none;
+}
+.hl-card-metrics div { text-align: center; }
+.hl-card-metrics div:first-child { text-align: left; }
+.hl-card-metrics div:last-child  { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · FINAL RANKING TABLE (compact)
+   ═══════════════════════════════════════════════════════════════════════ */
+.final-rank {
+  margin-top: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.final-rank-head {
+  display: grid;
+  grid-template-columns: 50px 1fr 100px 100px 110px;
+  gap: 12px;
+  padding: 12px 18px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.final-rank-head div:nth-child(3),
+.final-rank-head div:nth-child(4),
+.final-rank-head div:nth-child(5) { text-align: right; }
+@media (max-width: 720px) {
+  .final-rank-head { grid-template-columns: 40px 1fr 90px; }
+  .final-rank-head div:nth-child(3),
+  .final-rank-head div:nth-child(4) { display: none; }
+}
+.final-rank-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 100px 100px 110px;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+  transition: background .25s var(--ease-out);
+}
+.final-rank-row:hover { background: oklch(0.15 0.03 148 / .25); }
+.final-rank-row:last-child { border-bottom: none; }
+@media (max-width: 720px) {
+  .final-rank-row { grid-template-columns: 40px 1fr 90px; }
+  .final-rank-row .col-content,
+  .final-rank-row .col-views { display: none; }
+}
+.final-rank-row .col-rank {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg-muted);
+}
+.final-rank-row.r1 .col-rank { color: var(--gold); font-size: 17px; }
+.final-rank-row.r2 .col-rank,
+.final-rank-row.r3 .col-rank { color: var(--fg); font-size: 15px; }
+.final-rank-row .col-name {
+  display: flex; align-items: center; gap: 12px; min-width: 0;
+}
+.final-rank-row .col-name .a {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--line-hi);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 11px; color: var(--fg);
+  flex-shrink: 0;
+}
+.final-rank-row.r1 .col-name .a {
+  background: linear-gradient(145deg, oklch(0.82 0.15 92 / .3), oklch(0.62 0.13 92 / .15));
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+.final-rank-row .col-name .n {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.final-rank-row .col-name .h {
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .04em;
+}
+.final-rank-row .col-content,
+.final-rank-row .col-views,
+.final-rank-row .col-pts {
+  text-align: right;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px; color: var(--fg);
+}
+.final-rank-row .col-pts { color: var(--green); font-size: 16px; }
+.final-rank-row.r1 .col-pts { color: var(--gold); }
+
+.results-section-actions {
+  display: flex; justify-content: center; margin-top: 2rem;
+}
+.results-action-btn {
+  appearance: none; border: 1px solid var(--line-hi);
+  background: transparent; color: var(--fg);
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 12px 22px; border-radius: 999px;
+  cursor: pointer;
+  transition: background .25s var(--ease-out), border-color .25s var(--ease-out);
+}
+.results-action-btn:hover { background: var(--surface-2); border-color: var(--green-dim); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TOP CAPTCHA — imposible, solo en página principal sobre el ranking
+   ═══════════════════════════════════════════════════════════════════════ */
+.topcaptcha-host {
+  position: relative;
+}
+.topcaptcha-host > :not(.topcaptcha) {
+  filter: blur(7px) saturate(.6);
+  pointer-events: none;
+  user-select: none;
+  transition: filter .4s var(--ease-out);
+}
+.topcaptcha-host.is-unlocked > :not(.topcaptcha) {
+  filter: none;
+  pointer-events: auto;
+  user-select: auto;
+}
+.topcaptcha-host.is-unlocked > .topcaptcha { display: none; }
+
+.topcaptcha {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2rem, 8vh, 5rem) 1rem 2rem;
+  z-index: 5;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, oklch(0.76 0.19 148 / .08), transparent 70%),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg) 70%, transparent) 0%, color-mix(in oklab, var(--bg) 90%, transparent) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.topcaptcha-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--line-hi);
+  border-radius: 12px;
+  padding: 22px 22px 18px;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.02) inset,
+    0 0 60px var(--green-glow);
+  position: relative;
+  overflow: hidden;
+  animation: topCapIn .5s var(--ease-out);
+}
+@keyframes topCapIn {
+  from { opacity: 0; transform: translateY(14px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+.topcaptcha-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, var(--green-glow) 100%);
+  pointer-events: none;
+}
+.topcaptcha-card > * { position: relative; }
+
+.topcaptcha-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.topcaptcha-brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.topcaptcha-logo {
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.topcaptcha-brandname {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  letter-spacing: .02em;
+}
+.topcaptcha-brandsub {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.topcaptcha-tag {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--green);
+  padding: 4px 9px;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .08);
+}
+
+.topcaptcha-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  line-height: 1.05; letter-spacing: -.02em;
+  color: var(--fg);
+  text-align: center;
+  margin-bottom: 12px;
+}
+.topcaptcha-title em { font-style: normal; color: var(--green); }
+.topcaptcha-prompt {
+  text-align: center;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: var(--fg-dim);
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+.topcaptcha-prompt b { color: var(--fg); font-weight: 600; }
+
+.topcaptcha-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--bg-2);
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.topcaptcha-tile {
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(145deg, var(--surface-2), var(--bg-2));
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(28px, 6vw, 38px);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  transition: transform .2s var(--ease-out), border-color .2s var(--ease-out);
+}
+.topcaptcha-tile:hover { transform: scale(1.03); border-color: var(--line-hi); }
+.topcaptcha-tile.is-selected {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px var(--green) inset;
+  background: linear-gradient(145deg, oklch(0.76 0.19 148 / .25), oklch(0.55 0.18 148 / .15));
+}
+.topcaptcha-tile.is-selected::after {
+  content: '✓';
+  position: absolute; top: 4px; right: 6px;
+  font-family: var(--ff-mono); font-size: 14px;
+  color: var(--green); font-weight: 700;
+}
+.topcaptcha-tile.shake { animation: topCapShake .35s ease; }
+@keyframes topCapShake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-5px); }
+  75%     { transform: translateX(5px); }
+}
+
+.topcaptcha-foot {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.topcaptcha-refresh {
+  width: 40px; height: 40px;
+  appearance: none; border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--fg-dim);
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, transform .3s;
+}
+.topcaptcha-refresh:hover { color: var(--fg); border-color: var(--line-hi); transform: rotate(180deg); }
+.topcaptcha-status {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  transition: color .25s ease;
+}
+.topcaptcha-status.is-hot  { color: var(--gold); }
+.topcaptcha-status.is-rage { color: #ff5d5d; animation: topCapShake .35s ease; }
+.topcaptcha-verify {
+  appearance: none; border: 0;
+  background: var(--green);
+  color: #07110A;
+  font-family: var(--ff-mono); font-weight: 700;
+  font-size: 11px; letter-spacing: .2em;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.topcaptcha-verify:hover { background: var(--green-2); transform: translateY(-1px); }
+.topcaptcha-verify:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.topcaptcha-legal {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-ghost);
+  text-align: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.topcaptcha-link { color: var(--fg-muted); cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -1596,6 +2428,23 @@ body::after {
     <span id="status-text">SYNC · EN VIVO</span>
   </div>
 </header>
+
+<!-- ══════════════════ TAB NAV ══════════════════ -->
+<nav class="tabs" role="tablist" aria-label="Vistas">
+  <div class="tabs-inner">
+    <button class="tab-btn" id="tab-campaign" role="tab" aria-selected="true"
+            aria-controls="view-campaign" onclick="switchView('campaign')">
+      <span class="tab-dot"></span>Campaña
+    </button>
+    <button class="tab-btn" id="tab-results" role="tab" aria-selected="false"
+            aria-controls="view-results" onclick="switchView('results')">
+      <span class="tab-dot"></span>Resultados <span class="tab-tag">PREVIEW</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════ VIEW · CAMPAÑA ══════════════════ -->
+<div id="view-campaign" class="view is-active" role="tabpanel" aria-labelledby="tab-campaign">
 
 <!-- ══════════════════ HERO ══════════════════ -->
 <section class="hero">
@@ -1960,25 +2809,63 @@ body::after {
     <div class="section-sub live">ACTUALIZADO · AUTO 5 MIN</div>
   </div>
 
-  <div class="rank-tools">
-    <div class="search">
-      <span class="search-icon"></span>
-      <input type="text" id="search" placeholder="Busca tu nombre o handle…"
-             autocomplete="off" autocorrect="off" spellcheck="false"
-             oninput="searchCreator(this.value)">
+  <div class="topcaptcha-host" id="topCaptchaHost">
+    <div class="rank-tools">
+      <div class="search">
+        <span class="search-icon"></span>
+        <input type="text" id="search" placeholder="Busca tu nombre o handle…"
+               autocomplete="off" autocorrect="off" spellcheck="false"
+               oninput="searchCreator(this.value)">
+      </div>
     </div>
 
+    <div class="search-hits" id="search-hits"></div>
+
+    <div class="rank-head">
+      <span>#</span>
+      <span>Creador</span>
+    </div>
+
+    <div class="ranking" id="ranking"></div>
+    <button class="more" id="more-btn" onclick="more()">Ver más creadores</button>
+
+    <!-- ══════ CAPTCHA IMPOSIBLE — solo para ver el TOP ══════ -->
+    <div class="topcaptcha" id="topCaptcha" role="dialog" aria-modal="true" aria-labelledby="topCaptchaTitle">
+      <div class="topcaptcha-card">
+        <div class="topcaptcha-head">
+          <div class="topcaptcha-brand">
+            <span class="topcaptcha-logo">⚽</span>
+            <div>
+              <div class="topcaptcha-brandname">CreatorCheck™</div>
+              <div class="topcaptcha-brandsub">Anti-bot · v2.6</div>
+            </div>
+          </div>
+          <div class="topcaptcha-tag">SECURE</div>
+        </div>
+
+        <div class="topcaptcha-title" id="topCaptchaTitle">
+          Verifica que eres humano<br><em>para ver el TOP 33.</em>
+        </div>
+        <div class="topcaptcha-prompt">
+          Selecciona todas las imágenes con un <b>balón de fútbol ⚽</b>
+        </div>
+
+        <div class="topcaptcha-grid" id="topCaptchaGrid" aria-label="captcha"></div>
+
+        <div class="topcaptcha-foot">
+          <button class="topcaptcha-refresh" id="topCaptchaRefresh" type="button" aria-label="Recargar">↻</button>
+          <div class="topcaptcha-status" id="topCaptchaStatus">0 intentos</div>
+          <button class="topcaptcha-verify" id="topCaptchaVerify" type="button">VERIFICAR</button>
+        </div>
+
+        <div class="topcaptcha-legal">
+          Protegido por CreatorCheck™ ·
+          <span class="topcaptcha-link">Privacidad</span> ·
+          <span class="topcaptcha-link">Términos</span>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="search-hits" id="search-hits"></div>
-
-  <div class="rank-head">
-    <span>#</span>
-    <span>Creador</span>
-  </div>
-
-  <div class="ranking" id="ranking"></div>
-  <button class="more" id="more-btn" onclick="more()">Ver más creadores</button>
 </section>
 
 <!-- ══════════════════ CTA ══════════════════ -->
@@ -2049,6 +2936,434 @@ body::after {
     </blockquote>
   </div>
 </div>
+
+</div><!-- /#view-campaign -->
+
+<!-- ══════════════════ VIEW · RESULTADOS ══════════════════ -->
+<div id="view-results" class="view" role="tabpanel" aria-labelledby="tab-results" hidden>
+
+  <!-- HERO RESULTADOS -->
+  <section class="results-hero">
+    <div class="data-badge">Datos · pendiente sync Google Sheets</div>
+    <div class="results-eyebrow">Reporte · Edición 2026</div>
+    <h1 class="results-title">Resultados<br><em>de la campaña.</em></h1>
+    <p class="results-sub">
+      Cierre oficial de Creators Cup México 2026. Métricas consolidadas de las tres fases,
+      desempeño por plataforma, ranking final y los contenidos que marcaron la pauta.
+    </p>
+    <div class="results-meta-row">
+      <span>Periodo · <b>1 MAR — 25 JUN 2026</b></span>
+      <span>Creadores · <b>333</b></span>
+      <span>Última sync · <b id="results-sync">— · —</b></span>
+    </div>
+  </section>
+
+  <!-- KPIs GLOBALES -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R01 — Cifras globales</div>
+        <h2 class="section-title">La campaña<br>en una mirada.</h2>
+      </div>
+      <div class="section-sub">CONSOLIDADO · 3 FASES</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-k">Alcance total</div>
+        <div class="kpi-v accent">—<span class="u">imp</span></div>
+        <div class="kpi-foot">Suma de impresiones reportadas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Views totales</div>
+        <div class="kpi-v">—<span class="u">views</span></div>
+        <div class="kpi-foot">Reels · Shorts · TikTok</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Engagement total</div>
+        <div class="kpi-v">—<span class="u">int</span></div>
+        <div class="kpi-foot">Likes + comentarios + shares + saves</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Engagement rate</div>
+        <div class="kpi-v">—<span class="u">%</span></div>
+        <div class="kpi-foot"><span class="up">▲</span> vs benchmark categoría</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Contenidos publicados</div>
+        <div class="kpi-v">—</div>
+        <div class="kpi-foot">Validados por la organización</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Creadores activos</div>
+        <div class="kpi-v">— <span class="u">de 333</span></div>
+        <div class="kpi-foot">Generaron mínimo 1 contenido</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Réplicas generadas</div>
+        <div class="kpi-v">—</div>
+        <div class="kpi-foot">Cross-posting multi-plataforma</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-k">Puntos otorgados</div>
+        <div class="kpi-v accent">—<span class="u">pts</span></div>
+        <div class="kpi-foot">Score total de la temporada</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PODIO FINAL -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R02 — Podio final</div>
+        <h2 class="section-title">Los que se llevaron<br>el Mundial.</h2>
+      </div>
+      <div class="section-sub">TOP 3 · TEMPORADA</div>
+    </div>
+
+    <div class="podio">
+      <article class="podium-card p2">
+        <div class="podium-rank">02</div>
+        <div class="podium-medal">— Plata —</div>
+        <div class="podium-avt">—</div>
+        <div class="podium-name">Pendiente</div>
+        <div class="podium-handle">@handle</div>
+        <div class="podium-pts">—</div>
+        <div class="podium-pts-lbl">puntos</div>
+      </article>
+
+      <article class="podium-card p1">
+        <div class="podium-rank">01</div>
+        <div class="podium-medal">★ Campeón ★</div>
+        <div class="podium-avt">—</div>
+        <div class="podium-name">Pendiente</div>
+        <div class="podium-handle">@handle</div>
+        <div class="podium-pts">—</div>
+        <div class="podium-pts-lbl">puntos</div>
+      </article>
+
+      <article class="podium-card p3">
+        <div class="podium-rank">03</div>
+        <div class="podium-medal">— Bronce —</div>
+        <div class="podium-avt">—</div>
+        <div class="podium-name">Pendiente</div>
+        <div class="podium-handle">@handle</div>
+        <div class="podium-pts">—</div>
+        <div class="podium-pts-lbl">puntos</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- BREAKDOWN POR FASE -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R03 — Fase por fase</div>
+        <h2 class="section-title">Tres fases.<br>Tres resultados.</h2>
+      </div>
+      <div class="section-sub">CLASIFICATORIA → SEMIS → FINAL</div>
+    </div>
+
+    <div class="phase-results">
+      <article class="phase-result done">
+        <div class="phase-result-head">
+          <div class="phase-result-num">Fase 01 / 03</div>
+          <div class="phase-result-status">Cerrada</div>
+        </div>
+        <div class="phase-result-title">Clasificatoria</div>
+        <div class="phase-result-dates">1 MAR — 31 MAY 2026</div>
+        <div class="phase-result-stats">
+          <div class="phase-result-stat">
+            <div class="k">Creadores activos</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Contenidos</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Views</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Engagement</div>
+            <div class="v accent">—</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase-result">
+        <div class="phase-result-head">
+          <div class="phase-result-num">Fase 02 / 03</div>
+          <div class="phase-result-status pending">Pendiente</div>
+        </div>
+        <div class="phase-result-title">Semifinal</div>
+        <div class="phase-result-dates">1 — 20 JUN 2026</div>
+        <div class="phase-result-stats">
+          <div class="phase-result-stat">
+            <div class="k">Top 33 clasificados</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Contenidos</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Views</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Engagement</div>
+            <div class="v accent">—</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase-result">
+        <div class="phase-result-head">
+          <div class="phase-result-num">Fase 03 / 03</div>
+          <div class="phase-result-status pending">Pendiente</div>
+        </div>
+        <div class="phase-result-title">Final</div>
+        <div class="phase-result-dates">21 — 25 JUN 2026</div>
+        <div class="phase-result-stats">
+          <div class="phase-result-stat">
+            <div class="k">Finalistas</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Contenidos</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Views</div>
+            <div class="v">—</div>
+          </div>
+          <div class="phase-result-stat">
+            <div class="k">Engagement</div>
+            <div class="v accent">—</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- BREAKDOWN POR PLATAFORMA -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R04 — Por plataforma</div>
+        <h2 class="section-title">Dónde<br>se jugó.</h2>
+      </div>
+      <div class="section-sub">VIEWS · ENGAGEMENT · CONTENIDOS</div>
+    </div>
+
+    <div class="plat-grid">
+      <article class="plat-card" style="--pc: oklch(0.75 0.21 25);">
+        <div class="plat-card-head">
+          <span class="plat-card-dot"></span>
+          <span class="plat-card-name">TikTok</span>
+        </div>
+        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
+        <div class="plat-card-row"><span>Contenidos</span><b>—</b></div>
+        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
+        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
+      </article>
+
+      <article class="plat-card" style="--pc: oklch(0.72 0.19 330);">
+        <div class="plat-card-head">
+          <span class="plat-card-dot"></span>
+          <span class="plat-card-name">Instagram</span>
+        </div>
+        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
+        <div class="plat-card-row"><span>Reels + Posts + Stories</span><b>—</b></div>
+        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
+        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
+      </article>
+
+      <article class="plat-card" style="--pc: oklch(0.78 0.18 25);">
+        <div class="plat-card-head">
+          <span class="plat-card-dot"></span>
+          <span class="plat-card-name">YouTube Shorts</span>
+        </div>
+        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
+        <div class="plat-card-row"><span>Shorts publicados</span><b>—</b></div>
+        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
+        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
+      </article>
+
+      <article class="plat-card" style="--pc: oklch(0.72 0.15 240);">
+        <div class="plat-card-head">
+          <span class="plat-card-dot"></span>
+          <span class="plat-card-name">Facebook + X</span>
+        </div>
+        <div class="plat-card-v">—<span class="u" style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
+        <div class="plat-card-row"><span>Posts + Tweets</span><b>—</b></div>
+        <div class="plat-card-row"><span>Engagement</span><b>—</b></div>
+        <div class="plat-card-row"><span>ER promedio</span><b>—%</b></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- BREAKDOWN POR TIPO DE CONTENIDO -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R05 — Por tipo de contenido</div>
+        <h2 class="section-title">Qué<br>se publicó.</h2>
+      </div>
+      <div class="section-sub">DISTRIBUCIÓN POR FORMATO</div>
+    </div>
+
+    <div class="ctype-list">
+      <div class="ctype-row">
+        <div class="ctype-name">TikTok<span>Verticales · 9:16</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .85;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+      <div class="ctype-row">
+        <div class="ctype-name">Reels<span>Instagram · 9:16</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .78;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+      <div class="ctype-row">
+        <div class="ctype-name">YouTube Shorts<span>Vertical · 9:16</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .55;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+      <div class="ctype-row">
+        <div class="ctype-name">Instagram Stories<span>Efímero · 24h</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .42;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+      <div class="ctype-row">
+        <div class="ctype-name">Facebook Post + Reel<span>Mixto</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .28;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+      <div class="ctype-row">
+        <div class="ctype-name">Tweets (X)<span>Texto · imagen</span></div>
+        <div class="ctype-bar-wrap"><div class="ctype-bar" style="--w: .18;"></div></div>
+        <div class="ctype-v">—<span>Contenidos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP CONTENIDOS -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R06 — Highlights</div>
+        <h2 class="section-title">Los contenidos<br>que la rompieron.</h2>
+      </div>
+      <div class="section-sub">TOP PERFORMANCE</div>
+    </div>
+
+    <div class="hl-grid">
+      <article class="hl-card" style="--pc: oklch(0.75 0.21 25);">
+        <div class="hl-card-head">
+          <span class="hl-card-handle">@handle</span>
+          <span class="hl-card-plat">TikTok</span>
+        </div>
+        <div class="hl-card-thumb">CONTENIDO</div>
+        <div class="hl-card-metrics">
+          <div><b>—</b>Views</div>
+          <div><b>—</b>Likes</div>
+          <div><b>—</b>Shares</div>
+        </div>
+      </article>
+
+      <article class="hl-card" style="--pc: oklch(0.72 0.19 330);">
+        <div class="hl-card-head">
+          <span class="hl-card-handle">@handle</span>
+          <span class="hl-card-plat">Reel</span>
+        </div>
+        <div class="hl-card-thumb">CONTENIDO</div>
+        <div class="hl-card-metrics">
+          <div><b>—</b>Views</div>
+          <div><b>—</b>Likes</div>
+          <div><b>—</b>Shares</div>
+        </div>
+      </article>
+
+      <article class="hl-card" style="--pc: oklch(0.78 0.18 25);">
+        <div class="hl-card-head">
+          <span class="hl-card-handle">@handle</span>
+          <span class="hl-card-plat">Shorts</span>
+        </div>
+        <div class="hl-card-thumb">CONTENIDO</div>
+        <div class="hl-card-metrics">
+          <div><b>—</b>Views</div>
+          <div><b>—</b>Likes</div>
+          <div><b>—</b>Shares</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- RANKING FINAL -->
+  <section class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ R07 — Ranking final</div>
+        <h2 class="section-title">Tabla<br>completa.</h2>
+      </div>
+      <div class="section-sub">TOP 33 + ACTIVOS</div>
+    </div>
+
+    <div class="final-rank">
+      <div class="final-rank-head">
+        <div>#</div>
+        <div>Creador</div>
+        <div class="col-content">Contenidos</div>
+        <div class="col-views">Views</div>
+        <div class="col-pts">Puntos</div>
+      </div>
+
+      <div class="final-rank-row r1">
+        <div class="col-rank">01</div>
+        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
+        <div class="col-content">—</div>
+        <div class="col-views">—</div>
+        <div class="col-pts">—</div>
+      </div>
+      <div class="final-rank-row r2">
+        <div class="col-rank">02</div>
+        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
+        <div class="col-content">—</div>
+        <div class="col-views">—</div>
+        <div class="col-pts">—</div>
+      </div>
+      <div class="final-rank-row r3">
+        <div class="col-rank">03</div>
+        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
+        <div class="col-content">—</div>
+        <div class="col-views">—</div>
+        <div class="col-pts">—</div>
+      </div>
+      <div class="final-rank-row">
+        <div class="col-rank">04</div>
+        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
+        <div class="col-content">—</div>
+        <div class="col-views">—</div>
+        <div class="col-pts">—</div>
+      </div>
+      <div class="final-rank-row">
+        <div class="col-rank">05</div>
+        <div class="col-name"><div class="a">—</div><div><div class="n">Pendiente</div><div class="h">@handle</div></div></div>
+        <div class="col-content">—</div>
+        <div class="col-views">—</div>
+        <div class="col-pts">—</div>
+      </div>
+    </div>
+
+    <div class="results-section-actions">
+      <button class="results-action-btn" type="button">Ver Top 33 completo</button>
+    </div>
+  </section>
+
+</div><!-- /#view-results -->
 
 <!-- ══════════════════ FOOTER ══════════════════ -->
 <footer class="footer">
@@ -2152,6 +3467,32 @@ body::after {
 </div>
 
 <script>
+/* ═══════════════════════════════════════════════════════════════════════
+   TAB SWITCH — Campaña / Resultados
+   ═══════════════════════════════════════════════════════════════════════ */
+function switchView(name) {
+  const views = { campaign: 'view-campaign', results: 'view-results' };
+  const tabs  = { campaign: 'tab-campaign', results: 'tab-results' };
+  Object.entries(views).forEach(([k, id]) => {
+    const v = document.getElementById(id);
+    const t = document.getElementById(tabs[k]);
+    if (!v || !t) return;
+    const active = k === name;
+    v.classList.toggle('is-active', active);
+    v.hidden = !active;
+    t.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  if (history.replaceState) {
+    history.replaceState(null, '', '#' + name);
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+}
+window.switchView = switchView;
+(function initTabs(){
+  const hash = (location.hash || '').replace('#','');
+  if (hash === 'results') switchView('results');
+})();
+
 /* ═══════════════════════════════════════════════════════════════════════
    GOOGLE SHEETS — live sync
    ═══════════════════════════════════════════════════════════════════════ */
@@ -2650,7 +3991,103 @@ tick();
 setInterval(tick, 1000);
 initData();
 
+/* ═══════════════════════════════════════════════════════════════════════
+   TOP CAPTCHA — imposible (no hay balones en la grilla, nunca)
+   ═══════════════════════════════════════════════════════════════════════ */
+(function initTopCaptcha(){
+  const host = document.getElementById('topCaptchaHost');
+  const grid = document.getElementById('topCaptchaGrid');
+  const statusEl = document.getElementById('topCaptchaStatus');
+  const verifyBtn = document.getElementById('topCaptchaVerify');
+  const refreshBtn = document.getElementById('topCaptchaRefresh');
+  if (!host || !grid) return;
+
+  // sin balones a propósito
+  const DECOYS = ['🥖','🍕','🚗','🎸','🌮','🐢','🍔','🎲','🎩','🧦','🪑','🛼','🪀','🧊','🐙','🥥','🛹','🎷','🪐','🧃','🪙','🥑','🪼','🎺','🪿','🐌','🦑','🛞','🛟','🪼'];
+
+  const taunts = [
+    [0,  '0 intentos · empezamos'],
+    [1,  '1 intento · sigue siendo robot'],
+    [2,  '2 intentos · ¿en serio?'],
+    [3,  '3 strikes · sospechoso'],
+    [5,  '5 fails · respira y vuelve a intentar'],
+    [7,  '7 fails · mala puntería 🎯'],
+    [10, '10 fails · deja de intentar 🤡'],
+    [13, '13 fails · no vas a poder'],
+    [17, '17 fails · esto ya es vergonzoso'],
+    [22, '22 fails · te tenemos lástima'],
+    [30, '30 fails · récord mundial de fracaso'],
+    [42, '42 · la respuesta no son clicks'],
+    [69, '69 · noice... pero sigues sin pegarle'],
+    [100,'💯 CENTENARIO DEL FAIL 🏆']
+  ];
+
+  let attempts = 0;
+  let selected = new Set();
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for (let i = a.length-1; i>0; i--) {
+      const j = (Math.random()*(i+1))|0;
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function renderGrid(){
+    selected.clear();
+    grid.innerHTML = '';
+    const picks = shuffle(DECOYS).slice(0, 9);
+    picks.forEach((emoji, i) => {
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'topcaptcha-tile';
+      tile.setAttribute('data-i', i);
+      tile.textContent = emoji;
+      tile.addEventListener('click', () => {
+        tile.classList.toggle('is-selected');
+        if (tile.classList.contains('is-selected')) selected.add(i);
+        else selected.delete(i);
+      });
+      grid.appendChild(tile);
+    });
+  }
+
+  function updateStatus(){
+    let label = taunts[0][1];
+    for (const [n,t] of taunts) if (attempts>=n) label = t;
+    statusEl.textContent = label;
+    statusEl.classList.toggle('is-hot',  attempts>=5 && attempts<13);
+    statusEl.classList.toggle('is-rage', attempts>=13);
+  }
+
+  function fail(){
+    attempts++;
+    // sacudir solo los tiles seleccionados
+    grid.querySelectorAll('.topcaptcha-tile.is-selected').forEach(t => {
+      t.classList.add('shake');
+      setTimeout(()=>t.classList.remove('shake'), 360);
+    });
+    updateStatus();
+    setTimeout(renderGrid, 420);
+  }
+
+  verifyBtn.addEventListener('click', fail);
+  refreshBtn.addEventListener('click', () => { attempts++; updateStatus(); renderGrid(); });
+
+  // konami secreto para desbloquear si alguien debe pasar: Ctrl+Shift+U
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
+      host.classList.add('is-unlocked');
+    }
+  });
+
+  renderGrid();
+  updateStatus();
+})();
+
 (function initPhaseEndModal(){
+  return; // DISABLED — fase reabierta, página visible
   if (document.getElementById('phaseEndModal')) return;
   const overlay = document.createElement('div');
   overlay.id = 'phaseEndModal';
