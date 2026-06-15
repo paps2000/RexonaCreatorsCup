@@ -3558,7 +3558,7 @@ body::after {
       </div>
       <div class="kpi" role="button" tabindex="0" data-kpi="er">
         <div class="kpi-k">Engagement rate global</div>
-        <div class="kpi-v" id="kpi-er">—<span class="u">%</span></div>
+        <div class="kpi-v" id="kpi-er">—</div>
         <div class="kpi-foot">Engagement / Views</div>
       </div>
       <div class="kpi" role="button" tabindex="0" data-kpi="contents">
@@ -4395,7 +4395,7 @@ function renderKPIs() {
   const targets = [
     ['kpi-views',    t.views,    v => fmtN(v)],
     ['kpi-eng',      t.eng,      v => fmtN(v)],
-    ['kpi-er',       t.er,       v => v.toFixed(2)],
+    ['kpi-er',       t.er,       v => v.toFixed(2) + '%'],
     ['kpi-content',  t.contents, v => fmtN(v)],
     ['kpi-creators', t.creators, v => fmtN(v)],
     ['kpi-likes',    t.likes,    v => fmtN(v)],
@@ -4702,8 +4702,10 @@ function renderInsights() {
   const nanoTier  = tiers.find(x=>x.name==='Nano');
   const topER = RESULTS_DATA.tops.er[0];
   const topV  = RESULTS_DATA.tops.views[0];
-  const months = RESULTS_DATA.months;
-  const peak = months.reduce((a,b)=> b.views>a.views?b:a, months[0]||{m:'',views:0});
+  const rank  = RESULTS_DATA.ranking || [];
+  const topCreator = rank[0];
+  const top10Views = rank.slice(0,10).reduce((s,r)=>s+r.views,0);
+  const top10Share = t.views ? (top10Views/t.views*100) : 0;
 
   const insights = [
     {
@@ -4717,18 +4719,18 @@ function renderInsights() {
       p: macroTier && nanoTier ? `Macro: <b>${(+macroTier.er).toFixed(2)}% ER</b> con ${macroTier.cnt} contenidos. Nano: <b>${nanoTier.cnt} contenidos</b> · ${fmtN(nanoTier.views)} views (el grueso de la campaña).` : '—'
     },
     {
-      tag: 'Mes más fuerte',
-      h: `<em>${peak.m}</em> fue el pico`,
-      p: `Acumuló <b>${fmtN(peak.views)} views</b> y <b>${fmtN(peak.eng)} engagement</b> en ${peak.cnt} contenidos. La campaña arrancó fuerte y se sostuvo.`
+      tag: 'Concentración',
+      h: `Top 10 acumula <em>${top10Share.toFixed(1)}%</em> del alcance`,
+      p: topCreator ? `Los 10 mejores creadores generaron <b>${fmtN(top10Views)} views</b>. <b>@${topCreator.handle.replace(/^@/,'')}</b> lidera con <b>${fmtN(topCreator.views)}</b> en ${topCreator.cnt} contenidos.` : '—'
     },
     {
       tag: 'Estrella de ER',
-      h: `<em>@${topER?.handle||'—'}</em> rompe la curva`,
+      h: `<em>@${topER?.handle?.replace(/^@/,'')||'—'}</em> rompe la curva`,
       p: topER ? `Contenido en ${topER.platform} con <b>${fmtPct(topER.er,1)} ER</b> sobre ${fmtN(topER.views)} views. Caso a estudiar para próximos briefs.` : '—'
     },
     {
       tag: 'Estrella de Views',
-      h: `<em>@${topV?.handle||'—'}</em> rompió en alcance`,
+      h: `<em>@${topV?.handle?.replace(/^@/,'')||'—'}</em> rompió en alcance`,
       p: topV ? `Single drop con <b>${fmtN(topV.views)} views</b> en ${topV.platform}. ER del ${fmtPct(topV.er,1)} — alcance masivo y consistente.` : '—'
     },
     {
@@ -4900,12 +4902,15 @@ function openKPI(kpi) {
     });
     const big = body.querySelector('.kpi-modal-num');
     if (big) {
-      const raw = big.textContent;
-      const isPct = raw.endsWith('%');
-      const num = parseFloat(raw.replace(/[^\d.\-]/g,''));
-      if (!isNaN(num)) {
-        big.textContent = '0';
-        animateNum(big, num, v => isPct ? v.toFixed(2)+'%' : fmtN(v), 900);
+      const RAW = {
+        views:t.views, eng:t.eng, er:t.er, contents:t.contents,
+        creators:t.creators, likes:t.likes, shares:t.shares, saves:t.saves,
+      };
+      const target = RAW[kpi];
+      const isPct = kpi === 'er';
+      if (typeof target === 'number') {
+        big.textContent = isPct ? '0.00%' : '0';
+        animateNum(big, target, v => isPct ? v.toFixed(2)+'%' : fmtN(v), 900);
       }
     }
   });
