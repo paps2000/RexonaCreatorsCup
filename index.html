@@ -2417,6 +2417,152 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · PLATFORM ICONS & ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════ */
+.plat-card-icon {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--pc, var(--green)) 18%, var(--bg-2));
+  color: var(--pc, var(--green));
+  transition: transform .35s var(--ease-out), background .35s var(--ease-out);
+}
+.plat-card:hover .plat-card-icon {
+  transform: scale(1.08) rotate(-4deg);
+  background: color-mix(in oklab, var(--pc, var(--green)) 28%, var(--bg-2));
+}
+.bar-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  margin-right: 8px;
+  background: color-mix(in oklab, var(--bc, var(--green)) 22%, var(--bg-2));
+  color: var(--bc, var(--green));
+}
+.lbl-ic {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  margin-right: 8px;
+  background: color-mix(in oklab, var(--bc, var(--green)) 22%, var(--bg-2));
+  color: var(--bc, var(--green));
+}
+.hl-plat-ic {
+  display: inline-flex; vertical-align: middle;
+  margin-right: 6px;
+}
+.hl-plat-ic svg { display: block; }
+.hl-thumb-platbadge {
+  display: inline-flex; align-items: center;
+  gap: 4px;
+}
+.pl-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  background: var(--bg-2);
+  color: var(--fg-dim);
+  margin-right: 4px;
+  transition: color .25s, background .25s, transform .25s;
+}
+.pl-chip:hover { color: var(--green); background: var(--surface-2); transform: translateY(-1px); }
+.pl-chip-sm { width: 16px; height: 16px; border-radius: 4px; margin-right: 2px; }
+.pl-chip-sm svg { width: 10px; height: 10px; }
+.podium-plats {
+  display: flex; justify-content: center; gap: 4px;
+  margin: 4px 0 14px;
+}
+.h-plats {
+  display: inline-flex; gap: 2px;
+  margin-left: 6px; vertical-align: middle;
+}
+
+/* Entrance animations */
+@keyframes resultsFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes resultsPop {
+  0%   { opacity: 0; transform: scale(.92); }
+  60%  { transform: scale(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+.podium-anim {
+  opacity: 0;
+  animation: resultsFadeUp .55s var(--ease-out) forwards;
+}
+.plat-card-anim {
+  opacity: 0;
+  animation: resultsFadeUp .5s var(--ease-out) forwards;
+}
+.hl-card-anim {
+  opacity: 0;
+  animation: resultsFadeUp .5s var(--ease-out) forwards;
+}
+.rk-anim {
+  opacity: 0;
+  animation: resultsFadeUp .35s var(--ease-out) forwards;
+}
+.kpi.is-popped {
+  animation: resultsPop .55s var(--ease-out);
+}
+
+/* KPI hover lift */
+.kpi[role="button"] {
+  transition: background .3s var(--ease-out), transform .25s var(--ease-out), border-color .3s var(--ease-out);
+}
+.kpi[role="button"]:hover {
+  transform: translateY(-2px);
+}
+.kpi[role="button"]:active { transform: translateY(0); }
+
+/* Podium p1 trophy glow */
+.podium-card.p1 .podium-avt {
+  animation: p1GlowPulse 3.4s ease-in-out infinite;
+}
+@keyframes p1GlowPulse {
+  0%,100% { box-shadow: 0 8px 32px oklch(0.82 0.15 92 / .25); }
+  50%     { box-shadow: 0 8px 50px oklch(0.82 0.15 92 / .55); }
+}
+
+/* Highlight thumb play pulse */
+.hl-thumb-play {
+  animation: thumbPlayPulse 2.4s ease-in-out infinite;
+}
+@keyframes thumbPlayPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.06); }
+}
+
+/* Bar fill default: hidden until observer sets transform */
+.bar-fill[data-w] { transform: scaleX(0); }
+.bar-fill { transition: transform 1.2s var(--ease-out); }
+
+/* KPI modal bar fill base */
+.kpi-modal-row .bar > span[data-w] { transform: scaleX(0); }
+
+/* Tab pulse on switch to results */
+.tab-btn[aria-selected="true"] {
+  animation: tabPulse .55s var(--ease-out);
+}
+@keyframes tabPulse {
+  0%   { box-shadow: 0 0 0 0 oklch(0.76 0.19 148 / .5); }
+  100% { box-shadow: 0 0 0 14px oklch(0.76 0.19 148 / 0); }
+}
+
+/* Subtle results-hero badge pulse */
+.data-badge { animation: dataBadgeFloat 3.2s ease-in-out infinite; }
+@keyframes dataBadgeFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .podium-anim, .plat-card-anim, .hl-card-anim, .rk-anim,
+  .data-badge, .podium-card.p1 .podium-avt, .hl-thumb-play,
+  .tab-btn[aria-selected="true"] { animation: none !important; }
+  .bar-fill[data-w], .kpi-modal-row .bar > span[data-w] { transform: scaleX(var(--w, 1)) !important; transition: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    RESULTS · CHARTS
    ═══════════════════════════════════════════════════════════════════════ */
 .chart-card {
@@ -4232,21 +4378,67 @@ function avtChar(s) {
   return (s||'?').replace(/^@/,'').slice(0,2).toUpperCase();
 }
 
+function animateNum(el, to, fmt, dur=1400) {
+  if (!el) return;
+  const start = performance.now();
+  const step = (t) => {
+    const p = Math.min((t - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(to * eased);
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 function renderKPIs() {
   const t = RESULTS_DATA.totals;
-  const set = (id,v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  set('kpi-views',    fmtN(t.views));
-  set('kpi-eng',      fmtN(t.eng));
-  set('kpi-er',       (+t.er).toFixed(2));
-  set('kpi-content',  fmtN(t.contents));
-  set('kpi-creators', fmtN(t.creators));
-  set('kpi-likes',    fmtN(t.likes));
-  set('kpi-shares',   fmtN(t.shares));
-  set('kpi-saves',    fmtN(t.saves));
-  set('hero-contents', fmtN(t.contents));
-  set('hero-creators', fmtN(t.creators));
-  set('results-sync', RESULTS_SYNC_LABEL);
+  const targets = [
+    ['kpi-views',    t.views,    v => fmtN(v)],
+    ['kpi-eng',      t.eng,      v => fmtN(v)],
+    ['kpi-er',       t.er,       v => v.toFixed(2)],
+    ['kpi-content',  t.contents, v => fmtN(v)],
+    ['kpi-creators', t.creators, v => fmtN(v)],
+    ['kpi-likes',    t.likes,    v => fmtN(v)],
+    ['kpi-shares',   t.shares,   v => fmtN(v)],
+    ['kpi-saves',    t.saves,    v => fmtN(v)],
+  ];
+
+  // hero counters animate immediately
+  const heroC = document.getElementById('hero-contents');
+  const heroP = document.getElementById('hero-creators');
+  if (heroC) animateNum(heroC, t.contents, v => fmtN(v));
+  if (heroP) animateNum(heroP, t.creators, v => fmtN(v));
+  const sync = document.getElementById('results-sync');
+  if (sync) sync.textContent = RESULTS_SYNC_LABEL;
+
+  // KPI tiles animate when scrolled into view
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const cfg = targets.find(([id]) => document.getElementById(id) === el);
+      if (cfg) {
+        const tile = el.closest('.kpi');
+        if (tile) tile.classList.add('is-popped');
+        animateNum(el, cfg[1], cfg[2]);
+      }
+      io.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  targets.forEach(([id]) => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = '0'; io.observe(el); }
+  });
 }
+
+const PLAT_ICONS = {
+  TikTok: `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82a4.28 4.28 0 0 1-2.7-1.05A4.28 4.28 0 0 1 12.7 2h-2.93v13.07a2.45 2.45 0 1 1-1.7-2.34V9.74a5.4 5.4 0 1 0 4.62 5.34V9.42a7.18 7.18 0 0 0 3.91 1.16V7.64a4.27 4.27 0 0 1 0-1.82Z"/></svg>`,
+  Instagram: `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>`,
+  YouTube: `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.4A3 3 0 0 0 .5 6.5 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.5 3 3 0 0 0 2.1 2.1C4.5 20 12 20 12 20s7.5 0 9.4-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.5ZM9.6 15.6V8.4l6.3 3.6Z"/></svg>`,
+  Facebook: `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.8 3.6-3.8 1 0 2.1.2 2.1.2v2.4h-1.2c-1.2 0-1.6.75-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg>`,
+  X: `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M18 3h3l-7.5 8.6L22 21h-6.6l-5.2-6.7L4.2 21H1.2l8-9.2L1 3h6.8l4.7 6.2L18 3Zm-1.1 16h1.7L7.2 5H5.4l11.5 14Z"/></svg>`,
+};
+function platIcon(name) { return PLAT_ICONS[name] || ''; }
 
 function avatarUrl(handle, platform) {
   const h = (handle||'').replace(/^@/,'').toLowerCase();
@@ -4270,11 +4462,12 @@ function renderPodio() {
   const medalMap = {1:'★ Campeón ★', 2:'— Plata —', 3:'— Bronce —'};
   const root = document.getElementById('podio-creators');
   if (!root) return;
-  root.innerHTML = order.map(c => {
+  root.innerHTML = order.map((c, idx) => {
     const cls = classMap.get(c.handle);
     const rank = rankMap.get(c.handle);
     const plat = (c.plats && c.plats[0]) || 'instagram';
-    return `<article class="podium-card ${cls}">
+    const platRow = (c.plats||[]).map(p => `<span class="pl-chip" title="${p}">${platIcon(p)}</span>`).join('');
+    return `<article class="podium-card ${cls} podium-anim" style="animation-delay: ${idx*120}ms;">
       <div class="podium-rank">${String(rank).padStart(2,'0')}</div>
       <div class="podium-medal">${medalMap[rank]}</div>
       <div class="podium-avt avatar avatar-lg" data-init="${avtChar(c.handle)}">
@@ -4282,6 +4475,7 @@ function renderPodio() {
       </div>
       <div class="podium-name">${c.handle}</div>
       <div class="podium-handle">@${c.handle.replace(/^@/,'')}</div>
+      <div class="podium-plats">${platRow}</div>
       <div class="podium-pts">${fmtN(c.views)}</div>
       <div class="podium-pts-lbl">views totales · ${c.cnt} contenidos</div>
     </article>`;
@@ -4292,10 +4486,10 @@ function renderPlatforms() {
   const plats = RESULTS_DATA.platforms;
   const grid = document.getElementById('plat-grid');
   if (grid) {
-    grid.innerHTML = plats.map(p => `
-      <article class="plat-card" style="--pc: ${PLAT_COLOR[p.name]||'var(--green)'};">
+    grid.innerHTML = plats.map((p, i) => `
+      <article class="plat-card plat-card-anim" style="--pc: ${PLAT_COLOR[p.name]||'var(--green)'}; animation-delay: ${i*60}ms;">
         <div class="plat-card-head">
-          <span class="plat-card-dot"></span>
+          <span class="plat-card-icon">${platIcon(p.name)}</span>
           <span class="plat-card-name">${p.name}</span>
         </div>
         <div class="plat-card-v">${fmtN(p.views)}<span style="font-size:11px;color:var(--fg-muted);margin-left:6px;letter-spacing:.1em;font-weight:400;font-family:var(--ff-mono);">views</span></div>
@@ -4311,12 +4505,11 @@ function renderPlatforms() {
     const max = Math.max(...plats.map(p=>p.views), 1);
     bars.innerHTML = plats.map(p => `
       <div class="bar-row" style="--bc: ${PLAT_COLOR[p.name]||'var(--green)'};">
-        <div class="bar-label"><span class="bar-dot"></span>${p.name}</div>
-        <div class="bar-track"><div class="bar-fill" style="--w: ${(p.views/max).toFixed(4)};"></div></div>
+        <div class="bar-label"><span class="bar-icon">${platIcon(p.name)}</span>${p.name}</div>
+        <div class="bar-track"><div class="bar-fill" data-w="${(p.views/max).toFixed(4)}"></div></div>
         <div class="bar-value">${fmtN(p.views)}<span>views · ${(p.views/RESULTS_DATA.totals.views*100).toFixed(1)}%</span></div>
       </div>`).join('');
-    // animate after layout
-    requestAnimationFrame(()=> bars.querySelectorAll('.bar-fill').forEach(b=>{}));
+    observeBars(bars);
   }
 }
 
@@ -4328,9 +4521,29 @@ function renderTiers() {
   bars.innerHTML = tiers.map(t => `
     <div class="bar-row" style="--bc: ${TIER_COLOR[t.name]||'var(--green)'};">
       <div class="bar-label"><span class="bar-dot"></span>${t.name} <span style="color:var(--fg-muted);font-weight:400;font-size:10px;font-family:var(--ff-mono);margin-left:4px;">${t.cnt} contenidos</span></div>
-      <div class="bar-track"><div class="bar-fill" style="--w: ${(t.views/max).toFixed(4)};"></div></div>
+      <div class="bar-track"><div class="bar-fill" data-w="${(t.views/max).toFixed(4)}"></div></div>
       <div class="bar-value">${fmtN(t.views)}<span>views · ${(+t.er).toFixed(2)}% ER</span></div>
     </div>`).join('');
+  observeBars(bars);
+}
+
+// Animate bar fills when scrolled into view
+function observeBars(root) {
+  const fills = root.querySelectorAll('.bar-fill[data-w]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const w = el.dataset.w;
+      // stagger inside same chart
+      const siblings = Array.from(el.closest('.bar-chart, .bar-row')?.parentNode?.querySelectorAll('.bar-fill') || []);
+      const idx = Math.max(0, siblings.indexOf(el));
+      el.style.transitionDelay = (idx * 80) + 'ms';
+      el.style.transform = `scaleX(${w})`;
+      io.unobserve(el);
+    });
+  }, { threshold: 0.2 });
+  fills.forEach(f => io.observe(f));
 }
 
 function parseEmbed(url) {
@@ -4378,16 +4591,16 @@ function renderHighlights(metric='views') {
     const playLabel = embed
       ? `<div class="hl-thumb-play">▶</div><div class="hl-thumb-label">Ver en ${c.platform}</div>`
       : (link ? `<div class="hl-thumb-label">Sin preview · abrir ↗</div>` : `<div class="hl-thumb-label">Sin link</div>`);
-    return `<article class="hl-card" style="${cardStyle}">
+    return `<article class="hl-card hl-card-anim" style="${cardStyle}; animation-delay: ${idx*80}ms;">
       <div class="hl-card-head">
         <span class="hl-card-handle">@${c.handle.replace(/^@/,'')}</span>
         <div style="display:inline-flex;align-items:center;">
-          <span class="hl-card-plat">${c.platform}</span>${openBtn}
+          <span class="hl-card-plat"><span class="hl-plat-ic">${platIcon(c.platform)}</span>${c.platform}</span>${openBtn}
         </div>
       </div>
       <div class="${thumbCls}" ${dataAttr} role="button" tabindex="0">
         <div class="hl-thumb-poster">
-          <span class="hl-thumb-platbadge">${c.platform}</span>
+          <span class="hl-thumb-platbadge"><span class="hl-plat-ic">${platIcon(c.platform)}</span>${c.platform}</span>
           <div class="hl-thumb-init avatar avatar-md" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, c.platform)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
           ${playLabel}
         </div>
@@ -4429,11 +4642,12 @@ function renderRanking(limit=10) {
     const i = idx+1;
     const rcls = i<=3 ? `r${i}` : '';
     const plat = (c.plats && c.plats[0]) || 'instagram';
-    return `<div class="final-rank-row ${rcls}">
+    const platIcons = (c.plats||[]).map(p => `<span class="pl-chip pl-chip-sm" title="${p}">${platIcon(p)}</span>`).join('');
+    return `<div class="final-rank-row ${rcls} rk-anim" style="animation-delay: ${idx*30}ms;">
       <div class="col-rank">${String(i).padStart(2,'0')}</div>
       <div class="col-name">
         <div class="a avatar" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, plat)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
-        <div><div class="n">${c.handle}</div><div class="h">@${c.handle.replace(/^@/,'')} · ${c.cnt} contenidos · ${c.plats.join(' / ')}</div></div>
+        <div><div class="n">${c.handle}</div><div class="h">@${c.handle.replace(/^@/,'')} · ${c.cnt} contenidos <span class="h-plats">${platIcons}</span></div></div>
       </div>
       <div class="col-content">${fmtN(c.cnt)}</div>
       <div class="col-views">${fmtN(c.views)}</div>
@@ -4568,11 +4782,11 @@ function openKPI(kpi) {
   const big = `<div class="kpi-modal-num">${BIG[kpi]}</div>
                <div class="kpi-modal-sub">${SUB[kpi]||''}</div>`;
 
-  const bar = (label, color, val, max, valLabel) => {
+  const bar = (label, color, val, max, valLabel, icon='') => {
     const w = max ? (val/max).toFixed(4) : 0;
     return `<div class="kpi-modal-row" style="--bc: ${color};">
-      <div class="lbl"><span class="dot"></span>${label}</div>
-      <div class="bar"><span style="--w: ${w};"></span></div>
+      <div class="lbl">${icon ? `<span class="lbl-ic">${icon}</span>` : '<span class="dot"></span>'}${label}</div>
+      <div class="bar"><span data-w="${w}"></span></div>
       <div class="val">${valLabel.main}<span>${valLabel.sub||''}</span></div>
     </div>`;
   };
@@ -4581,7 +4795,7 @@ function openKPI(kpi) {
     const ps = plats.filter(p => getVal(p) > 0).sort((a,b)=>getVal(b)-getVal(a));
     const max = Math.max(...ps.map(getVal), 1);
     return ps.map(p => bar(p.name, PLAT_COLOR[p.name]||'var(--green)', getVal(p), max,
-      { main: fmtMain(getVal(p), p), sub: fmtSub? fmtSub(getVal(p), p) : '' })).join('');
+      { main: fmtMain(getVal(p), p), sub: fmtSub? fmtSub(getVal(p), p) : '' }, platIcon(p.name))).join('');
   }
   function tierBars(getVal, fmtMain, fmtSub) {
     const ts = tiers.filter(x => getVal(x) > 0).sort((a,b)=>getVal(b)-getVal(a));
@@ -4641,8 +4855,24 @@ function openKPI(kpi) {
   const modal = document.getElementById('kpi-modal');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // animate bars in
-  requestAnimationFrame(()=> body.querySelectorAll('.bar > span').forEach(s=>{}));
+  // stagger bar fills + animate numbers
+  requestAnimationFrame(() => {
+    const bars = body.querySelectorAll('.bar > span[data-w]');
+    bars.forEach((s, i) => {
+      s.style.transitionDelay = (i * 50) + 'ms';
+      requestAnimationFrame(() => { s.style.setProperty('--w', s.dataset.w); });
+    });
+    const big = body.querySelector('.kpi-modal-num');
+    if (big) {
+      const raw = big.textContent;
+      const isPct = raw.endsWith('%');
+      const num = parseFloat(raw.replace(/[^\d.\-]/g,''));
+      if (!isNaN(num)) {
+        big.textContent = '0';
+        animateNum(big, num, v => isPct ? v.toFixed(2)+'%' : fmtN(v), 900);
+      }
+    }
+  });
 }
 function closeKPI() {
   const modal = document.getElementById('kpi-modal');
