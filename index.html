@@ -4440,19 +4440,55 @@ const PLAT_ICONS = {
 };
 function platIcon(name) { return PLAT_ICONS[name] || ''; }
 
-function avatarUrl(handle, platform) {
+function avatarCascade(handle, plats) {
   const h = (handle||'').replace(/^@/,'').toLowerCase();
-  const p = (platform||'instagram').toLowerCase();
-  const svc = (p==='tiktok'||p==='instagram'||p==='youtube'||p==='facebook'||p==='twitter'||p==='x') ? p : 'instagram';
-  return `https://unavatar.io/${svc==='x'?'twitter':svc}/${encodeURIComponent(h)}?fallback=false`;
+  const order = [];
+  const norm = (p) => {
+    p = (p||'').toLowerCase();
+    if (p === 'x') return 'twitter';
+    if (['tiktok','instagram','youtube','facebook','twitter'].includes(p)) return p;
+    return null;
+  };
+  // try platforms where this creator actually posted, prioritized
+  const priority = ['Instagram','TikTok','YouTube','Facebook','X'];
+  const provided = (plats || []).map(norm).filter(Boolean);
+  const sorted = priority.map(norm).filter(p => provided.includes(p))
+                 .concat(provided.filter(p => !priority.map(norm).includes(p)));
+  const uniq = [...new Set(sorted)];
+  if (!uniq.length) uniq.push('instagram','tiktok','twitter');
+  uniq.forEach(p => order.push(`https://unavatar.io/${p}/${encodeURIComponent(h)}?fallback=false`));
+  // generic unavatar (searches across providers) as another shot
+  order.push(`https://unavatar.io/${encodeURIComponent(h)}?fallback=false`);
+  // deterministic generated avatar — always returns a valid SVG
+  order.push(`https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(h)}&radius=50&backgroundColor=11251a,1a3024,245438&textColor=b5c9bc`);
+  return order;
 }
-function avatarImg(handle, platform, sizeCls='') {
-  const url = avatarUrl(handle, platform);
+
+function avatarUrl(handle, platform) {
+  return avatarCascade(handle, platform ? [platform] : [])[0];
+}
+
+function avatarImgChain(handle, plats) {
+  const list = avatarCascade(handle, plats);
+  // first src is primary; rest stored as comma-separated fallbacks
   const init = avtChar(handle);
-  return `<span class="avatar ${sizeCls}" data-init="${init}">
-    <img loading="lazy" referrerpolicy="no-referrer" src="${url}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');">
-  </span>`;
+  const rest = list.slice(1).join('|');
+  return `<img loading="lazy" referrerpolicy="no-referrer" src="${list[0]}" data-fbk="${rest}" alt="" onerror="avatarFallback(this)">`;
 }
+function avatarFallback(img) {
+  const rest = img.getAttribute('data-fbk') || '';
+  if (!rest) {
+    const parent = img.parentNode;
+    img.remove();
+    if (parent) parent.classList.add('avatar-fallback');
+    return;
+  }
+  const arr = rest.split('|');
+  const next = arr.shift();
+  img.setAttribute('data-fbk', arr.join('|'));
+  img.src = next;
+}
+window.avatarFallback = avatarFallback;
 
 function renderPodio() {
   const top3 = RESULTS_DATA.ranking.slice(0, 3);
@@ -4471,7 +4507,7 @@ function renderPodio() {
       <div class="podium-rank">${String(rank).padStart(2,'0')}</div>
       <div class="podium-medal">${medalMap[rank]}</div>
       <div class="podium-avt avatar avatar-lg" data-init="${avtChar(c.handle)}">
-        <img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, plat)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');">
+        ${avatarImgChain(c.handle, c.plats || [plat])}
       </div>
       <div class="podium-name">${c.handle}</div>
       <div class="podium-handle">@${c.handle.replace(/^@/,'')}</div>
@@ -4601,7 +4637,7 @@ function renderHighlights(metric='views') {
       <div class="${thumbCls}" ${dataAttr} role="button" tabindex="0">
         <div class="hl-thumb-poster">
           <span class="hl-thumb-platbadge"><span class="hl-plat-ic">${platIcon(c.platform)}</span>${c.platform}</span>
-          <div class="hl-thumb-init avatar avatar-md" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, c.platform)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
+          <div class="hl-thumb-init avatar avatar-md" data-init="${avtChar(c.handle)}">${avatarImgChain(c.handle, [c.platform])}</div>
           ${playLabel}
         </div>
       </div>
@@ -4646,7 +4682,7 @@ function renderRanking(limit=10) {
     return `<div class="final-rank-row ${rcls} rk-anim" style="animation-delay: ${idx*30}ms;">
       <div class="col-rank">${String(i).padStart(2,'0')}</div>
       <div class="col-name">
-        <div class="a avatar" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, plat)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
+        <div class="a avatar" data-init="${avtChar(c.handle)}">${avatarImgChain(c.handle, c.plats || [plat])}</div>
         <div><div class="n">${c.handle}</div><div class="h">@${c.handle.replace(/^@/,'')} · ${c.cnt} contenidos <span class="h-plats">${platIcons}</span></div></div>
       </div>
       <div class="col-content">${fmtN(c.cnt)}</div>
