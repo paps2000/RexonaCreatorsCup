@@ -3161,7 +3161,7 @@ body::after {
     </button>
     <button class="tab-btn" id="tab-results" role="tab" aria-selected="false"
             aria-controls="view-results" onclick="switchView('results')">
-      <span class="tab-dot"></span>Resultados <span class="tab-tag">PREVIEW</span>
+      <span class="tab-dot"></span>Resultados
     </button>
   </div>
 </nav>
@@ -4773,7 +4773,7 @@ function renderHighlights(metric='views') {
     const dataAttr = embed ? `data-embed="${embed.embed}" data-type="${embed.type}"` : '';
     const playLabel = embed
       ? `<div class="hl-thumb-play">▶</div><div class="hl-thumb-label">Ver en ${c.platform}</div>`
-      : (link ? `<div class="hl-thumb-label">Sin preview · abrir ↗</div>` : `<div class="hl-thumb-label">Sin link</div>`);
+      : (link ? `<div class="hl-thumb-label">Abrir en la red ↗</div>` : `<div class="hl-thumb-label">Sin link</div>`);
     return `<article class="hl-card hl-card-anim" style="${cardStyle}; animation-delay: ${idx*80}ms;">
       <div class="hl-card-head">
         <span class="hl-card-handle">@${c.handle.replace(/^@/,'')}</span>
@@ -4856,34 +4856,34 @@ function renderInsights() {
 
   const insights = [
     {
-      tag: 'Plataforma líder',
-      h: `TikTok pone el <em>engagement rate</em> más alto`,
-      p: tt ? `TikTok cierra con <b>${(+tt.er).toFixed(2)}% ER</b> vs <b>${ig?(+ig.er).toFixed(2):'—'}% de Instagram</b>. IG gana en views absolutos (${fmtN(ig?.views||0)}) pero TikTok mueve más interacción por view.` : '—'
+      tag: 'Plataforma para comunidad',
+      h: `TikTok lidera <em>la conversación</em>`,
+      p: tt ? `TikTok cierra con <b>${(+tt.er).toFixed(2)}% de engagement</b> contra <b>${ig?(+ig.er).toFixed(2):'—'}%</b> de Instagram. IG gana en reproducciones totales (${fmtN(ig?.views||0)}), pero cada video en TikTok mueve más interacción y comentarios — ideal para construir <b>brand love</b>.` : '—'
     },
     {
-      tag: 'Tier sweet spot',
-      h: `Macro convierte mejor, <em>Nano</em> carga el volumen`,
-      p: macroTier && nanoTier ? `Macro: <b>${(+macroTier.er).toFixed(2)}% ER</b> con ${macroTier.cnt} contenidos. Nano: <b>${nanoTier.cnt} contenidos</b> · ${fmtN(nanoTier.views)} views (el grueso de la campaña).` : '—'
+      tag: 'Mix de creadores',
+      h: `Macro convierten mejor, <em>Nano</em> mueven el volumen`,
+      p: macroTier && nanoTier ? `Macro: <b>${(+macroTier.er).toFixed(2)}% de engagement</b> con apenas ${macroTier.cnt} contenidos. Nano: <b>${nanoTier.cnt} piezas</b> con ${fmtN(nanoTier.views)} reproducciones — la base que sostiene la presencia diaria de la marca.` : '—'
     },
     {
-      tag: 'Concentración',
-      h: `Top 10 acumula <em>${top10Share.toFixed(1)}%</em> del alcance`,
-      p: topCreator ? `Los 10 mejores creadores generaron <b>${fmtN(top10Views)} views</b>. <b>@${topCreator.handle.replace(/^@/,'')}</b> lidera con <b>${fmtN(topCreator.views)}</b> en ${topCreator.cnt} contenidos.` : '—'
+      tag: 'Top performers',
+      h: `Top 10 entrega <em>${top10Share.toFixed(0)}%</em> del alcance`,
+      p: topCreator ? `Los 10 mejores creadores generaron <b>${fmtN(top10Views)} reproducciones</b>. <b>@${topCreator.handle.replace(/^@/,'')}</b> lidera con <b>${fmtN(topCreator.views)}</b> en solo ${topCreator.cnt} piezas. Candidatos naturales para programa premium con la marca.` : '—'
     },
     {
-      tag: 'Estrella de ER',
-      h: `<em>@${topER?.handle?.replace(/^@/,'')||'—'}</em> rompe la curva`,
-      p: topER ? `Contenido en ${topER.platform} con <b>${fmtPct(topER.er,1)} ER</b> sobre ${fmtN(topER.views)} views. Caso a estudiar para próximos briefs.` : '—'
+      tag: 'Contenido estrella · engagement',
+      h: `<em>@${topER?.handle?.replace(/^@/,'')||'—'}</em> rompió el promedio`,
+      p: topER ? `Pieza en ${topER.platform} con <b>${fmtPct(topER.er,1)} de engagement</b> sobre ${fmtN(topER.views)} reproducciones. Audiencia muy involucrada — vale extraer el formato y CTA para próximos briefs creativos.` : '—'
     },
     {
-      tag: 'Estrella de Views',
-      h: `<em>@${topV?.handle?.replace(/^@/,'')||'—'}</em> rompió en alcance`,
-      p: topV ? `Single drop con <b>${fmtN(topV.views)} views</b> en ${topV.platform}. ER del ${fmtPct(topV.er,1)} — alcance masivo y consistente.` : '—'
+      tag: 'Contenido estrella · alcance',
+      h: `<em>@${topV?.handle?.replace(/^@/,'')||'—'}</em> reventó en reproducciones`,
+      p: topV ? `Una sola pieza en ${topV.platform} con <b>${fmtN(topV.views)} reproducciones</b> y engagement de ${fmtPct(topV.er,1)}. Alcance masivo y constante — referencia para empujar awareness rumbo al Mundial.` : '—'
     },
     {
-      tag: 'Salud global',
-      h: `ER global <em>${(+t.er).toFixed(2)}%</em>`,
-      p: `Sobre ${fmtN(t.contents)} contenidos de ${fmtN(t.creators)} creadores. Likes (${fmtN(t.likes)}) dominan el mix; saves (${fmtN(t.saves)}) son el indicador de intent más bajo.`
+      tag: 'Pulso general',
+      h: `Engagement saludable. <em>${(+t.er).toFixed(2)}%</em> global`,
+      p: `Sobre ${fmtN(t.contents)} contenidos de ${fmtN(t.creators)} creadores. Los <b>likes (${fmtN(t.likes)})</b> dominan; los <b>saves (${fmtN(t.saves)})</b> son la señal más fuerte de intención — quien guarda piensa volver al contenido.`
     },
   ];
   const root = document.getElementById('insights-grid');
@@ -4945,66 +4945,70 @@ function buildInsights() {
   const funnelPct = (finalists / t.creators) * 100;
   const champion = rank[0] || {};
 
+  // Earned media value: assumes nano MX CPM ~$120 MXN per 1,000 views
+  const evmMXN = (t.views/1000) * 120;
+  const fmtMXN = (n) => '$' + Math.round(n).toLocaleString('es-MX') + ' MXN';
+
   return {
     'exceed-creators': {
-      tag: 'Sobre meta',
-      title: 'Cerramos arriba del target. <em>+' + creatorPct.toFixed(0) + '%</em>',
-      body: `Brief original: <b>${targetCreators} nano creadores</b> en México. Final: <b>${fmtN(t.creators)} creadores únicos</b> publicando. <em>+${creatorDelta}</em> creadores sobre el piso comprometido. Señal de pull orgánico del programa.`,
-      stat: [['Target', fmtN(targetCreators)], ['Real', fmtN(t.creators), 'good']]
+      tag: 'Reclutamiento',
+      title: 'Sumamos más creadores de los que esperábamos. <em>+' + creatorPct.toFixed(0) + '%</em>',
+      body: `Arrancamos con <b>${targetCreators} nano creadores</b> reclutados en México. Cerramos con <b>${fmtN(t.creators)} creadores únicos</b> publicando — <em>${creatorDelta}</em> más de los esperados. La dinámica enganchó y trajo creadores extra que se quisieron sumar a la conversación.`,
+      stat: [['Meta inicial', fmtN(targetCreators)], ['Activados', fmtN(t.creators), 'good']]
     },
     'exceed-contents': {
-      tag: 'Volumen + bonus',
-      title: 'Excedimos el mínimo contractual <em>+' + contentPct.toFixed(0) + '%</em>',
-      body: `Mínimo: 2 contenidos/mes × ${targetCreators} creadores × 3 meses = <b>${fmtN(minContents)} contenidos</b>. Cerramos con <b>${fmtN(t.contents)}</b>. Los bonus posts (puntaje extra) movieron la aguja: creadores subieron más allá del obligatorio buscando podio.`,
-      stat: [['Mínimo', fmtN(minContents)], ['Entregado', fmtN(t.contents), 'good']]
+      tag: 'Volumen de contenido',
+      title: 'Publicaron más de lo que pedimos. <em>+' + contentPct.toFixed(0) + '%</em>',
+      body: `Lo mínimo eran 2 contenidos al mes durante 3 meses por cada uno de los ${targetCreators} creadores: <b>${fmtN(minContents)} piezas</b>. Cerramos con <b>${fmtN(t.contents)} contenidos</b>. Los puntos extra por contenido bonus motivaron a publicar de más para subir en el ranking.`,
+      stat: [['Mínimo', fmtN(minContents)], ['Real', fmtN(t.contents), 'good']]
     },
     'er-benchmark': {
-      tag: 'Benchmark',
-      title: 'En el top de banda del benchmark nano. <em>5.41%</em>',
-      body: `Benchmark típico nano-tier MX 2026: <b>3-5% ER</b>. La campaña cerró en <b>5.41%</b> global — borde superior de la banda. <b>TikTok solo</b> ${(+tt.er).toFixed(2)}% — <em>+55%</em> sobre el límite alto del benchmark. Indica fit creativo + audiencia nano genuina, no inflada.`,
-      stat: [['Benchmark alto', '5.00%'], ['Real', (+t.er).toFixed(2)+'%', 'good']]
+      tag: 'Engagement rate',
+      title: 'Engagement por encima del estándar de la industria. <em>' + (+t.er).toFixed(2) + '%</em>',
+      body: `El estándar para campañas con nano creadores en México suele ir de <b>3% a 5%</b> de engagement. Esta campaña cerró en <b>${(+t.er).toFixed(2)}%</b>. <b>TikTok solo</b> entregó ${(+tt.er).toFixed(2)}% — <em>${(tt.er/5).toFixed(1)}x</em> el estándar alto. Refleja audiencia real y conexión genuina, no comprada.`,
+      stat: [['Estándar alto', '5.00%'], ['Esta campaña', (+t.er).toFixed(2)+'%', 'good']]
     },
     'views-context': {
-      tag: 'Alcance',
-      title: '<em>1.78M views</em> orgánicas en 3 meses',
-      body: `Sin pauta. ${fmtN(t.contents)} contenidos generaron <b>${fmtN(t.views)} views</b>. CPM equivalente: virtualmente <em>$0</em> (campaña 100% orgánica). Si se hubiera pagado a CPM nano MX (~$80-120 MXN), este alcance valdría <b>${fmtN(t.views/1000*100)}</b> MXN aprox.`,
-      stat: [['Views totales', fmtN(t.views), 'good'], ['Por contenido', fmtN(t.views/t.contents)]]
+      tag: 'Earned media',
+      title: 'Llegamos a <em>' + fmtN(t.views) + ' personas</em> sin pauta',
+      body: `${fmtN(t.contents)} contenidos generaron <b>${fmtN(t.views)} reproducciones</b> de forma 100% orgánica. Estimando un costo de medios estándar de creadores nano (~$120 MXN por mil personas alcanzadas), este alcance equivale a un valor de medios de <em>${fmtMXN(evmMXN)}</em> en pauta tradicional.`,
+      stat: [['Reproducciones', fmtN(t.views), 'good'], ['Valor estimado', fmtMXN(evmMXN), 'gold']]
     },
     'tiktok-leader': {
-      tag: 'Motor de ER',
-      title: 'TikTok lidera <em>engagement por view</em>',
-      body: `TikTok: <b>${(+tt.er).toFixed(2)}% ER</b> sobre ${fmtN(tt.views)} views. IG: <b>${(+ig.er).toFixed(2)}% ER</b> sobre ${fmtN(ig.views)}. TikTok mueve <em>${((tt.er/ig.er)).toFixed(1)}x más interacción</em> por view que IG. Para próximos rounds: TikTok = motor de comunidad, IG = motor de awareness.`,
-      stat: [['TikTok ER', (+tt.er).toFixed(2)+'%', 'good'], ['IG ER', (+ig.er).toFixed(2)+'%']]
+      tag: 'TikTok = comunidad',
+      title: 'TikTok genera <em>la mayor conversación</em>',
+      body: `TikTok cerró con <b>${(+tt.er).toFixed(2)}% de engagement</b> sobre ${fmtN(tt.views)} reproducciones. Instagram con <b>${(+ig.er).toFixed(2)}%</b> sobre ${fmtN(ig.views)}. Cada reproducción en TikTok genera <em>${(tt.er/ig.er).toFixed(1)}x más interacción</em> que en IG. Plataforma indicada para construir <b>brand love</b> y comunidad activa de la marca.`,
+      stat: [['ER TikTok', (+tt.er).toFixed(2)+'%', 'good'], ['ER Instagram', (+ig.er).toFixed(2)+'%']]
     },
     'ig-reach': {
-      tag: 'Motor de alcance',
-      title: 'Instagram carga el <em>volumen de views</em>',
-      body: `IG aporta <b>${fmtN(ig.views)} views</b> (<em>${(ig.views/t.views*100).toFixed(1)}%</em> del total) con ${fmtN(ig.creators)} creadores activos. El formato Reel + Stories + Carrusel da cobertura múltiple. Recomendación: mantener IG para top-funnel y empujar bonus de TikTok para interacción.`,
-      stat: [['Views', fmtN(ig.views), 'good'], ['% del total', (ig.views/t.views*100).toFixed(1)+'%']]
+      tag: 'Instagram = awareness',
+      title: 'Instagram lleva el <em>mayor alcance</em>',
+      body: `Instagram aporta <b>${fmtN(ig.views)} reproducciones</b> — <em>${(ig.views/t.views*100).toFixed(0)}%</em> del total de la campaña, con ${fmtN(ig.creators)} creadores activos. La mezcla de Reels, Stories y Carruseles da cobertura amplia. Plataforma ideal para <b>awareness</b> y recordación de marca de cara al Mundial.`,
+      stat: [['Reproducciones IG', fmtN(ig.views), 'good'], ['% del total', (ig.views/t.views*100).toFixed(0)+'%']]
     },
     'champion-case': {
-      tag: 'Caso éxito',
-      title: 'El campeón concentra <em>' + ((champion.views||0)/t.views*100).toFixed(1) + '%</em> del alcance',
-      body: `<b>@${(champion.handle||'').replace(/^@/,'')}</b> hizo <b>${fmtN(champion.views)} views</b> en solo <b>${champion.cnt} contenidos</b> — ER de <em>${(+champion.er).toFixed(2)}%</em>. Eficiencia altísima: ${fmtN(champion.views/champion.cnt)} views por drop. Perfil a fichar para Squad Rexona y Casa Fresh.`,
-      stat: [['Views', fmtN(champion.views), 'gold'], ['Contenidos', champion.cnt+'']]
+      tag: 'MVP de la campaña',
+      title: 'El campeón solo necesitó <em>' + (champion.cnt||0) + ' contenidos</em>',
+      body: `<b>@${(champion.handle||'').replace(/^@/,'')}</b> generó <b>${fmtN(champion.views)} reproducciones</b> con apenas <b>${champion.cnt} piezas</b> — un engagement rate de <em>${(+champion.er).toFixed(2)}%</em>. Promedio de ${fmtN(champion.views/Math.max(champion.cnt,1))} reproducciones por publicación. Perfil ideal para <b>Squad Rexona 2026</b> y colaboraciones long-term de marca.`,
+      stat: [['Reproducciones', fmtN(champion.views), 'gold'], ['Contenidos', champion.cnt+'']]
     },
     'er-outlier': {
-      tag: 'Outlier',
-      title: 'ER de <em>' + (+topER.er||0).toFixed(1) + '%</em> — fuera de curva',
-      body: `<b>@${(topER.handle||'').replace(/^@/,'')}</b> en ${topER.platform} hizo un contenido con <b>${(+topER.er||0).toFixed(2)}% ER</b> sobre ${fmtN(topER.views)} views. Eso es <em>${((topER.er||0)/(+t.er||1)).toFixed(0)}x</em> el ER global. Audiencia hyper-comprometida. Estudiar formato + tono para próximos briefs.`,
-      stat: [['ER del drop', (+topER.er||0).toFixed(1)+'%', 'good'], ['vs global', ((topER.er||0)/(+t.er||1)).toFixed(1)+'x']]
+      tag: 'Pieza estrella',
+      title: 'Un contenido que <em>rompió el promedio</em>',
+      body: `<b>@${(topER.handle||'').replace(/^@/,'')}</b> en ${topER.platform} publicó una pieza con <b>${(+topER.er||0).toFixed(2)}% de engagement</b> sobre ${fmtN(topER.views)} reproducciones — <em>${((topER.er||0)/(+t.er||1)).toFixed(0)} veces</em> el promedio de la campaña. Audiencia muy involucrada. Vale la pena analizar el formato, tono y CTA para replicar el aprendizaje en próximos briefs.`,
+      stat: [['ER del contenido', (+topER.er||0).toFixed(1)+'%', 'good'], ['vs promedio', ((topER.er||0)/(+t.er||1)).toFixed(0)+'x']]
     },
     'funnel-33': {
-      tag: 'Funnel real',
-      title: 'Solo <em>' + funnelPct.toFixed(1) + '%</em> pasa a boleto Mundial',
-      body: `<b>${finalists} de ${fmtN(t.creators)}</b> creadores activos califican al boleto triple. La competencia se concretó: <em>${(t.creators-finalists)+''}</em> creadores se llevan el aprendizaje + portfolio pero no premio físico. Top 33 tienen oportunidad de Squad Rexona 2026 (Casa Fresh).`,
-      stat: [['Finalistas', finalists+''], ['Tasa clasif.', funnelPct.toFixed(1)+'%']]
+      tag: 'Selección final',
+      title: 'Solo <em>' + finalists + ' creadores</em> pasan al Mundial',
+      body: `De los <b>${fmtN(t.creators)} creadores</b> activos durante la campaña, únicamente <b>${finalists}</b> (${funnelPct.toFixed(1)}%) se llevan el boleto triple a 16vos de Final. Los demás se quedan con el trabajo hecho, el portafolio fortalecido y la relación con Rexona — base ideal para futuras activaciones <b>always-on</b>.`,
+      stat: [['Finalistas', finalists+''], ['Tasa de clasificación', funnelPct.toFixed(1)+'%']]
     },
     'concentration': {
-      tag: 'Concentración Pareto',
-      title: 'Top 10 acumulan <em>' + top10pct.toFixed(1) + '%</em> del alcance',
-      body: `Los <b>10 mejores creadores</b> generaron <b>${fmtN(top10v)} views</b> de los ${fmtN(t.views)} totales. Distribución Pareto operando: 2% de la base entrega ${top10pct.toFixed(0)}% del resultado. Para 2026: contemplar tier interno de "performers" con brief diferenciado.`,
-      stat: [['Top 10 views', fmtN(top10v), 'good'], ['% del total', top10pct.toFixed(1)+'%']]
+      tag: 'Top performers',
+      title: 'Top 10 entrega <em>' + top10pct.toFixed(0) + '%</em> del alcance',
+      body: `Los <b>10 mejores creadores</b> de la campaña generaron <b>${fmtN(top10v)} reproducciones</b>, equivalente al <em>${top10pct.toFixed(0)}%</em> del total. Un grupo pequeño concentra gran parte de los resultados. Para próximas ediciones, conviene <b>fichar a este grupo</b> en un programa premium con briefs diferenciados y mayor inversión.`,
+      stat: [['Reproducciones Top 10', fmtN(top10v), 'good'], ['% del total', top10pct.toFixed(0)+'%']]
     },
   };
 }
