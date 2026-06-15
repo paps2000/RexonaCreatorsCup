@@ -2271,6 +2271,152 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · AVATARS
+   ═══════════════════════════════════════════════════════════════════════ */
+.avatar {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.avatar img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+  background: var(--surface-2);
+}
+.avatar.avatar-fallback::after {
+  content: attr(data-init);
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.avatar-md { width: 64px; height: 64px; }
+.avatar-lg { width: 84px; height: 84px; }
+.podium-avt.avatar img { background: transparent; }
+.hl-thumb-init.avatar {
+  border-radius: 50%;
+}
+.col-name .a.avatar { padding: 0; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESULTS · CLICKABLE KPI
+   ═══════════════════════════════════════════════════════════════════════ */
+.kpi[role="button"] {
+  cursor: pointer;
+}
+.kpi[role="button"]::after {
+  content: '↗';
+  position: absolute; top: 14px; right: 16px;
+  font-family: var(--ff-mono);
+  color: var(--fg-ghost);
+  font-size: 14px;
+  transition: color .25s var(--ease-out), transform .25s var(--ease-out);
+}
+.kpi[role="button"]:hover::after {
+  color: var(--green);
+  transform: translate(2px,-2px);
+}
+
+/* KPI modal body — reuses existing .modal/.sheet system */
+.kpi-modal-num {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--green);
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.kpi-modal-sub {
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 1.5rem;
+}
+.kpi-modal-h3 {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 1.6rem 0 .9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.kpi-modal-h3:first-child { margin-top: 0; }
+.kpi-modal-rows {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.kpi-modal-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 90px;
+  align-items: center; gap: 14px;
+  padding: 8px 0;
+  font-variant-numeric: tabular-nums;
+}
+.kpi-modal-row .lbl {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  display: flex; align-items: center; gap: 8px;
+}
+.kpi-modal-row .lbl .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--bc, var(--green));
+  box-shadow: 0 0 8px var(--bc, var(--green));
+}
+.kpi-modal-row .bar {
+  height: 10px; background: var(--bg-2);
+  border-radius: 5px; overflow: hidden;
+}
+.kpi-modal-row .bar > span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--bc, var(--green)) 70%, transparent), var(--bc, var(--green)));
+  border-radius: 5px;
+  transform-origin: left;
+  transform: scaleX(var(--w, 0));
+  transition: transform 1s var(--ease-out);
+}
+.kpi-modal-row .val {
+  text-align: right;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+}
+.kpi-modal-row .val span {
+  display: block;
+  font-family: var(--ff-mono); font-size: 9px;
+  font-weight: 400; color: var(--fg-muted);
+  letter-spacing: .14em; text-transform: uppercase;
+  margin-top: 2px;
+}
+.kpi-modal-mix {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: .5rem;
+}
+@media (max-width: 540px) { .kpi-modal-mix { grid-template-columns: 1fr 1fr; } }
+.kpi-modal-mix-tile {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 12px;
+  background: var(--bg-2);
+}
+.kpi-modal-mix-tile .k {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 6px;
+}
+.kpi-modal-mix-tile .v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 18px; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.kpi-modal-mix-tile .pct {
+  display: block;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--green); margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    RESULTS · CHARTS
    ═══════════════════════════════════════════════════════════════════════ */
 .chart-card {
@@ -3254,42 +3400,42 @@ body::after {
     </div>
 
     <div class="kpi-grid" id="kpi-grid">
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="views">
         <div class="kpi-k">Views totales</div>
         <div class="kpi-v accent" id="kpi-views">—</div>
         <div class="kpi-foot">Suma <code>Organic_Views</code></div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="eng">
         <div class="kpi-k">Engagement total</div>
         <div class="kpi-v" id="kpi-eng">—</div>
         <div class="kpi-foot">Likes + Comments + Shares + Saves</div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="er">
         <div class="kpi-k">Engagement rate global</div>
         <div class="kpi-v" id="kpi-er">—<span class="u">%</span></div>
         <div class="kpi-foot">Engagement / Views</div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="contents">
         <div class="kpi-k">Contenidos publicados</div>
         <div class="kpi-v" id="kpi-content">—</div>
         <div class="kpi-foot">Rows con creador asignado</div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="creators">
         <div class="kpi-k">Creadores activos</div>
         <div class="kpi-v" id="kpi-creators">—</div>
         <div class="kpi-foot">Handles únicos con contenido</div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="likes">
         <div class="kpi-k">Likes totales</div>
         <div class="kpi-v" id="kpi-likes">—</div>
         <div class="kpi-foot">Suma <code>Organic_Likes</code></div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="shares">
         <div class="kpi-k">Shares</div>
         <div class="kpi-v" id="kpi-shares">—</div>
         <div class="kpi-foot">Suma <code>Organic_Shares</code></div>
       </div>
-      <div class="kpi">
+      <div class="kpi" role="button" tabindex="0" data-kpi="saves">
         <div class="kpi-k">Saves</div>
         <div class="kpi-v" id="kpi-saves">—</div>
         <div class="kpi-foot">Suma <code>Organic_Saves</code></div>
@@ -3297,31 +3443,11 @@ body::after {
     </div>
   </section>
 
-  <!-- § R02 — TENDENCIA MENSUAL -->
+  <!-- § R02 — TOP CREADORES -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R02 — Tendencia mensual</div>
-        <h2 class="section-title">Mes por mes.<br>Curva de la campaña.</h2>
-      </div>
-      <div class="section-sub">VIEWS · ENGAGEMENT</div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-legend">
-        <span class="chart-key"><span class="chart-key-dot views"></span>Views</span>
-        <span class="chart-key"><span class="chart-key-dot eng"></span>Engagement</span>
-      </div>
-      <div class="chart-area" id="trend-chart"></div>
-      <div class="chart-xaxis" id="trend-xaxis"></div>
-    </div>
-    <div class="months-grid" id="months-grid"></div>
-  </section>
-
-  <!-- § R03 — TOP CREADORES -->
-  <section class="section reveal">
-    <div class="section-head">
-      <div>
-        <div class="section-num">§ R03 — Top creadores</div>
+        <div class="section-num">§ R02 — Top creadores</div>
         <h2 class="section-title">Los que más<br>views generaron.</h2>
       </div>
       <div class="section-sub">RANKING POR VIEWS ACUMULADOS</div>
@@ -3330,11 +3456,11 @@ body::after {
     <div class="podio" id="podio-creators"></div>
   </section>
 
-  <!-- § R04 — POR PLATAFORMA -->
+  <!-- § R03 — POR PLATAFORMA -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R04 — Por plataforma</div>
+        <div class="section-num">§ R03 — Por plataforma</div>
         <h2 class="section-title">Dónde<br>se jugó.</h2>
       </div>
       <div class="section-sub">VIEWS · ENGAGEMENT · ER</div>
@@ -3351,11 +3477,11 @@ body::after {
     </div>
   </section>
 
-  <!-- § R05 — POR TIER -->
+  <!-- § R04 — POR TIER -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R05 — Por tier de creador</div>
+        <div class="section-num">§ R04 — Por tier de creador</div>
         <h2 class="section-title">Nano vs<br>Micro vs Mid vs Macro.</h2>
       </div>
       <div class="section-sub">VOLUMEN · ER</div>
@@ -3365,11 +3491,11 @@ body::after {
     </div>
   </section>
 
-  <!-- § R06 — HIGHLIGHTS DE CONTENIDOS -->
+  <!-- § R05 — HIGHLIGHTS DE CONTENIDOS -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R06 — Highlights</div>
+        <div class="section-num">§ R05 — Highlights</div>
         <h2 class="section-title">Los contenidos<br>que la rompieron.</h2>
       </div>
       <div class="section-sub">4 RANKINGS POR MÉTRICA</div>
@@ -3389,11 +3515,11 @@ body::after {
     <div class="hl-grid" id="hl-grid"></div>
   </section>
 
-  <!-- § R07 — RANKING FINAL -->
+  <!-- § R06 — RANKING FINAL -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R07 — Ranking creadores</div>
+        <div class="section-num">§ R06 — Ranking creadores</div>
         <h2 class="section-title">Tabla<br>Top 50.</h2>
       </div>
       <div class="section-sub">VIEWS ACUMULADOS</div>
@@ -3415,11 +3541,11 @@ body::after {
     </div>
   </section>
 
-  <!-- § R08 — LECTURAS RÁPIDAS -->
+  <!-- § R07 — LECTURAS RÁPIDAS -->
   <section class="section reveal">
     <div class="section-head">
       <div>
-        <div class="section-num">§ R08 — Insights</div>
+        <div class="section-num">§ R07 — Insights</div>
         <h2 class="section-title">Lo que dicen<br>los datos.</h2>
       </div>
       <div class="section-sub">QUICK READS</div>
@@ -3450,6 +3576,20 @@ body::after {
       <button class="sheet-close" onclick="closePhase()">✕</button>
     </div>
     <div class="sheet-body" id="phase-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════════ KPI MODAL ══════════════════ -->
+<div class="modal" id="kpi-modal">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-head-title" id="kpi-modal-title"></div>
+        <div class="sheet-head-tag" id="kpi-modal-tag"></div>
+      </div>
+      <button class="sheet-close" onclick="closeKPI()">✕</button>
+    </div>
+    <div class="sheet-body" id="kpi-modal-body"></div>
   </div>
 </div>
 
@@ -4060,8 +4200,8 @@ initData();
    Fuente: Reporting Sheet (Rexona Creators Cup)
    Métricas: Engagement = Likes+Coms+Shares+Saves · ER = Eng/Views · VR = Views/Followers
    ═══════════════════════════════════════════════════════════════════════ */
-const RESULTS_DATA = {"totals":{"views":1731910.0,"eng":96214.0,"likes":83898.0,"coms":6857.0,"shares":2227.0,"saves":3232.0,"contents":2104,"creators":475,"active":475,"er":5.555369505343811},"platforms":[{"name":"TikTok","views":753835.0,"eng":58683.0,"er":7.784594772065505,"cnt":992,"creators":251},{"name":"Instagram","views":860460.0,"eng":35799.0,"er":4.160449062129558,"cnt":974,"creators":293},{"name":"YouTube","views":65271.0,"eng":960.0,"er":1.4707910097899526,"cnt":82,"creators":35},{"name":"Facebook","views":41714.0,"eng":747.0,"er":1.79076569017596,"cnt":55,"creators":26},{"name":"X","views":10630.0,"eng":25.0,"er":0.23518344308560676,"cnt":1,"creators":1}],"tiers":[{"name":"Nano","views":881733.0,"eng":47186.0,"er":5.351506635228579,"cnt":1456},{"name":"Micro","views":570823.0,"eng":34260.0,"er":6.001860471634815,"cnt":492},{"name":"Mid","views":207650.0,"eng":9192.0,"er":4.426679508788827,"cnt":129},{"name":"Macro","views":71704.0,"eng":5576.0,"er":7.776414147048979,"cnt":27}],"tops":{"er":[{"handle":"makeupyazcielo","platform":"Instagram","views":1321.0,"eng":853.0,"er":64.57229371688115,"vr":25.16669841874643,"followers":5249.0,"link":"https://www.instagram.com/p/DYX84oHya4s/"},{"handle":"jaditips","platform":"Instagram","views":1006.0,"eng":533.0,"er":52.98210735586481,"vr":8.610065046217048,"followers":11684.0,"link":"https://www.instagram.com/p/DW9SlAPDv_M/"},{"handle":"nellyvlog","platform":"Instagram","views":1231.0,"eng":590.0,"er":47.9285134037368,"vr":19.794179128477246,"followers":6219.0,"link":"https://www.instagram.com/p/DXkVQ9SiYHZ/"},{"handle":"nellyvlog","platform":"Instagram","views":1811.0,"eng":802.0,"er":44.28492545554942,"vr":28.723235527359236,"followers":6305.0,"link":"https://www.instagram.com/p/DYnX8hypUlR/"},{"handle":"dulcetoys","platform":"Instagram","views":1575.0,"eng":616.0,"er":39.111111111111114,"vr":8.535197528857097,"followers":18453.0,"link":"https://www.instagram.com/p/DXfa6iXES_q/"}],"vr":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"futsalvaje","platform":"Instagram","views":4330.0,"eng":17.0,"er":0.39260969976905313,"vr":472.70742358078604,"followers":916.0,"link":"https://www.instagram.com/p/DZAoxW9yMUH/"},{"handle":"beto_covarrubias","platform":"TikTok","views":10200.0,"eng":260.0,"er":2.549019607843137,"vr":434.96801705756934,"followers":2345.0,"link":"https://www.tiktok.com/@beto_covarrubias/video/7645414927657602322"},{"handle":"bxxv_05","platform":"TikTok","views":3670.0,"eng":282.0,"er":7.68392370572207,"vr":411.8967452300786,"followers":891.0,"link":"https://www.tiktok.com/@jbellingham_10/video/7630311886650739976?reply_id=7633873396632568597"},{"handle":"alexmontgomeryyyy","platform":"Instagram","views":2474.0,"eng":61.0,"er":2.465642683912692,"vr":327.682119205298,"followers":755.0,"link":"https://www.instagram.com/p/DWecGGkEb5M/"}],"views":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"josebenjamin23","platform":"Instagram","views":15486.0,"eng":16.0,"er":0.10331912695337724,"vr":12.685540155313083,"followers":122076.0,"link":"https://www.instagram.com/p/DVb2Pa4ElRj/"},{"handle":"algunavezfuichef","platform":"TikTok","views":13300.0,"eng":977.0,"er":7.345864661654135,"vr":162.03703703703704,"followers":8208.0,"link":"https://www.tiktok.com/@algunavezfuichef/video/7638471756738481429"}],"eng":[{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"hctorcuevaf","platform":"TikTok","views":11300.0,"eng":2490.0,"er":22.035398230088497,"vr":27.36077481840194,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7629546328837737736"},{"handle":"hctorcuevaf","platform":"TikTok","views":8270.0,"eng":1745.0,"er":21.100362756952844,"vr":20.024213075060533,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7634708908996709650"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"hctorcuevaf","platform":"TikTok","views":8965.0,"eng":1036.0,"er":11.556051310652538,"vr":22.412499999999998,"followers":40000.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7623153520119647496"}]},"ranking":[{"handle":"hctorcuevaf","cnt":5,"views":50121.0,"eng":8927.0,"er":17.810897627740868,"fol":41900.0,"plats":["TikTok"]},{"handle":"melisservin","cnt":10,"views":41167.0,"eng":788.0,"er":1.914154541258775,"fol":20078.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruiz","cnt":10,"views":40625.0,"eng":3991.0,"er":9.824,"fol":669500.0,"plats":["TikTok"]},{"handle":"_crisho","cnt":7,"views":39872.0,"eng":1223.0,"er":3.067315409309791,"fol":19112.0,"plats":["Instagram"]},{"handle":"pilarozuna","cnt":7,"views":37814.0,"eng":336.0,"er":0.8885597926693818,"fol":4532.0,"plats":["TikTok"]},{"handle":"algunavezfuichef","cnt":8,"views":32436.0,"eng":2297.0,"er":7.08163768652115,"fol":9133.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"da_shania","cnt":6,"views":29567.0,"eng":1970.0,"er":6.662833564446849,"fol":83300.0,"plats":["TikTok"]},{"handle":"josebenjamin23","cnt":3,"views":27936.0,"eng":24.0,"er":0.0859106529209622,"fol":125501.0,"plats":["Instagram"]},{"handle":"alexcamisetero","cnt":9,"views":24385.0,"eng":844.0,"er":3.4611441459913883,"fol":106000.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruizoz","cnt":10,"views":24157.0,"eng":1252.0,"er":5.182762760276524,"fol":82049.0,"plats":["Instagram","YouTube"]},{"handle":"andreaagascaa","cnt":5,"views":23355.0,"eng":808.0,"er":3.4596446157139797,"fol":5726.0,"plats":["Instagram"]},{"handle":"brandonbeaver123","cnt":8,"views":22656.0,"eng":1437.0,"er":6.342690677966102,"fol":44300.0,"plats":["TikTok"]},{"handle":"_cesar.castolo_","cnt":5,"views":19285.0,"eng":253.0,"er":1.3119004407570651,"fol":35001.0,"plats":["Instagram"]},{"handle":"mfernandabarajasm","cnt":10,"views":18491.0,"eng":474.0,"er":2.563409226109999,"fol":4600.0,"plats":["Instagram","TikTok"]},{"handle":"tacodeojoficial","cnt":5,"views":16370.0,"eng":240.0,"er":1.4660965180207697,"fol":13165.0,"plats":["Instagram"]},{"handle":"anasophileyva","cnt":11,"views":16296.0,"eng":333.0,"er":2.043446244477172,"fol":13200.0,"plats":["Instagram","TikTok"]},{"handle":"beto_covarrubias","cnt":3,"views":15422.0,"eng":478.0,"er":3.0994682920503176,"fol":2345.0,"plats":["TikTok"]},{"handle":"samira_alatrach","cnt":10,"views":15413.0,"eng":162.0,"er":1.0510607928372153,"fol":31000.0,"plats":["Instagram","TikTok"]},{"handle":"tacodeojonyt","cnt":6,"views":15340.0,"eng":377.0,"er":2.457627118644068,"fol":41700.0,"plats":["Facebook","TikTok"]},{"handle":"anahy.giron.7564","cnt":6,"views":15088.0,"eng":4506.0,"er":29.86479321314952,"fol":12666.0,"plats":["Instagram"]},{"handle":"abrilyaremi","cnt":2,"views":14836.0,"eng":446.0,"er":3.0062011323806956,"fol":4529.0,"plats":["Instagram"]},{"handle":"marianacorcas_","cnt":3,"views":14771.0,"eng":322.0,"er":2.1799471938257398,"fol":9071.0,"plats":["Instagram"]},{"handle":"la_caza_ofertas","cnt":4,"views":14060.0,"eng":194.0,"er":1.379800853485064,"fol":154944.0,"plats":["Instagram"]},{"handle":"danizunzaa","cnt":6,"views":13607.0,"eng":235.0,"er":1.7270522525170868,"fol":7997.0,"plats":["Instagram"]},{"handle":"electromanmx","cnt":9,"views":13363.0,"eng":778.0,"er":5.82204594776622,"fol":401300.0,"plats":["Instagram","TikTok"]},{"handle":"soyjoules","cnt":9,"views":12958.0,"eng":365.0,"er":2.8167927149251426,"fol":17400.0,"plats":["Instagram","YouTube"]},{"handle":"b.erenice.varela","cnt":11,"views":12894.0,"eng":298.0,"er":2.3111524740189235,"fol":50000.0,"plats":["Instagram","TikTok"]},{"handle":"edytorres4398","cnt":6,"views":11932.0,"eng":224.0,"er":1.8773047267851155,"fol":8610.0,"plats":["YouTube"]},{"handle":"bel.igol10","cnt":4,"views":11916.0,"eng":257.0,"er":2.156764014770057,"fol":12697.0,"plats":["Instagram"]},{"handle":"mateorojasj","cnt":3,"views":11898.0,"eng":601.0,"er":5.051269120860649,"fol":8436.0,"plats":["Instagram"]},{"handle":"the.only.keren","cnt":7,"views":11802.0,"eng":393.0,"er":3.3299440772750386,"fol":8852.0,"plats":["Instagram","TikTok"]},{"handle":"jbellingham_10","cnt":6,"views":11328.0,"eng":950.0,"er":8.386299435028247,"fol":89400.0,"plats":["TikTok"]},{"handle":"Gaspar_Sparco","cnt":1,"views":10630.0,"eng":25.0,"er":0.23518344308560676,"fol":39669.0,"plats":["X"]},{"handle":"zara_garciaa","cnt":2,"views":10523.0,"eng":18.0,"er":0.17105388197282143,"fol":4445.0,"plats":["Instagram"]},{"handle":"amxilx_","cnt":5,"views":10475.0,"eng":1010.0,"er":9.64200477326969,"fol":7846.0,"plats":["Instagram"]},{"handle":"martinalonsomx","cnt":11,"views":10329.0,"eng":245.0,"er":2.3719624358601994,"fol":151000.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"re.alor","cnt":8,"views":10253.0,"eng":1062.0,"er":10.357944016385447,"fol":2515.0,"plats":["Instagram","TikTok"]},{"handle":"nataliafloreseli","cnt":7,"views":10240.0,"eng":53.0,"er":0.517578125,"fol":8924.0,"plats":["Facebook","Instagram"]},{"handle":"laurahernandez_______","cnt":3,"views":10128.0,"eng":395.0,"er":3.900078988941548,"fol":8038.0,"plats":["Instagram"]},{"handle":"zaragarciaa","cnt":6,"views":9998.0,"eng":1116.0,"er":11.162232446489298,"fol":10700.0,"plats":["TikTok"]},{"handle":"jessica_con_j","cnt":10,"views":9970.0,"eng":293.0,"er":2.938816449348044,"fol":59000.0,"plats":["Instagram","TikTok"]},{"handle":"jossue.nicolas","cnt":8,"views":9856.0,"eng":447.0,"er":4.535308441558442,"fol":2018.0,"plats":["Instagram","TikTok"]},{"handle":"baby.chaar","cnt":5,"views":9767.0,"eng":69.0,"er":0.7064605303573257,"fol":3705.0,"plats":["Instagram"]},{"handle":"keri_arath","cnt":19,"views":9067.0,"eng":336.0,"er":3.705746112275284,"fol":43600.0,"plats":["Instagram","TikTok"]},{"handle":"steffygards","cnt":11,"views":8632.0,"eng":196.0,"er":2.2706209453197403,"fol":28415.0,"plats":["Instagram","TikTok"]},{"handle":"tesito.dementa","cnt":5,"views":8599.0,"eng":217.0,"er":2.5235492499127807,"fol":64300.0,"plats":["Instagram","TikTok"]},{"handle":"yaredmer","cnt":12,"views":8574.0,"eng":566.0,"er":6.601352927455097,"fol":18129.0,"plats":["Instagram","TikTok"]},{"handle":"runnerreyna","cnt":15,"views":8443.0,"eng":216.0,"er":2.558332346322397,"fol":14000.0,"plats":["Facebook","Instagram","TikTok","YouTube"]},{"handle":"dulcetoys","cnt":4,"views":8430.0,"eng":1907.0,"er":22.62158956109134,"fol":18553.0,"plats":["Instagram"]},{"handle":"MaferShOf","cnt":1,"views":8019.0,"eng":237.0,"er":2.955480733258511,"fol":161000.0,"plats":["Facebook"]}],"months":[{"m":"2026-03","views":487889.0,"eng":27356.0,"cnt":288},{"m":"2026-04","views":507996.0,"eng":26204.0,"cnt":846},{"m":"2026-05","views":250523.0,"eng":10920.0,"cnt":265},{"m":"2026-06","views":19672.0,"eng":660.0,"cnt":18}]};
-const RESULTS_SYNC_LABEL = '08 Jun 2026 · 15:53';
+const RESULTS_DATA = {"totals":{"views":1778310.0,"eng":96214.0,"likes":83898.0,"coms":6857.0,"shares":2227.0,"saves":3232.0,"contents":2295,"creators":516,"active":516,"er":5.410417756184242},"platforms":[{"name":"TikTok","views":753835.0,"eng":58683.0,"er":7.784594772065505,"cnt":992,"creators":251,"likes":50262.0,"coms":3247.0,"shares":1949.0,"saves":3225.0},{"name":"Instagram","views":906860.0,"eng":35799.0,"er":3.94757735482875,"cnt":1165,"creators":340,"likes":32113.0,"coms":3444.0,"shares":240.0,"saves":2.0},{"name":"YouTube","views":65271.0,"eng":960.0,"er":1.4707910097899526,"cnt":82,"creators":35,"likes":831.0,"coms":129.0,"shares":0.0,"saves":0.0},{"name":"Facebook","views":41714.0,"eng":747.0,"er":1.79076569017596,"cnt":55,"creators":26,"likes":671.0,"coms":36.0,"shares":36.0,"saves":4.0},{"name":"X","views":10630.0,"eng":25.0,"er":0.23518344308560676,"cnt":1,"creators":1,"likes":21.0,"coms":1.0,"shares":2.0,"saves":1.0}],"tiers":[{"name":"Nano","views":896597.0,"eng":47186.0,"er":5.26278807535604,"cnt":1611,"creators":420},{"name":"Micro","views":591028.0,"eng":34260.0,"er":5.796679683534451,"cnt":524,"creators":130},{"name":"Mid","views":218981.0,"eng":9192.0,"er":4.197624451436426,"cnt":133,"creators":38},{"name":"Macro","views":71704.0,"eng":5576.0,"er":7.776414147048979,"cnt":27,"creators":7}],"tops":{"er":[{"handle":"makeupyazcielo","platform":"Instagram","views":1321.0,"eng":853.0,"er":64.57229371688115,"vr":25.16669841874643,"followers":5249.0,"link":"https://www.instagram.com/p/DYX84oHya4s/"},{"handle":"jaditips","platform":"Instagram","views":1006.0,"eng":533.0,"er":52.98210735586481,"vr":8.610065046217048,"followers":11684.0,"link":"https://www.instagram.com/p/DW9SlAPDv_M/"},{"handle":"nellyvlog","platform":"Instagram","views":1231.0,"eng":590.0,"er":47.9285134037368,"vr":19.794179128477246,"followers":6219.0,"link":"https://www.instagram.com/p/DXkVQ9SiYHZ/"},{"handle":"nellyvlog","platform":"Instagram","views":1811.0,"eng":802.0,"er":44.28492545554942,"vr":28.723235527359236,"followers":6305.0,"link":"https://www.instagram.com/p/DYnX8hypUlR/"},{"handle":"dulcetoys","platform":"Instagram","views":1575.0,"eng":616.0,"er":39.111111111111114,"vr":8.535197528857097,"followers":18453.0,"link":"https://www.instagram.com/p/DXfa6iXES_q/"}],"vr":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"futsalvaje","platform":"Instagram","views":4330.0,"eng":17.0,"er":0.39260969976905313,"vr":472.70742358078604,"followers":916.0,"link":"https://www.instagram.com/p/DZAoxW9yMUH/"},{"handle":"beto_covarrubias","platform":"TikTok","views":10200.0,"eng":260.0,"er":2.549019607843137,"vr":434.96801705756934,"followers":2345.0,"link":"https://www.tiktok.com/@beto_covarrubias/video/7645414927657602322"},{"handle":"bxxv_05","platform":"TikTok","views":3670.0,"eng":282.0,"er":7.68392370572207,"vr":411.8967452300786,"followers":891.0,"link":"https://www.tiktok.com/@jbellingham_10/video/7630311886650739976?reply_id=7633873396632568597"},{"handle":"alexmontgomeryyyy","platform":"Instagram","views":2474.0,"eng":61.0,"er":2.465642683912692,"vr":327.682119205298,"followers":755.0,"link":"https://www.instagram.com/p/DWecGGkEb5M/"}],"views":[{"handle":"pilarozuna","platform":"TikTok","views":32900.0,"eng":191.0,"er":0.5805471124620061,"vr":845.5409920328965,"followers":3891.0,"link":"https://www.tiktok.com/@pilarozuna/video/7620634040051322113"},{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"josebenjamin23","platform":"Instagram","views":15486.0,"eng":16.0,"er":0.10331912695337724,"vr":12.685540155313083,"followers":122076.0,"link":"https://www.instagram.com/p/DVb2Pa4ElRj/"},{"handle":"algunavezfuichef","platform":"TikTok","views":13300.0,"eng":977.0,"er":7.345864661654135,"vr":162.03703703703704,"followers":8208.0,"link":"https://www.tiktok.com/@algunavezfuichef/video/7638471756738481429"}],"eng":[{"handle":"hctorcuevaf","platform":"TikTok","views":18000.0,"eng":2908.0,"er":16.155555555555555,"vr":45.80152671755725,"followers":39300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7613137517293931794"},{"handle":"hctorcuevaf","platform":"TikTok","views":11300.0,"eng":2490.0,"er":22.035398230088497,"vr":27.36077481840194,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7629546328837737736"},{"handle":"hctorcuevaf","platform":"TikTok","views":8270.0,"eng":1745.0,"er":21.100362756952844,"vr":20.024213075060533,"followers":41300.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7634708908996709650"},{"handle":"da_shania","platform":"TikTok","views":17800.0,"eng":1072.0,"er":6.02247191011236,"vr":25.105782792665725,"followers":70900.0,"link":"https://www.tiktok.com/@da_shania/video/7613109361040280853"},{"handle":"hctorcuevaf","platform":"TikTok","views":8965.0,"eng":1036.0,"er":11.556051310652538,"vr":22.412499999999998,"followers":40000.0,"link":"https://www.tiktok.com/@hctorcuevaf/video/7623153520119647496"}]},"ranking":[{"handle":"hctorcuevaf","cnt":6,"views":50246.0,"eng":8927.0,"er":17.766588385145084,"fol":41900.0,"plats":["Instagram","TikTok"]},{"handle":"melisservin","cnt":10,"views":41167.0,"eng":788.0,"er":1.914154541258775,"fol":20078.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruiz","cnt":10,"views":40625.0,"eng":3991.0,"er":9.824,"fol":669500.0,"plats":["TikTok"]},{"handle":"_crisho","cnt":7,"views":39872.0,"eng":1223.0,"er":3.067315409309791,"fol":19112.0,"plats":["Instagram"]},{"handle":"pilarozuna","cnt":7,"views":37814.0,"eng":336.0,"er":0.8885597926693818,"fol":4532.0,"plats":["TikTok"]},{"handle":"algunavezfuichef","cnt":8,"views":32436.0,"eng":2297.0,"er":7.08163768652115,"fol":9133.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"da_shania","cnt":6,"views":29567.0,"eng":1970.0,"er":6.662833564446849,"fol":83300.0,"plats":["TikTok"]},{"handle":"josebenjamin23","cnt":3,"views":27936.0,"eng":24.0,"er":0.0859106529209622,"fol":125501.0,"plats":["Instagram"]},{"handle":"alexcamisetero","cnt":9,"views":24385.0,"eng":844.0,"er":3.4611441459913883,"fol":106000.0,"plats":["Instagram","TikTok"]},{"handle":"edwardruizoz","cnt":10,"views":24157.0,"eng":1252.0,"er":5.182762760276524,"fol":82049.0,"plats":["Instagram","YouTube"]},{"handle":"andreaagascaa","cnt":6,"views":23531.0,"eng":808.0,"er":3.433768220645107,"fol":5862.0,"plats":["Instagram"]},{"handle":"brandonbeaver123","cnt":8,"views":22656.0,"eng":1437.0,"er":6.342690677966102,"fol":44300.0,"plats":["TikTok"]},{"handle":"_cesar.castolo_","cnt":5,"views":19285.0,"eng":253.0,"er":1.3119004407570651,"fol":35001.0,"plats":["Instagram"]},{"handle":"mfernandabarajasm","cnt":10,"views":18491.0,"eng":474.0,"er":2.563409226109999,"fol":4600.0,"plats":["Instagram","TikTok"]},{"handle":"tacodeojoficial","cnt":5,"views":16370.0,"eng":240.0,"er":1.4660965180207697,"fol":13165.0,"plats":["Instagram"]},{"handle":"anasophileyva","cnt":11,"views":16296.0,"eng":333.0,"er":2.043446244477172,"fol":13200.0,"plats":["Instagram","TikTok"]},{"handle":"beto_covarrubias","cnt":3,"views":15422.0,"eng":478.0,"er":3.0994682920503176,"fol":2345.0,"plats":["TikTok"]},{"handle":"samira_alatrach","cnt":10,"views":15413.0,"eng":162.0,"er":1.0510607928372153,"fol":31000.0,"plats":["Instagram","TikTok"]},{"handle":"tacodeojonyt","cnt":6,"views":15340.0,"eng":377.0,"er":2.457627118644068,"fol":41700.0,"plats":["Facebook","TikTok"]},{"handle":"anahy.giron.7564","cnt":6,"views":15088.0,"eng":4506.0,"er":29.86479321314952,"fol":12666.0,"plats":["Instagram"]},{"handle":"marianacorcas_","cnt":4,"views":15047.0,"eng":322.0,"er":2.139961454110454,"fol":9172.0,"plats":["Instagram"]},{"handle":"abrilyaremi","cnt":2,"views":14836.0,"eng":446.0,"er":3.0062011323806956,"fol":4529.0,"plats":["Instagram"]},{"handle":"la_caza_ofertas","cnt":4,"views":14060.0,"eng":194.0,"er":1.379800853485064,"fol":154944.0,"plats":["Instagram"]},{"handle":"danizunzaa","cnt":6,"views":13607.0,"eng":235.0,"er":1.7270522525170868,"fol":7997.0,"plats":["Instagram"]},{"handle":"castle_rodrigo","cnt":4,"views":13559.0,"eng":7.0,"er":0.05162622612287042,"fol":108711.0,"plats":["Instagram"]},{"handle":"electromanmx","cnt":9,"views":13363.0,"eng":778.0,"er":5.82204594776622,"fol":401300.0,"plats":["Instagram","TikTok"]},{"handle":"soyjoules","cnt":9,"views":12958.0,"eng":365.0,"er":2.8167927149251426,"fol":17400.0,"plats":["Instagram","YouTube"]},{"handle":"b.erenice.varela","cnt":11,"views":12894.0,"eng":298.0,"er":2.3111524740189235,"fol":50000.0,"plats":["Instagram","TikTok"]},{"handle":"edytorres4398","cnt":6,"views":11932.0,"eng":224.0,"er":1.8773047267851155,"fol":8610.0,"plats":["YouTube"]},{"handle":"bel.igol10","cnt":4,"views":11916.0,"eng":257.0,"er":2.156764014770057,"fol":12697.0,"plats":["Instagram"]},{"handle":"mateorojasj","cnt":3,"views":11898.0,"eng":601.0,"er":5.051269120860649,"fol":8436.0,"plats":["Instagram"]},{"handle":"the.only.keren","cnt":7,"views":11802.0,"eng":393.0,"er":3.3299440772750386,"fol":8852.0,"plats":["Instagram","TikTok"]},{"handle":"jbellingham_10","cnt":6,"views":11328.0,"eng":950.0,"er":8.386299435028247,"fol":89400.0,"plats":["TikTok"]},{"handle":"martinalonsomx","cnt":12,"views":11058.0,"eng":245.0,"er":2.215590522698499,"fol":151000.0,"plats":["Instagram","TikTok","YouTube"]},{"handle":"Gaspar_Sparco","cnt":1,"views":10630.0,"eng":25.0,"er":0.23518344308560676,"fol":39669.0,"plats":["X"]},{"handle":"zara_garciaa","cnt":2,"views":10523.0,"eng":18.0,"er":0.17105388197282143,"fol":4445.0,"plats":["Instagram"]},{"handle":"amxilx_","cnt":5,"views":10475.0,"eng":1010.0,"er":9.64200477326969,"fol":7846.0,"plats":["Instagram"]},{"handle":"re.alor","cnt":8,"views":10253.0,"eng":1062.0,"er":10.357944016385447,"fol":2515.0,"plats":["Instagram","TikTok"]},{"handle":"nataliafloreseli","cnt":7,"views":10240.0,"eng":53.0,"er":0.517578125,"fol":8924.0,"plats":["Facebook","Instagram"]},{"handle":"laurahernandez_______","cnt":3,"views":10128.0,"eng":395.0,"er":3.900078988941548,"fol":8038.0,"plats":["Instagram"]},{"handle":"zaragarciaa","cnt":6,"views":9998.0,"eng":1116.0,"er":11.162232446489298,"fol":10700.0,"plats":["TikTok"]},{"handle":"jessica_con_j","cnt":10,"views":9970.0,"eng":293.0,"er":2.938816449348044,"fol":59000.0,"plats":["Instagram","TikTok"]},{"handle":"jossue.nicolas","cnt":9,"views":9922.0,"eng":447.0,"er":4.5051400927232415,"fol":2177.0,"plats":["Instagram","TikTok"]},{"handle":"baby.chaar","cnt":5,"views":9767.0,"eng":69.0,"er":0.7064605303573257,"fol":3705.0,"plats":["Instagram"]},{"handle":"dulcetoys","cnt":6,"views":9522.0,"eng":1907.0,"er":20.027305187985718,"fol":18553.0,"plats":["Instagram"]},{"handle":"keri_arath","cnt":19,"views":9067.0,"eng":336.0,"er":3.705746112275284,"fol":43600.0,"plats":["Instagram","TikTok"]},{"handle":"steffygards","cnt":11,"views":8632.0,"eng":196.0,"er":2.2706209453197403,"fol":28415.0,"plats":["Instagram","TikTok"]},{"handle":"tesito.dementa","cnt":5,"views":8599.0,"eng":217.0,"er":2.5235492499127807,"fol":64300.0,"plats":["Instagram","TikTok"]},{"handle":"yaredmer","cnt":12,"views":8574.0,"eng":566.0,"er":6.601352927455097,"fol":18129.0,"plats":["Instagram","TikTok"]},{"handle":"runnerreyna","cnt":15,"views":8443.0,"eng":216.0,"er":2.558332346322397,"fol":14000.0,"plats":["Facebook","Instagram","TikTok","YouTube"]}]};
+const RESULTS_SYNC_LABEL = '15 Jun 2026 · 13:50';
 
 const PLAT_COLOR = {
   TikTok:    'oklch(0.75 0.21 25)',
@@ -4108,64 +4248,18 @@ function renderKPIs() {
   set('results-sync', RESULTS_SYNC_LABEL);
 }
 
-function renderTrend() {
-  const months = RESULTS_DATA.months;
-  if (!months.length) return;
-  const W = 1000, H = 220, padL = 40, padR = 20, padT = 16, padB = 28;
-  const maxV = Math.max(...months.map(m=>m.views), 1);
-  const maxE = Math.max(...months.map(m=>m.eng), 1);
-  const xs = i => padL + (i/(Math.max(months.length-1,1))) * (W-padL-padR);
-  const yV = v => padT + (1 - v/maxV) * (H-padT-padB);
-  const yE = v => padT + (1 - v/maxE) * (H-padT-padB);
-
-  const ptsV = months.map((m,i)=>`${xs(i)},${yV(m.views)}`).join(' ');
-  const ptsE = months.map((m,i)=>`${xs(i)},${yE(m.eng)}`).join(' ');
-
-  const grid = [.25,.5,.75,1].map(f => {
-    const y = padT + (1-f) * (H-padT-padB);
-    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/>`;
-  }).join('');
-
-  const dots = (yfn, color) => months.map((m,i)=>
-    `<circle cx="${xs(i)}" cy="${yfn(yfn===yV?m.views:m.eng)}" r="4" fill="${color}" stroke="var(--bg)" stroke-width="2"/>`
-  ).join('');
-
-  const svg = `
-    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Trend">
-      ${grid}
-      <polyline points="${ptsV}" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-      <polyline points="${ptsE}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round" stroke-linecap="round"/>
-      ${months.map((m,i)=>`<circle cx="${xs(i)}" cy="${yV(m.views)}" r="4.5" fill="var(--green)" stroke="var(--bg)" stroke-width="2"/>`).join('')}
-      ${months.map((m,i)=>`<circle cx="${xs(i)}" cy="${yE(m.eng)}" r="3.5" fill="var(--gold)" stroke="var(--bg)" stroke-width="2"/>`).join('')}
-    </svg>`;
-  const chart = document.getElementById('trend-chart');
-  if (chart) chart.innerHTML = svg;
-
-  const monthNames = {'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May','06':'Jun','07':'Jul','08':'Ago','09':'Sep','10':'Oct','11':'Nov','12':'Dic'};
-  const xaxis = document.getElementById('trend-xaxis');
-  if (xaxis) {
-    xaxis.style.gridTemplateColumns = `repeat(${months.length}, 1fr)`;
-    xaxis.innerHTML = months.map(m => {
-      const [Y,M] = m.m.split('-');
-      return `<div>${monthNames[M]||M} ${Y.slice(2)}</div>`;
-    }).join('');
-  }
-
-  const grid2 = document.getElementById('months-grid');
-  if (grid2) {
-    grid2.innerHTML = months.map(m => {
-      const [Y,M] = m.m.split('-');
-      const er = m.views ? (m.eng/m.views*100) : 0;
-      return `<div class="month-tile">
-        <div class="m-name">${monthNames[M]||M} ${Y}</div>
-        <div class="m-v">${fmtN(m.views)}</div>
-        <div class="m-foot">
-          <span>${m.cnt} contenidos</span>
-          <span><b>${er.toFixed(2)}%</b> ER</span>
-        </div>
-      </div>`;
-    }).join('');
-  }
+function avatarUrl(handle, platform) {
+  const h = (handle||'').replace(/^@/,'').toLowerCase();
+  const p = (platform||'instagram').toLowerCase();
+  const svc = (p==='tiktok'||p==='instagram'||p==='youtube'||p==='facebook'||p==='twitter'||p==='x') ? p : 'instagram';
+  return `https://unavatar.io/${svc==='x'?'twitter':svc}/${encodeURIComponent(h)}?fallback=false`;
+}
+function avatarImg(handle, platform, sizeCls='') {
+  const url = avatarUrl(handle, platform);
+  const init = avtChar(handle);
+  return `<span class="avatar ${sizeCls}" data-init="${init}">
+    <img loading="lazy" referrerpolicy="no-referrer" src="${url}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');">
+  </span>`;
 }
 
 function renderPodio() {
@@ -4179,10 +4273,13 @@ function renderPodio() {
   root.innerHTML = order.map(c => {
     const cls = classMap.get(c.handle);
     const rank = rankMap.get(c.handle);
+    const plat = (c.plats && c.plats[0]) || 'instagram';
     return `<article class="podium-card ${cls}">
       <div class="podium-rank">${String(rank).padStart(2,'0')}</div>
       <div class="podium-medal">${medalMap[rank]}</div>
-      <div class="podium-avt">${avtChar(c.handle)}</div>
+      <div class="podium-avt avatar avatar-lg" data-init="${avtChar(c.handle)}">
+        <img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, plat)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');">
+      </div>
       <div class="podium-name">${c.handle}</div>
       <div class="podium-handle">@${c.handle.replace(/^@/,'')}</div>
       <div class="podium-pts">${fmtN(c.views)}</div>
@@ -4291,7 +4388,7 @@ function renderHighlights(metric='views') {
       <div class="${thumbCls}" ${dataAttr} role="button" tabindex="0">
         <div class="hl-thumb-poster">
           <span class="hl-thumb-platbadge">${c.platform}</span>
-          <div class="hl-thumb-init">${avtChar(c.handle)}</div>
+          <div class="hl-thumb-init avatar avatar-md" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, c.platform)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
           ${playLabel}
         </div>
       </div>
@@ -4331,10 +4428,11 @@ function renderRanking(limit=10) {
   body.innerHTML = rk.slice(0, limit).map((c, idx) => {
     const i = idx+1;
     const rcls = i<=3 ? `r${i}` : '';
+    const plat = (c.plats && c.plats[0]) || 'instagram';
     return `<div class="final-rank-row ${rcls}">
       <div class="col-rank">${String(i).padStart(2,'0')}</div>
       <div class="col-name">
-        <div class="a">${avtChar(c.handle)}</div>
+        <div class="a avatar" data-init="${avtChar(c.handle)}"><img loading="lazy" referrerpolicy="no-referrer" src="${avatarUrl(c.handle, plat)}" alt="" onerror="this.remove();this.parentNode.classList.add('avatar-fallback');"></div>
         <div><div class="n">${c.handle}</div><div class="h">@${c.handle.replace(/^@/,'')} · ${c.cnt} contenidos · ${c.plats.join(' / ')}</div></div>
       </div>
       <div class="col-content">${fmtN(c.cnt)}</div>
@@ -4424,7 +4522,6 @@ function initRankMore() {
 function renderResults() {
   if (!RESULTS_DATA || !RESULTS_DATA.totals) return;
   renderKPIs();
-  renderTrend();
   renderPodio();
   renderPlatforms();
   renderTiers();
@@ -4432,8 +4529,152 @@ function renderResults() {
   renderRanking(10);
   renderInsights();
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   KPI MODAL — click on KPI tile → drilldown
+   ═══════════════════════════════════════════════════════════════════════ */
+function openKPI(kpi) {
+  const t = RESULTS_DATA.totals;
+  const plats = RESULTS_DATA.platforms;
+  const tiers = RESULTS_DATA.tiers;
+  const TITLE = {
+    views:'Views totales', eng:'Engagement total', er:'Engagement rate global',
+    contents:'Contenidos publicados', creators:'Creadores activos',
+    likes:'Likes totales', shares:'Shares totales', saves:'Saves totales',
+  };
+  const SUB = {
+    views:'Desglose de views por plataforma y tier',
+    eng:'Composición y reparto por plataforma',
+    er:'ER por plataforma y por tier',
+    contents:'Distribución de contenidos validados',
+    creators:'Creadores únicos por plataforma',
+    likes:'Likes por plataforma',
+    shares:'Shares por plataforma',
+    saves:'Saves por plataforma',
+  };
+  const BIG = {
+    views: fmtN(t.views), eng: fmtN(t.eng),
+    er: (+t.er).toFixed(2)+'%',
+    contents: fmtN(t.contents), creators: fmtN(t.creators),
+    likes: fmtN(t.likes), shares: fmtN(t.shares), saves: fmtN(t.saves),
+  };
+
+  const titleEl = document.getElementById('kpi-modal-title');
+  const tagEl   = document.getElementById('kpi-modal-tag');
+  const body    = document.getElementById('kpi-modal-body');
+  titleEl.textContent = TITLE[kpi] || kpi;
+  tagEl.textContent   = SUB[kpi] || '';
+
+  const big = `<div class="kpi-modal-num">${BIG[kpi]}</div>
+               <div class="kpi-modal-sub">${SUB[kpi]||''}</div>`;
+
+  const bar = (label, color, val, max, valLabel) => {
+    const w = max ? (val/max).toFixed(4) : 0;
+    return `<div class="kpi-modal-row" style="--bc: ${color};">
+      <div class="lbl"><span class="dot"></span>${label}</div>
+      <div class="bar"><span style="--w: ${w};"></span></div>
+      <div class="val">${valLabel.main}<span>${valLabel.sub||''}</span></div>
+    </div>`;
+  };
+
+  function platBars(getVal, fmtMain, fmtSub) {
+    const ps = plats.filter(p => getVal(p) > 0).sort((a,b)=>getVal(b)-getVal(a));
+    const max = Math.max(...ps.map(getVal), 1);
+    return ps.map(p => bar(p.name, PLAT_COLOR[p.name]||'var(--green)', getVal(p), max,
+      { main: fmtMain(getVal(p), p), sub: fmtSub? fmtSub(getVal(p), p) : '' })).join('');
+  }
+  function tierBars(getVal, fmtMain, fmtSub) {
+    const ts = tiers.filter(x => getVal(x) > 0).sort((a,b)=>getVal(b)-getVal(a));
+    const max = Math.max(...ts.map(getVal), 1);
+    return ts.map(x => bar(x.name, TIER_COLOR[x.name]||'var(--green)', getVal(x), max,
+      { main: fmtMain(getVal(x), x), sub: fmtSub? fmtSub(getVal(x), x) : '' })).join('');
+  }
+
+  let html = big;
+
+  if (kpi === 'views') {
+    html += `<div class="kpi-modal-h3">Views por plataforma</div>
+      <div class="kpi-modal-rows">${platBars(p=>p.views, v=>fmtN(v), (v,p)=>(v/t.views*100).toFixed(1)+'% del total · '+p.cnt+' contenidos')}</div>
+      <div class="kpi-modal-h3">Views por tier</div>
+      <div class="kpi-modal-rows">${tierBars(x=>x.views, v=>fmtN(v), (v,x)=>(v/t.views*100).toFixed(1)+'% · '+x.cnt+' contenidos')}</div>`;
+  }
+  else if (kpi === 'eng') {
+    html += `<div class="kpi-modal-h3">Composición del engagement</div>
+      <div class="kpi-modal-mix">
+        <div class="kpi-modal-mix-tile"><div class="k">Likes</div><div class="v">${fmtN(t.likes)}<span class="pct">${(t.likes/t.eng*100).toFixed(1)}%</span></div></div>
+        <div class="kpi-modal-mix-tile"><div class="k">Comentarios</div><div class="v">${fmtN(t.coms)}<span class="pct">${(t.coms/t.eng*100).toFixed(1)}%</span></div></div>
+        <div class="kpi-modal-mix-tile"><div class="k">Shares</div><div class="v">${fmtN(t.shares)}<span class="pct">${(t.shares/t.eng*100).toFixed(1)}%</span></div></div>
+        <div class="kpi-modal-mix-tile"><div class="k">Saves</div><div class="v">${fmtN(t.saves)}<span class="pct">${(t.saves/t.eng*100).toFixed(1)}%</span></div></div>
+      </div>
+      <div class="kpi-modal-h3">Engagement por plataforma</div>
+      <div class="kpi-modal-rows">${platBars(p=>p.eng, v=>fmtN(v), (v,p)=>(v/t.eng*100).toFixed(1)+'% · ER '+(+p.er).toFixed(2)+'%')}</div>
+      <div class="kpi-modal-h3">Engagement por tier</div>
+      <div class="kpi-modal-rows">${tierBars(x=>x.eng, v=>fmtN(v), (v,x)=>(v/t.eng*100).toFixed(1)+'% · ER '+(+x.er).toFixed(2)+'%')}</div>`;
+  }
+  else if (kpi === 'er') {
+    html += `<div class="kpi-modal-h3">ER por plataforma</div>
+      <div class="kpi-modal-rows">${platBars(p=>p.er, v=>v.toFixed(2)+'%', (v,p)=>fmtN(p.eng)+' eng · '+fmtN(p.views)+' views')}</div>
+      <div class="kpi-modal-h3">ER por tier</div>
+      <div class="kpi-modal-rows">${tierBars(x=>x.er, v=>v.toFixed(2)+'%', (v,x)=>fmtN(x.eng)+' eng · '+fmtN(x.views)+' views')}</div>`;
+  }
+  else if (kpi === 'contents') {
+    html += `<div class="kpi-modal-h3">Contenidos por plataforma</div>
+      <div class="kpi-modal-rows">${platBars(p=>p.cnt, v=>fmtN(v), (v,p)=>(v/t.contents*100).toFixed(1)+'% · '+p.creators+' creadores')}</div>
+      <div class="kpi-modal-h3">Contenidos por tier</div>
+      <div class="kpi-modal-rows">${tierBars(x=>x.cnt, v=>fmtN(v), (v,x)=>(v/t.contents*100).toFixed(1)+'% · '+(x.creators||0)+' creadores')}</div>`;
+  }
+  else if (kpi === 'creators') {
+    html += `<div class="kpi-modal-h3">Creadores por plataforma <span style="color:var(--fg-ghost);text-transform:none;letter-spacing:0;">(se cuentan en cada red donde publicaron)</span></div>
+      <div class="kpi-modal-rows">${platBars(p=>p.creators, v=>fmtN(v), (v,p)=>p.cnt+' contenidos · '+fmtN(p.views)+' views')}</div>
+      <div class="kpi-modal-h3">Creadores por tier</div>
+      <div class="kpi-modal-rows">${tierBars(x=>x.creators||0, v=>fmtN(v), (v,x)=>x.cnt+' contenidos · '+fmtN(x.views)+' views')}</div>`;
+  }
+  else if (kpi === 'likes' || kpi === 'shares' || kpi === 'saves') {
+    const key = kpi === 'likes' ? 'likes' : kpi;
+    const total = t[kpi];
+    html += `<div class="kpi-modal-h3">${TITLE[kpi]} por plataforma</div>
+      <div class="kpi-modal-rows">${platBars(p=>p[key]||0, v=>fmtN(v), (v,p)=>(total?(v/total*100).toFixed(1):'0')+'% · '+p.cnt+' contenidos')}</div>`;
+  }
+
+  body.innerHTML = html;
+
+  const modal = document.getElementById('kpi-modal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // animate bars in
+  requestAnimationFrame(()=> body.querySelectorAll('.bar > span').forEach(s=>{}));
+}
+function closeKPI() {
+  const modal = document.getElementById('kpi-modal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.openKPI = openKPI;
+window.closeKPI = closeKPI;
+
+function initKPIClicks() {
+  document.querySelectorAll('.kpi[data-kpi]').forEach(el => {
+    const k = el.dataset.kpi;
+    el.addEventListener('click', () => openKPI(k));
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openKPI(k); }
+    });
+  });
+  const modal = document.getElementById('kpi-modal');
+  if (modal) {
+    modal.addEventListener('click', e => { if (e.target === modal) closeKPI(); });
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      const m = document.getElementById('kpi-modal');
+      if (m && m.classList.contains('open')) closeKPI();
+    }
+  });
+}
+
 initMetricTabs();
 initRankMore();
+initKPIClicks();
 renderResults();
 
 /* ═══════════════════════════════════════════════════════════════════════
