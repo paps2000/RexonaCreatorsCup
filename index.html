@@ -2563,6 +2563,153 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   INSIGHT BULBS — click-to-reveal popovers
+   ═══════════════════════════════════════════════════════════════════════ */
+.bulb {
+  position: absolute;
+  z-index: 4;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  background:
+    radial-gradient(circle at 35% 30%, oklch(0.95 0.13 92) 0%, oklch(0.7 0.13 92) 60%, oklch(0.48 0.1 92) 100%);
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0;
+  color: oklch(0.25 0.04 92);
+  font-size: 15px;
+  line-height: 1;
+  box-shadow: 0 0 0 0 oklch(0.82 0.15 92 / .55),
+              0 4px 18px oklch(0.4 0.1 92 / .35);
+  animation: bulbPulse 2.2s ease-in-out infinite;
+  transition: transform .22s var(--ease-out), filter .22s var(--ease-out);
+}
+.bulb:hover {
+  transform: scale(1.12);
+  filter: brightness(1.1);
+  animation: none;
+}
+.bulb:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.bulb svg { display: block; width: 14px; height: 14px; }
+@keyframes bulbPulse {
+  0%,100% { box-shadow: 0 0 0 0 oklch(0.82 0.15 92 / .5), 0 4px 18px oklch(0.4 0.1 92 / .35); }
+  50%     { box-shadow: 0 0 0 8px oklch(0.82 0.15 92 / 0),  0 4px 18px oklch(0.4 0.1 92 / .35); }
+}
+
+/* Position helpers */
+.bulb-tr { top: 10px; right: 10px; }
+.bulb-tl { top: 10px; left: 10px; }
+.bulb-br { bottom: 10px; right: 10px; }
+.bulb-bl { bottom: 10px; left: 10px; }
+
+/* Inline variant (in meta rows etc) */
+.bulb-inline {
+  position: relative;
+  width: 22px; height: 22px;
+  margin-left: 6px;
+  display: inline-flex;
+  vertical-align: middle;
+  font-size: 13px;
+}
+.bulb-inline svg { width: 12px; height: 12px; }
+
+/* Popover */
+.bulb-pop {
+  position: absolute;
+  z-index: 1200;
+  max-width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  border-radius: 12px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55),
+              0 0 0 1px oklch(0.82 0.15 92 / .12) inset,
+              0 0 40px oklch(0.82 0.15 92 / .15);
+  opacity: 0;
+  transform: translateY(6px) scale(.98);
+  pointer-events: none;
+  transition: opacity .25s var(--ease-out), transform .28s var(--ease-out);
+  font-family: var(--ff-body);
+}
+.bulb-pop.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.bulb-pop::before {
+  content: '';
+  position: absolute;
+  width: 12px; height: 12px;
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  border-bottom: 0; border-right: 0;
+  transform: rotate(45deg);
+  top: -7px; left: 24px;
+}
+.bulb-pop[data-arrow="bottom"]::before { top: auto; bottom: -7px; transform: rotate(225deg); }
+.bulb-pop[data-arrow="left"]::before  { top: 24px; left: -7px; transform: rotate(-45deg); }
+.bulb-pop[data-arrow="right"]::before { top: 24px; left: auto; right: -7px; transform: rotate(135deg); }
+.bulb-pop-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.bulb-pop-tag {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold);
+  padding: 3px 8px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  background: oklch(0.82 0.15 92 / .08);
+}
+.bulb-pop-close {
+  appearance: none; border: 0; background: transparent;
+  color: var(--fg-muted);
+  font-size: 16px; line-height: 1;
+  cursor: pointer; padding: 4px;
+  border-radius: 4px;
+}
+.bulb-pop-close:hover { color: var(--fg); background: var(--bg-2); }
+.bulb-pop-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 16px; line-height: 1.25;
+  color: var(--fg);
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.bulb-pop-title em { font-style: normal; color: var(--gold); }
+.bulb-pop-body {
+  font-size: 13px; line-height: 1.55;
+  color: var(--fg-dim);
+}
+.bulb-pop-body b { color: var(--fg); font-weight: 600; }
+.bulb-pop-body em { font-style: normal; color: var(--green); }
+.bulb-pop-stat {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.bulb-pop-stat .k {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 2px;
+}
+.bulb-pop-stat .v {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 18px; color: var(--fg);
+  letter-spacing: -.01em;
+}
+.bulb-pop-stat .v.good { color: var(--green); }
+.bulb-pop-stat .v.gold { color: var(--gold); }
+
+/* Host containers need relative positioning to anchor absolute bulbs */
+.kpi, .plat-card, .podium-card, .hl-card { position: relative; }
+
+/* ═══════════════════════════════════════════════════════════════════════
    RESULTS · CHARTS
    ═══════════════════════════════════════════════════════════════════════ */
 .chart-card {
@@ -4757,6 +4904,7 @@ function initMetricTabs() {
     if (!btn) return;
     tabs.querySelectorAll('.metric-tab').forEach(b => b.classList.toggle('is-active', b===btn));
     renderHighlights(btn.dataset.metric);
+    injectHighlightBulbs(btn.dataset.metric);
   });
 }
 
@@ -4771,6 +4919,236 @@ function initRankMore() {
   });
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   INSIGHT BULBS — campaign annotations on click
+   ═══════════════════════════════════════════════════════════════════════ */
+const BULB_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 21h6v1a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-1Zm3-21a8 8 0 0 1 4.92 14.32A4 4 0 0 0 15 17v2H9v-2a4 4 0 0 0-1.92-2.68A8 8 0 0 1 12 0Z"/></svg>`;
+
+function buildInsights() {
+  const t = RESULTS_DATA.totals;
+  const plats = RESULTS_DATA.platforms;
+  const tt = plats.find(p=>p.name==='TikTok') || {};
+  const ig = plats.find(p=>p.name==='Instagram') || {};
+  const macro = (RESULTS_DATA.tiers||[]).find(x=>x.name==='Macro') || {};
+  const nano  = (RESULTS_DATA.tiers||[]).find(x=>x.name==='Nano')  || {};
+  const topER = RESULTS_DATA.tops.er[0] || {};
+  const rank = RESULTS_DATA.ranking || [];
+  const top10v = rank.slice(0,10).reduce((s,r)=>s+r.views,0);
+  const top10pct = t.views ? (top10v/t.views*100) : 0;
+  const targetCreators = 333;
+  const minContents = targetCreators * 2 * 3; // 2/mes × 3 meses = 1998
+  const creatorDelta = t.creators - targetCreators;
+  const creatorPct = (creatorDelta / targetCreators) * 100;
+  const contentDelta = t.contents - minContents;
+  const contentPct = (contentDelta / minContents) * 100;
+  const finalists = 33;
+  const funnelPct = (finalists / t.creators) * 100;
+  const champion = rank[0] || {};
+
+  return {
+    'exceed-creators': {
+      tag: 'Sobre meta',
+      title: 'Cerramos arriba del target. <em>+' + creatorPct.toFixed(0) + '%</em>',
+      body: `Brief original: <b>${targetCreators} nano creadores</b> en México. Final: <b>${fmtN(t.creators)} creadores únicos</b> publicando. <em>+${creatorDelta}</em> creadores sobre el piso comprometido. Señal de pull orgánico del programa.`,
+      stat: [['Target', fmtN(targetCreators)], ['Real', fmtN(t.creators), 'good']]
+    },
+    'exceed-contents': {
+      tag: 'Volumen + bonus',
+      title: 'Excedimos el mínimo contractual <em>+' + contentPct.toFixed(0) + '%</em>',
+      body: `Mínimo: 2 contenidos/mes × ${targetCreators} creadores × 3 meses = <b>${fmtN(minContents)} contenidos</b>. Cerramos con <b>${fmtN(t.contents)}</b>. Los bonus posts (puntaje extra) movieron la aguja: creadores subieron más allá del obligatorio buscando podio.`,
+      stat: [['Mínimo', fmtN(minContents)], ['Entregado', fmtN(t.contents), 'good']]
+    },
+    'er-benchmark': {
+      tag: 'Benchmark',
+      title: 'En el top de banda del benchmark nano. <em>5.41%</em>',
+      body: `Benchmark típico nano-tier MX 2026: <b>3-5% ER</b>. La campaña cerró en <b>5.41%</b> global — borde superior de la banda. <b>TikTok solo</b> ${(+tt.er).toFixed(2)}% — <em>+55%</em> sobre el límite alto del benchmark. Indica fit creativo + audiencia nano genuina, no inflada.`,
+      stat: [['Benchmark alto', '5.00%'], ['Real', (+t.er).toFixed(2)+'%', 'good']]
+    },
+    'views-context': {
+      tag: 'Alcance',
+      title: '<em>1.78M views</em> orgánicas en 3 meses',
+      body: `Sin pauta. ${fmtN(t.contents)} contenidos generaron <b>${fmtN(t.views)} views</b>. CPM equivalente: virtualmente <em>$0</em> (campaña 100% orgánica). Si se hubiera pagado a CPM nano MX (~$80-120 MXN), este alcance valdría <b>${fmtN(t.views/1000*100)}</b> MXN aprox.`,
+      stat: [['Views totales', fmtN(t.views), 'good'], ['Por contenido', fmtN(t.views/t.contents)]]
+    },
+    'tiktok-leader': {
+      tag: 'Motor de ER',
+      title: 'TikTok lidera <em>engagement por view</em>',
+      body: `TikTok: <b>${(+tt.er).toFixed(2)}% ER</b> sobre ${fmtN(tt.views)} views. IG: <b>${(+ig.er).toFixed(2)}% ER</b> sobre ${fmtN(ig.views)}. TikTok mueve <em>${((tt.er/ig.er)).toFixed(1)}x más interacción</em> por view que IG. Para próximos rounds: TikTok = motor de comunidad, IG = motor de awareness.`,
+      stat: [['TikTok ER', (+tt.er).toFixed(2)+'%', 'good'], ['IG ER', (+ig.er).toFixed(2)+'%']]
+    },
+    'ig-reach': {
+      tag: 'Motor de alcance',
+      title: 'Instagram carga el <em>volumen de views</em>',
+      body: `IG aporta <b>${fmtN(ig.views)} views</b> (<em>${(ig.views/t.views*100).toFixed(1)}%</em> del total) con ${fmtN(ig.creators)} creadores activos. El formato Reel + Stories + Carrusel da cobertura múltiple. Recomendación: mantener IG para top-funnel y empujar bonus de TikTok para interacción.`,
+      stat: [['Views', fmtN(ig.views), 'good'], ['% del total', (ig.views/t.views*100).toFixed(1)+'%']]
+    },
+    'champion-case': {
+      tag: 'Caso éxito',
+      title: 'El campeón concentra <em>' + ((champion.views||0)/t.views*100).toFixed(1) + '%</em> del alcance',
+      body: `<b>@${(champion.handle||'').replace(/^@/,'')}</b> hizo <b>${fmtN(champion.views)} views</b> en solo <b>${champion.cnt} contenidos</b> — ER de <em>${(+champion.er).toFixed(2)}%</em>. Eficiencia altísima: ${fmtN(champion.views/champion.cnt)} views por drop. Perfil a fichar para Squad Rexona y Casa Fresh.`,
+      stat: [['Views', fmtN(champion.views), 'gold'], ['Contenidos', champion.cnt+'']]
+    },
+    'er-outlier': {
+      tag: 'Outlier',
+      title: 'ER de <em>' + (+topER.er||0).toFixed(1) + '%</em> — fuera de curva',
+      body: `<b>@${(topER.handle||'').replace(/^@/,'')}</b> en ${topER.platform} hizo un contenido con <b>${(+topER.er||0).toFixed(2)}% ER</b> sobre ${fmtN(topER.views)} views. Eso es <em>${((topER.er||0)/(+t.er||1)).toFixed(0)}x</em> el ER global. Audiencia hyper-comprometida. Estudiar formato + tono para próximos briefs.`,
+      stat: [['ER del drop', (+topER.er||0).toFixed(1)+'%', 'good'], ['vs global', ((topER.er||0)/(+t.er||1)).toFixed(1)+'x']]
+    },
+    'funnel-33': {
+      tag: 'Funnel real',
+      title: 'Solo <em>' + funnelPct.toFixed(1) + '%</em> pasa a boleto Mundial',
+      body: `<b>${finalists} de ${fmtN(t.creators)}</b> creadores activos califican al boleto triple. La competencia se concretó: <em>${(t.creators-finalists)+''}</em> creadores se llevan el aprendizaje + portfolio pero no premio físico. Top 33 tienen oportunidad de Squad Rexona 2026 (Casa Fresh).`,
+      stat: [['Finalistas', finalists+''], ['Tasa clasif.', funnelPct.toFixed(1)+'%']]
+    },
+    'concentration': {
+      tag: 'Concentración Pareto',
+      title: 'Top 10 acumulan <em>' + top10pct.toFixed(1) + '%</em> del alcance',
+      body: `Los <b>10 mejores creadores</b> generaron <b>${fmtN(top10v)} views</b> de los ${fmtN(t.views)} totales. Distribución Pareto operando: 2% de la base entrega ${top10pct.toFixed(0)}% del resultado. Para 2026: contemplar tier interno de "performers" con brief diferenciado.`,
+      stat: [['Top 10 views', fmtN(top10v), 'good'], ['% del total', top10pct.toFixed(1)+'%']]
+    },
+  };
+}
+
+let _bulbPop = null;
+let _activeBulb = null;
+function ensureBulbPop() {
+  if (_bulbPop) return _bulbPop;
+  _bulbPop = document.createElement('div');
+  _bulbPop.className = 'bulb-pop';
+  _bulbPop.setAttribute('role','dialog');
+  document.body.appendChild(_bulbPop);
+  document.addEventListener('click', (e) => {
+    if (!_bulbPop.contains(e.target) && !e.target.closest('.bulb')) closeBulbPop();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeBulbPop();
+  });
+  window.addEventListener('scroll', closeBulbPop, { passive: true });
+  window.addEventListener('resize', closeBulbPop);
+  return _bulbPop;
+}
+function closeBulbPop() {
+  if (_bulbPop) _bulbPop.classList.remove('is-open');
+  _activeBulb = null;
+}
+function openBulbPop(bulb) {
+  const key = bulb.dataset.bulb;
+  const ins = (BULB_INSIGHTS && BULB_INSIGHTS[key]);
+  if (!ins) return;
+  const pop = ensureBulbPop();
+  const stat = (ins.stat||[]).map(s => `<div><div class="k">${s[0]}</div><div class="v ${s[2]||''}">${s[1]}</div></div>`).join('');
+  pop.innerHTML = `
+    <div class="bulb-pop-head">
+      <span class="bulb-pop-tag">${ins.tag}</span>
+      <button class="bulb-pop-close" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="bulb-pop-title">${ins.title}</div>
+    <div class="bulb-pop-body">${ins.body}</div>
+    ${stat ? `<div class="bulb-pop-stat">${stat}</div>` : ''}`;
+  pop.querySelector('.bulb-pop-close').addEventListener('click', closeBulbPop);
+
+  // position near bulb
+  const r = bulb.getBoundingClientRect();
+  const ph = pop.getBoundingClientRect().height || 200;
+  const pw = 320;
+  let top = window.scrollY + r.bottom + 10;
+  let left = window.scrollX + r.left - 16;
+  let arrow = 'top';
+  // flip below → above if off-screen
+  if (top + ph > window.scrollY + window.innerHeight - 16) {
+    top = window.scrollY + r.top - ph - 10;
+    arrow = 'bottom';
+  }
+  if (left + pw > window.scrollX + window.innerWidth - 16) {
+    left = window.scrollX + window.innerWidth - pw - 16;
+  }
+  if (left < window.scrollX + 12) left = window.scrollX + 12;
+  pop.style.top  = top + 'px';
+  pop.style.left = left + 'px';
+  pop.style.width = Math.min(pw, window.innerWidth - 24) + 'px';
+  pop.setAttribute('data-arrow', arrow);
+  pop.classList.add('is-open');
+  _activeBulb = bulb;
+}
+function makeBulb(key, posCls='bulb-tr') {
+  return `<button type="button" class="bulb ${posCls}" data-bulb="${key}" aria-label="Insight ${key}">${BULB_ICON}</button>`;
+}
+let BULB_INSIGHTS = {};
+function initBulbs() {
+  BULB_INSIGHTS = buildInsights();
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.bulb');
+    if (!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (_activeBulb === b) { closeBulbPop(); return; }
+    openBulbPop(b);
+  }, true);
+}
+
+function injectBulbs() {
+  const add = (sel, html) => {
+    const el = document.querySelector(sel);
+    if (el) el.insertAdjacentHTML('beforeend', html);
+  };
+  // Hero meta-row inline bulbs
+  const heroC = document.getElementById('hero-contents');
+  if (heroC && heroC.parentNode && !heroC.parentNode.querySelector('.bulb-inline')) {
+    heroC.parentNode.insertAdjacentHTML('beforeend', `<span class="bulb bulb-inline" data-bulb="exceed-contents">${BULB_ICON}</span>`);
+  }
+  const heroCr = document.getElementById('hero-creators');
+  if (heroCr && heroCr.parentNode && !heroCr.parentNode.querySelector('.bulb-inline')) {
+    heroCr.parentNode.insertAdjacentHTML('beforeend', `<span class="bulb bulb-inline" data-bulb="exceed-creators">${BULB_ICON}</span>`);
+  }
+
+  // KPI tiles
+  document.querySelectorAll('.kpi[data-kpi="creators"]').forEach(el => {
+    if (!el.querySelector('.bulb')) el.insertAdjacentHTML('beforeend', makeBulb('exceed-creators','bulb-br'));
+  });
+  document.querySelectorAll('.kpi[data-kpi="contents"]').forEach(el => {
+    if (!el.querySelector('.bulb')) el.insertAdjacentHTML('beforeend', makeBulb('exceed-contents','bulb-br'));
+  });
+  document.querySelectorAll('.kpi[data-kpi="er"]').forEach(el => {
+    if (!el.querySelector('.bulb')) el.insertAdjacentHTML('beforeend', makeBulb('er-benchmark','bulb-br'));
+  });
+  document.querySelectorAll('.kpi[data-kpi="views"]').forEach(el => {
+    if (!el.querySelector('.bulb')) el.insertAdjacentHTML('beforeend', makeBulb('views-context','bulb-br'));
+  });
+
+  // Platform cards: TikTok + Instagram
+  document.querySelectorAll('#plat-grid .plat-card').forEach(card => {
+    const name = (card.querySelector('.plat-card-name')?.textContent || '').trim();
+    if (card.querySelector('.bulb')) return;
+    if (name === 'TikTok')    card.insertAdjacentHTML('beforeend', makeBulb('tiktok-leader','bulb-tr'));
+    if (name === 'Instagram') card.insertAdjacentHTML('beforeend', makeBulb('ig-reach','bulb-tr'));
+  });
+
+  // Podium p1
+  const p1 = document.querySelector('#podio-creators .podium-card.p1');
+  if (p1 && !p1.querySelector('.bulb')) p1.insertAdjacentHTML('beforeend', makeBulb('champion-case','bulb-tr'));
+
+  // Ranking section sub
+  const rankSub = document.querySelector('#view-results .section:has(.final-rank) .section-sub')
+                  || Array.from(document.querySelectorAll('#view-results .section-sub')).find(el => el.textContent.includes('VIEWS ACUMULADOS'));
+  if (rankSub && !rankSub.querySelector('.bulb-inline')) {
+    rankSub.insertAdjacentHTML('beforeend', `<span class="bulb bulb-inline" data-bulb="funnel-33">${BULB_ICON}</span>`);
+  }
+
+  // Concentration bulb in §R07 Insights header
+  const insightsSub = Array.from(document.querySelectorAll('#view-results .section-sub')).find(el => el.textContent.trim() === 'QUICK READS');
+  if (insightsSub && !insightsSub.querySelector('.bulb-inline')) {
+    insightsSub.insertAdjacentHTML('beforeend', `<span class="bulb bulb-inline" data-bulb="concentration">${BULB_ICON}</span>`);
+  }
+}
+
+function injectHighlightBulbs(metric) {
+  if (metric !== 'er') return;
+  const first = document.querySelector('#hl-grid .hl-card');
+  if (first && !first.querySelector('.bulb')) {
+    first.insertAdjacentHTML('beforeend', makeBulb('er-outlier','bulb-tr'));
+  }
+}
+
 function renderResults() {
   if (!RESULTS_DATA || !RESULTS_DATA.totals) return;
   renderKPIs();
@@ -4780,6 +5158,8 @@ function renderResults() {
   renderHighlights('views');
   renderRanking(10);
   renderInsights();
+  initBulbs();
+  injectBulbs();
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
