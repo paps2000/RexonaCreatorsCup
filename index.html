@@ -2537,6 +2537,273 @@ body::after {
   animation: blinkSoft 1.8s ease-in-out infinite;
 }
 
+/* FASE 2 — reset + rules + prize */
+.f2-reset {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--red-dim);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse 70% 80% at 0% 50%, oklch(0.66 0.24 27 / .15), transparent 70%),
+    linear-gradient(180deg, oklch(0.18 0.06 27 / .35), oklch(0.12 0.04 27 / .35));
+  position: relative;
+  overflow: hidden;
+  animation: f2ResetGlow 4s ease-in-out infinite;
+}
+@keyframes f2ResetGlow {
+  0%,100% { box-shadow: 0 0 0 0 oklch(0.66 0.24 27 / .15); }
+  50%     { box-shadow: 0 0 0 6px oklch(0.66 0.24 27 / 0); }
+}
+.f2-reset::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 12px, oklch(0.66 0.24 27 / .035) 12px 13px);
+  pointer-events: none;
+}
+.f2-reset > * { position: relative; }
+@media (max-width: 600px) {
+  .f2-reset { grid-template-columns: 1fr; padding: 1.25rem; }
+}
+.f2-reset-icon {
+  width: 72px; height: 72px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, oklch(0.66 0.24 27 / .3), oklch(0.45 0.18 27 / .12));
+  border: 1px solid var(--red-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  animation: f2ResetSpin 6s linear infinite;
+}
+@keyframes f2ResetSpin {
+  to { transform: rotate(360deg); }
+}
+.f2-reset-eyebrow {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 6px;
+}
+.f2-reset-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+.f2-reset-title em { font-style: normal; color: var(--red); }
+.f2-reset-list {
+  list-style: none; padding: 0; margin: 0 0 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 14px;
+  color: var(--fg-dim);
+}
+.f2-reset-list li {
+  display: flex; align-items: baseline; gap: 10px;
+  line-height: 1.5;
+}
+.f2-reset-list li::before {
+  content: '→';
+  color: var(--red);
+  font-family: var(--ff-display); font-weight: 700;
+  flex-shrink: 0;
+}
+.f2-reset-list b { color: var(--fg); font-weight: 600; }
+.f2-reset-warn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  border: 1px dashed var(--red-dim);
+  border-radius: 999px;
+  background: oklch(0.66 0.24 27 / .08);
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .05em;
+  color: oklch(0.88 0.06 27);
+}
+
+/* HEAD F2 */
+.f2-head {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  padding: 1rem 0;
+}
+.f2-head-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 12px;
+  padding: 5px 12px;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .08);
+}
+.f2-head-tag .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+  animation: blinkSoft 1.8s ease-in-out infinite;
+}
+.f2-head-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.f2-head-title em { font-style: normal; color: var(--green); }
+.f2-head-sub {
+  color: var(--fg-dim);
+  font-size: 14px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.f2-head-sub b { color: var(--fg); font-weight: 600; }
+
+/* 4 RULE CARDS */
+.f2-rules {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 1000px) { .f2-rules { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px)  { .f2-rules { grid-template-columns: 1fr; } }
+.f2-rule {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem 1.2rem 1.35rem;
+  background: var(--surface);
+  transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
+  display: flex; flex-direction: column;
+}
+.f2-rule:hover {
+  border-color: var(--line-hi);
+  transform: translateY(-3px);
+}
+.f2-rule.f2-rule-warn {
+  border-color: var(--red-dim);
+  background: linear-gradient(180deg, oklch(0.18 0.06 27 / .25), var(--surface) 60%);
+}
+.f2-rule.f2-rule-warn:hover { border-color: var(--red); }
+.f2-rule-ic {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.f2-rule.f2-rule-warn .f2-rule-ic {
+  background: oklch(0.66 0.24 27 / .12);
+  border-color: var(--red-dim);
+}
+.f2-rule-k {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 6px;
+}
+.f2-rule.f2-rule-warn .f2-rule-k { color: var(--red); }
+.f2-rule-h {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--fg);
+  margin-bottom: 10px;
+}
+.f2-rule-p {
+  font-size: 12.5px;
+  color: var(--fg-dim);
+  line-height: 1.55;
+  flex: 1;
+}
+.f2-rule-p b { color: var(--fg); font-weight: 600; }
+.f2-rule-p .hl {
+  font-family: var(--ff-mono); font-size: 11px;
+  color: var(--green);
+  background: oklch(0.76 0.19 148 / .1);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.f2-rule-mini {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: .04em;
+}
+
+/* PRIZE STRIP */
+.f2-prize {
+  border: 1px solid oklch(0.82 0.15 92 / .35);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.25rem;
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 50%, oklch(0.82 0.15 92 / .12), transparent 70%),
+    linear-gradient(180deg, oklch(0.2 0.05 92 / .2), var(--surface));
+  position: relative;
+  overflow: hidden;
+}
+.f2-prize::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .7;
+}
+.f2-prize-h {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.f2-prize-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 720px) { .f2-prize-grid { grid-template-columns: 1fr; } }
+.f2-prize-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid oklch(0.82 0.15 92 / .25);
+  border-radius: 10px;
+  background: oklch(0.18 0.04 92 / .15);
+}
+.f2-prize-rank {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--gold);
+  white-space: nowrap;
+  text-shadow: 0 0 14px oklch(0.82 0.15 92 / .4);
+}
+.f2-prize-text { min-width: 0; flex: 1; }
+.f2-prize-text b {
+  display: block;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px;
+  color: var(--fg);
+  letter-spacing: -.01em;
+}
+.f2-prize-text span {
+  display: block;
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: .08em;
+  margin-top: 2px;
+}
+
 /* FASE 1 — banner + classified grid */
 .f1-banner {
   display: grid;
@@ -4040,9 +4307,91 @@ body::after {
 
   <!-- FASE 2 — LIVE -->
   <div class="phase-panel" data-panel="f2">
+
+    <!-- BORRÓN Y CUENTA NUEVA -->
+    <div class="f2-reset">
+      <div class="f2-reset-icon">🔄</div>
+      <div class="f2-reset-body">
+        <div class="f2-reset-eyebrow">REINICIO DE PUNTOS</div>
+        <div class="f2-reset-title">Borrón y <em>cuenta nueva</em>.</div>
+        <ul class="f2-reset-list">
+          <li>Los 33 semifinalistas inician con <b>0 puntos</b></li>
+          <li>No se arrastran puntos, ventajas ni posiciones</li>
+          <li>Todos compiten en <b>igualdad de condiciones</b></li>
+        </ul>
+        <div class="f2-reset-warn">⚠️ No importa el puntaje obtenido en Fase 1.</div>
+      </div>
+    </div>
+
+    <!-- HEADLINE FASE 2 -->
+    <div class="f2-head">
+      <div class="f2-head-tag"><span class="dot"></span>FASE 2 · FINAL</div>
+      <div class="f2-head-title">8 de junio — <em>17 de junio</em> 2026</div>
+      <div class="f2-head-sub">10 días para definir a los <b>3 ganadores</b> de la experiencia Mundial 2026.</div>
+    </div>
+
+    <!-- 4 RULE CARDS -->
+    <div class="f2-rules">
+      <article class="f2-rule">
+        <div class="f2-rule-ic">🎯</div>
+        <div class="f2-rule-k">Objetivo</div>
+        <div class="f2-rule-h">Definir al Top 3</div>
+        <div class="f2-rule-p">Quiénes se llevan la experiencia Mundial 2026 y entran al <b>Rexona Squad</b>.</div>
+      </article>
+      <article class="f2-rule">
+        <div class="f2-rule-ic">👥</div>
+        <div class="f2-rule-k">Participantes</div>
+        <div class="f2-rule-h">33 semifinalistas</div>
+        <div class="f2-rule-p">Los únicos que clasificaron de los <b>475 creadores</b> activos en Fase 1.</div>
+      </article>
+      <article class="f2-rule">
+        <div class="f2-rule-ic">⚽</div>
+        <div class="f2-rule-k">Cierre de fase</div>
+        <div class="f2-rule-h">2 retos + bonus</div>
+        <div class="f2-rule-p">
+          2 contenidos del <b>Reto Final</b> + contenido bonus ilimitado.<br>
+          Último contenido válido: <b>17 jun · 23:59</b>.<br>
+          <span class="f2-rule-mini">Eval marca 18–25 jun: puntaje · calidad · apego a guías.</span>
+        </div>
+      </article>
+      <article class="f2-rule f2-rule-warn">
+        <div class="f2-rule-ic">⚔️</div>
+        <div class="f2-rule-k">Reto de desempate</div>
+        <div class="f2-rule-h">Solo si hay empate por 3er lugar</div>
+        <div class="f2-rule-p">
+          <b>19 jun</b> · WhatsApp con guía creativa a los empatados.<br>
+          <b>20 jun 11:00am → 21 jun 11:00am</b> · 24 h de ventana.<br>
+          Gana quien <b>más conversación</b> genere con <span class="hl">#RexonaCreatorsCup</span>.<br>
+          Red social a elección, sin réplicas.<br>
+          <b>25 jun</b> · ganadores anunciados. Decisión final inapelable.
+        </div>
+      </article>
+    </div>
+
+    <!-- PRIZE STRIP -->
+    <div class="f2-prize">
+      <div class="f2-prize-h">🏆 Lo que está en juego</div>
+      <div class="f2-prize-grid">
+        <div class="f2-prize-item">
+          <div class="f2-prize-rank">1°</div>
+          <div class="f2-prize-text">
+            <b>Rexona Squad 2026</b>
+            <span>Squad oficial de creadores · julio a diciembre</span>
+          </div>
+        </div>
+        <div class="f2-prize-item">
+          <div class="f2-prize-rank">1° · 2° · 3°</div>
+          <div class="f2-prize-text">
+            <b>Boleto triple Mundial 16vos</b>
+            <span>Partido en CDMX, Guadalajara o Monterrey</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="phase-note">
       <span class="phase-note-dot"></span>
-      El marcador <b>se reinicia desde cero</b>. Solo compiten los <b>33 clasificados</b> de Fase 1.
+      Ranking <b>en vivo</b> · suma desde cero · actualiza cada 5 min.
     </div>
 
     <div class="rank-tools">
