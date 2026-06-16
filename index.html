@@ -2271,6 +2271,361 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   CAMPAIGN · PHASE TABS (Fase 1 / Fase 2 / Casa Fresh)
+   ═══════════════════════════════════════════════════════════════════════ */
+.phase-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 6px;
+  background: var(--surface);
+}
+@media (max-width: 720px) { .phase-tabs { grid-template-columns: 1fr; } }
+.phase-tab {
+  appearance: none; border: 0;
+  background: transparent;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--fg-dim);
+  transition: background .3s var(--ease-out), color .3s var(--ease-out), transform .25s var(--ease-out);
+}
+.phase-tab:hover { background: oklch(0.15 0.03 148 / .25); color: var(--fg); transform: translateY(-1px); }
+.phase-tab[aria-selected="true"] {
+  background: linear-gradient(180deg, oklch(0.76 0.19 148 / .14), oklch(0.55 0.18 148 / .04));
+  color: var(--fg);
+  box-shadow: 0 0 0 1px var(--green-dim) inset;
+}
+.phase-tab[aria-selected="true"] .pt-dot.live {
+  animation: phaseDotPulse 1.8s ease-in-out infinite;
+}
+.pt-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--fg-ghost);
+  flex-shrink: 0;
+}
+.pt-dot.live { background: var(--green); box-shadow: 0 0 10px var(--green); }
+.pt-dot.gold { background: var(--gold); box-shadow: 0 0 10px oklch(0.82 0.15 92 / .55); }
+.pt-dot.dim  { background: var(--fg-ghost); }
+@keyframes phaseDotPulse {
+  0%,100% { box-shadow: 0 0 0 0 oklch(0.76 0.19 148 / .55); }
+  50%     { box-shadow: 0 0 0 8px oklch(0.76 0.19 148 / 0); }
+}
+.pt-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pt-label {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; letter-spacing: -.01em;
+  line-height: 1.1;
+}
+.pt-sub {
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.phase-panel {
+  animation: phasePanelIn .45s var(--ease-out);
+}
+.phase-panel[hidden] { display: none !important; }
+@keyframes phasePanelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.phase-note {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border: 1px dashed var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .06);
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .05em;
+  color: var(--fg-dim);
+}
+.phase-note b { color: var(--fg); font-weight: 600; }
+.phase-note-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blinkSoft 1.8s ease-in-out infinite;
+}
+
+/* FASE 1 — banner + classified grid */
+.f1-banner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse 60% 100% at 100% 50%, oklch(0.76 0.19 148 / .12), transparent 70%),
+    linear-gradient(180deg, var(--surface), var(--bg-2));
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 680px) {
+  .f1-banner { grid-template-columns: 1fr; gap: 1rem; padding: 1.25rem; }
+}
+.f1-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--green);
+  padding: 5px 12px;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .08);
+  margin-bottom: 14px;
+}
+.f1-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+.f1-title {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  line-height: 1.1; letter-spacing: -.02em;
+  color: var(--fg);
+  margin-bottom: 10px;
+}
+.f1-title em { font-style: normal; color: var(--green); }
+.f1-sub {
+  font-size: 13px; color: var(--fg-dim);
+  line-height: 1.55; max-width: 560px;
+}
+.f1-banner-stat {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.f1-stat-n {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  color: var(--green);
+  line-height: 1; letter-spacing: -.04em;
+  text-shadow: 0 0 40px oklch(0.76 0.19 148 / .3);
+}
+.f1-stat-l {
+  font-family: var(--ff-mono); font-size: 11px;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--fg-muted); margin-top: 6px;
+}
+
+.f1-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.f1-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  transition: border-color .3s var(--ease-out), transform .3s var(--ease-out), background .3s var(--ease-out);
+  opacity: 0;
+  animation: resultsFadeUp .45s var(--ease-out) forwards;
+  position: relative;
+  overflow: hidden;
+}
+.f1-card:hover {
+  border-color: var(--green-dim);
+  transform: translateY(-2px);
+  background: oklch(0.15 0.03 148 / .25);
+}
+.f1-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, oklch(0.76 0.19 148 / .07) 50%, transparent 60%);
+  transform: translateX(-100%);
+  pointer-events: none;
+  transition: transform .8s var(--ease-out);
+}
+.f1-card:hover::after { transform: translateX(100%); }
+.f1-avt {
+  width: 44px; height: 44px; border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid var(--line-hi);
+  background: var(--surface-2);
+  color: var(--fg);
+}
+.f1-card-body { min-width: 0; flex: 1; }
+.f1-card-name {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; line-height: 1.2;
+  color: var(--fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -.01em;
+}
+.f1-card-handle {
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .04em;
+  margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.f1-card-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #07110A;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px oklch(0.76 0.19 148 / .4);
+}
+
+/* CASA FRESH — 3 months grid */
+.cf-intro2 {
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.5rem;
+}
+.cf-eyebrow2 {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono); font-size: 10px;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  padding: 5px 14px;
+  border: 1px solid oklch(0.82 0.15 92 / .35);
+  border-radius: 999px;
+  background: oklch(0.82 0.15 92 / .08);
+}
+.cf-eyebrow2 .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px oklch(0.82 0.15 92 / .55);
+  animation: blinkSoft 2s ease-in-out infinite;
+}
+.cf-title2 {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  line-height: 1.05; letter-spacing: -.02em;
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+.cf-title2 em { font-style: normal; color: var(--gold); }
+.cf-body2 {
+  max-width: 540px; margin: 0 auto;
+  color: var(--fg-dim); font-size: 14px;
+  line-height: 1.55;
+}
+
+.cf-months2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 880px) { .cf-months2 { grid-template-columns: 1fr; } }
+
+.cf-month-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 1.4rem 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: resultsFadeUp .55s var(--ease-out) forwards;
+  transition: transform .35s var(--ease-out);
+}
+.cf-month-card:hover { transform: translateY(-3px); }
+.cf-month-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .7;
+}
+.cf-month-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.cf-month-name2 {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 22px; letter-spacing: -.01em;
+  color: var(--fg);
+}
+.cf-month-tag2 {
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold);
+  padding: 3px 9px;
+  border: 1px solid oklch(0.82 0.15 92 / .35);
+  border-radius: 999px;
+  background: oklch(0.82 0.15 92 / .08);
+}
+.cf-podium2 {
+  display: flex; flex-direction: column;
+  gap: 10px;
+}
+.cf-row2 {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  transition: transform .25s var(--ease-out), border-color .25s var(--ease-out);
+}
+.cf-row2:hover {
+  transform: translateX(3px);
+  border-color: var(--line-hi);
+}
+.cf-row2.r1 {
+  background: linear-gradient(95deg, oklch(0.82 0.15 92 / .18), var(--bg-2) 70%);
+  border-color: oklch(0.82 0.15 92 / .35);
+}
+.cf-pos2 {
+  width: 32px; height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 14px;
+  background: var(--surface-2);
+  color: var(--fg-muted);
+  border: 1px solid var(--line);
+}
+.cf-row2.r1 .cf-pos2 {
+  background: linear-gradient(145deg, oklch(0.82 0.15 92 / .35), oklch(0.62 0.13 92 / .15));
+  color: var(--gold);
+  border-color: oklch(0.82 0.15 92 / .4);
+  box-shadow: 0 0 12px oklch(0.82 0.15 92 / .3);
+}
+.cf-avt2 {
+  width: 38px; height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-hi);
+  background: var(--surface-2);
+}
+.cf-info2 { min-width: 0; flex: 1; }
+.cf-name2 {
+  font-family: var(--ff-display); font-weight: 700;
+  font-size: 13px; color: var(--fg);
+  line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cf-handle2 {
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .04em;
+  margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    RESULTS · AVATARS
    ═══════════════════════════════════════════════════════════════════════ */
 .avatar {
@@ -3522,17 +3877,63 @@ body::after {
   </div>
 </section>
 
-<!-- ══════════════════ RANKING ══════════════════ -->
-<section class="section reveal">
+<!-- ══════════════════ RANKING — PHASES ══════════════════ -->
+<section class="section reveal" id="phases-block">
   <div class="section-head">
     <div>
       <div class="section-num">§ 05 — Leaderboard</div>
-      <h2 class="section-title">Ranking<br>en vivo.</h2>
+      <h2 class="section-title">El ranking,<br>fase por fase.</h2>
     </div>
-    <div class="section-sub live">ACTUALIZADO · AUTO 5 MIN</div>
+    <div class="section-sub live" id="phases-status">FASE 2 · EN VIVO</div>
   </div>
 
-  <div class="topcaptcha-host" id="topCaptchaHost">
+  <nav class="phase-tabs" role="tablist" aria-label="Fases del ranking">
+    <button class="phase-tab" data-phase="f1" role="tab" aria-selected="false" type="button">
+      <span class="pt-dot dim"></span>
+      <div class="pt-meta">
+        <span class="pt-label">Fase 1 · Clasificatoria</span>
+        <span class="pt-sub">Mar — May · Cerrada</span>
+      </div>
+    </button>
+    <button class="phase-tab" data-phase="f2" role="tab" aria-selected="true" type="button">
+      <span class="pt-dot live"></span>
+      <div class="pt-meta">
+        <span class="pt-label">Fase 2 · Semifinal</span>
+        <span class="pt-sub">8 — 17 Jun · En vivo</span>
+      </div>
+    </button>
+    <button class="phase-tab" data-phase="cf" role="tab" aria-selected="false" type="button">
+      <span class="pt-dot gold"></span>
+      <div class="pt-meta">
+        <span class="pt-label">Casa Fresh</span>
+        <span class="pt-sub">Ganadores mensuales</span>
+      </div>
+    </button>
+  </nav>
+
+  <!-- FASE 1 — CLASIFICADOS -->
+  <div class="phase-panel" data-panel="f1" hidden>
+    <div class="f1-banner">
+      <div class="f1-banner-side">
+        <div class="f1-badge"><span class="dot"></span>FASE 1 · CERRADA</div>
+        <div class="f1-title">33 creadores pasan a la <em>siguiente ronda</em>.</div>
+        <div class="f1-sub">Cierre 31 mayo · 23:59 CDMX. La marca decidió mantener el puntaje final en privado — pero estos son los nombres que se quedaron en el juego.</div>
+      </div>
+      <div class="f1-banner-stat">
+        <div class="f1-stat-n">33</div>
+        <div class="f1-stat-l">de 475 creadores</div>
+      </div>
+    </div>
+    <div class="f1-grid" id="f1-grid"></div>
+  </div>
+
+  <!-- FASE 2 — LIVE -->
+  <div class="phase-panel" data-panel="f2">
+    <div class="phase-note">
+      <span class="phase-note-dot"></span>
+      El marcador <b>se reinicia desde cero</b>. Solo compiten los <b>33 clasificados</b> de Fase 1.
+    </div>
+
     <div class="rank-tools">
       <div class="search">
         <span class="search-icon"></span>
@@ -3551,43 +3952,16 @@ body::after {
 
     <div class="ranking" id="ranking"></div>
     <button class="more" id="more-btn" onclick="more()">Ver más creadores</button>
+  </div>
 
-    <!-- ══════ CAPTCHA IMPOSIBLE — solo para ver el TOP ══════ -->
-    <div class="topcaptcha" id="topCaptcha" role="dialog" aria-modal="true" aria-labelledby="topCaptchaTitle">
-      <div class="topcaptcha-card">
-        <div class="topcaptcha-head">
-          <div class="topcaptcha-brand">
-            <span class="topcaptcha-logo">⚽</span>
-            <div>
-              <div class="topcaptcha-brandname">CreatorCheck™</div>
-              <div class="topcaptcha-brandsub">Anti-bot · v2.6</div>
-            </div>
-          </div>
-          <div class="topcaptcha-tag">SECURE</div>
-        </div>
-
-        <div class="topcaptcha-title" id="topCaptchaTitle">
-          Verifica que eres humano<br><em>para ver el TOP 33.</em>
-        </div>
-        <div class="topcaptcha-prompt">
-          Selecciona todas las imágenes con un <b>balón de fútbol ⚽</b>
-        </div>
-
-        <div class="topcaptcha-grid" id="topCaptchaGrid" aria-label="captcha"></div>
-
-        <div class="topcaptcha-foot">
-          <button class="topcaptcha-refresh" id="topCaptchaRefresh" type="button" aria-label="Recargar">↻</button>
-          <div class="topcaptcha-status" id="topCaptchaStatus">0 intentos</div>
-          <button class="topcaptcha-verify" id="topCaptchaVerify" type="button">VERIFICAR</button>
-        </div>
-
-        <div class="topcaptcha-legal">
-          Protegido por CreatorCheck™ ·
-          <span class="topcaptcha-link">Privacidad</span> ·
-          <span class="topcaptcha-link">Términos</span>
-        </div>
-      </div>
+  <!-- CASA FRESH -->
+  <div class="phase-panel" data-panel="cf" hidden>
+    <div class="cf-intro2">
+      <div class="cf-eyebrow2"><span class="dot"></span>HOUSE OF FRESH · CDMX</div>
+      <div class="cf-title2">9 creadores ganaron <em>estadía</em><br>en la Casa Fresh.</div>
+      <div class="cf-body2">3 ganadores por cada mes de Fase 1: marzo, abril y mayo. Cada uno con boleto de avión y noche de hotel en CDMX.</div>
     </div>
+    <div class="cf-months2" id="cf-months2"></div>
   </div>
 </section>
 
@@ -3993,7 +4367,9 @@ window.switchView = switchView;
 /* ═══════════════════════════════════════════════════════════════════════
    GOOGLE SHEETS — live sync
    ═══════════════════════════════════════════════════════════════════════ */
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAqx5vWHZcZh_zkbRsO587sPb3XDjjYsX2bLR0feiHXGZi3_oYOFfpBWIlhAiWjg1BeEjV0BrMFmFh/pub?output=csv';
+// FASE 2 — semis live sheet. Para que conecte: Archivo → Compartir → Publicar
+// en la web → CSV, y pega el link aquí. El sheet original era de Fase 1 (cerrada).
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1FI-D0a3xtiuGGufv4BrJYOWdHQHoUpHRDpPaTpldnGk/gviz/tq?tqx=out:csv&gid=47616950';
 
 async function fetchSheet() {
   const s = document.getElementById('status');
@@ -4487,6 +4863,149 @@ render();
 tick();
 setInterval(tick, 1000);
 initData();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CAMPAIGN · PHASES — Fase 1 (cerrada) · Fase 2 (live) · Casa Fresh
+   ═══════════════════════════════════════════════════════════════════════ */
+const FASE1_CLASIFICADOS = [
+  { name:'Eduardo Aguilar S',              handle:'laloaguilaryt' },
+  { name:'Keri Arath Avila Amador',        handle:'keri_arath' },
+  { name:'Dulce María BA' },
+  { name:'Laura Viviana CM' },
+  { name:'Paola de Jesus Angel Valera' },
+  { name:'Andrea Renteria Serna' },
+  { name:'Ariadne Faride RC' },
+  { name:'José Alberto GD' },
+  { name:'Jade Erandi MM' },
+  { name:'Yessica Díaz G' },
+  { name:'Stefany Rivera H' },
+  { name:'Victor Guillermo Suarez Dzuk' },
+  { name:'Sureily Marian AP' },
+  { name:'Maria Fernanda Corona Perez' },
+  { name:'Juan Pablo Luqueño Vazquez' },
+  { name:'Gerardo Emanuel Lopez Martinez' },
+  { name:'Oscar Vahe',                     handle:'oscarvahe' },
+  { name:'Diego Daniel GV' },
+  { name:'José Arturo RV' },
+  { name:'Mauricio Moguel Cruz' },
+  { name:'Arabiel' },
+  { name:'Jorge Castillo' },
+  { name:'Cesar Sanchez',                  handle:'ceeoficial' },
+  { name:'Carlos Carriles' },
+  { name:'Miguel del Bosque' },
+  { name:'Edward Ruiz',                    handle:'edwardruiz' },
+  { name:'Soy Joules',                     handle:'soyjoules' },
+  { name:'Cristian Gonzales' },
+  { name:'CLG95' },
+  { name:'Cesar Castolo',                  handle:'_cesar.castolo_' },
+  { name:'JakeOG' },
+  { name:'Samuel Gómez' },
+  { name:'Santiago del Toro' },
+];
+
+const CASA_FRESH = {
+  Marzo: [
+    { rank:1, name:'JBeligol',                          handle:'jbellingham_10' },
+    { rank:2, name:'Soy Joules',                        handle:'soyjoules' },
+    { rank:3, name:'Yami Gutiérrez',                    handle:'yami.ordaz' },
+  ],
+  Abril: [
+    { rank:1, name:'Keri Arath Avila Amador',           handle:'keri_arath' },
+    { rank:2, name:'Laura Hernandez',                   handle:'laurahernandez_______' },
+    { rank:3, name:'Eduardo Aguilar S',                 handle:'laloaguilaryt' },
+  ],
+  Mayo: [
+    { rank:1, name:'Oscar Vahe',                        handle:'oscarvahe' },
+    { rank:2, name:'Jesus Alfredo Taquillo Gonzalez',   handle:'jesustaquillo' },
+    { rank:3, name:'Eduardo Ceballos Barrera',          handle:'soyeledubarrera' },
+  ],
+};
+
+function _initials(name) {
+  return (name||'?').split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0]).join('').toUpperCase();
+}
+function _avatarChain(handle, name) {
+  // mirror avatar cascade used in Resultados, falls back to dicebear initials
+  if (typeof avatarCascade === 'function') {
+    return avatarCascade(handle || (name||'').toLowerCase().replace(/\s+/g,''),
+                         ['Instagram','TikTok']);
+  }
+  const seed = encodeURIComponent(handle || (name||'').toLowerCase().replace(/\s+/g,''));
+  return [
+    `https://unavatar.io/instagram/${seed}?fallback=false`,
+    `https://unavatar.io/tiktok/${seed}?fallback=false`,
+    `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&radius=50&backgroundColor=11251a,1a3024,245438&textColor=b5c9bc`,
+  ];
+}
+function _imgChain(handle, name) {
+  const list = _avatarChain(handle, name);
+  const rest = list.slice(1).join('|');
+  return `<img loading="lazy" referrerpolicy="no-referrer" src="${list[0]}" data-fbk="${rest}" alt="" onerror="avatarFallback ? avatarFallback(this) : this.remove()">`;
+}
+
+function renderFase1() {
+  const grid = document.getElementById('f1-grid');
+  if (!grid) return;
+  grid.innerHTML = FASE1_CLASIFICADOS.map((c, i) => `
+    <article class="f1-card" style="animation-delay:${i*22}ms">
+      <span class="f1-avt avatar" data-init="${_initials(c.name)}">${_imgChain(c.handle, c.name)}</span>
+      <div class="f1-card-body">
+        <div class="f1-card-name">${c.name}</div>
+        <div class="f1-card-handle">${c.handle ? '@'+c.handle : 'CLASIFICADO'}</div>
+      </div>
+      <span class="f1-card-check" title="Clasificó a Fase 2">✓</span>
+    </article>
+  `).join('');
+}
+
+function renderCasaFresh() {
+  const root = document.getElementById('cf-months2');
+  if (!root) return;
+  const tag = { Marzo:'CERRADO', Abril:'CERRADO', Mayo:'CERRADO' };
+  root.innerHTML = Object.entries(CASA_FRESH).map(([month, arr], mi) => `
+    <article class="cf-month-card" style="animation-delay:${mi*120}ms">
+      <div class="cf-month-head">
+        <span class="cf-month-name2">${month}</span>
+        <span class="cf-month-tag2">${tag[month] || ''}</span>
+      </div>
+      <div class="cf-podium2">
+        ${arr.map(c => `
+          <div class="cf-row2 r${c.rank}">
+            <div class="cf-pos2">${String(c.rank).padStart(2,'0')}</div>
+            <div class="cf-avt2 avatar" data-init="${_initials(c.name)}">${_imgChain(c.handle, c.name)}</div>
+            <div class="cf-info2">
+              <div class="cf-name2">${c.name}</div>
+              <div class="cf-handle2">@${(c.handle||'').replace(/^@/,'')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </article>
+  `).join('');
+}
+
+function initPhaseTabs() {
+  const tabs = document.querySelectorAll('.phase-tab');
+  const panels = document.querySelectorAll('.phase-panel');
+  const status = document.getElementById('phases-status');
+  const statusMap = {
+    f1: { txt:'FASE 1 · CERRADA',     live:false },
+    f2: { txt:'FASE 2 · EN VIVO',     live:true  },
+    cf: { txt:'CASA FRESH · GANADORES', live:false },
+  };
+  function activate(phase) {
+    tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.phase === phase ? 'true' : 'false'));
+    panels.forEach(p => { p.hidden = (p.dataset.panel !== phase); });
+    if (status) {
+      status.textContent = statusMap[phase].txt;
+      status.classList.toggle('live', !!statusMap[phase].live);
+    }
+  }
+  tabs.forEach(t => t.addEventListener('click', () => activate(t.dataset.phase)));
+}
+
+renderFase1();
+renderCasaFresh();
+initPhaseTabs();
 
 /* ═══════════════════════════════════════════════════════════════════════
    RESULTS DATA & RENDER — Creators Cup MX 2026
