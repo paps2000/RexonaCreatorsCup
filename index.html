@@ -1615,6 +1615,40 @@ body::after {
 }
 .ph-cell .ph-kpi b { color: var(--fg); font-weight: 500; }
 .ph-cell.live .ph-kpi b { color: var(--green); }
+
+/* Fase cerrada */
+.phases-track .ph-cell.done {
+  background: linear-gradient(135deg, oklch(0.4 0.04 200 / .12), transparent 60%);
+  opacity: .86;
+}
+.phases-track .ph-cell.done::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--fg-ghost);
+}
+.ph-cell.done .ph-big { color: var(--fg-dim); }
+.ph-cell.done .ph-status { color: var(--fg-muted); }
+.ph-cell.done .ph-status .ldot.done {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fg-ghost);
+  position: relative;
+}
+.ph-cell.done .ph-status .ldot.done::after {
+  content: '✓'; position: absolute; inset: -6px 0 0 0;
+  color: var(--fg-muted); font-size: 10px; text-align: center;
+}
+
+/* Celda de premio */
+.phases-track .ph-cell.prize {
+  background: linear-gradient(135deg, oklch(0.82 0.15 92 / .1), transparent 60%);
+}
+.phases-track .ph-cell.prize::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .8;
+}
+.ph-cell.prize .ph-big { color: var(--gold); }
+.ph-cell.prize .ph-status { color: var(--gold); }
+.ph-cell.prize .ph-kpi b { color: var(--gold); }
 .ph-cell .ph-filler {
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at 120% 120%, oklch(0.76 0.19 148 / .1), transparent 50%);
@@ -3975,14 +4009,16 @@ body::after {
   </div>
   <div class="header-center">
     <div class="hticker">
-      <span><em>LIVE</em> Fase 1 · Clasificatoria</span>
-      <span><em>333</em> creadores inscritos</span>
-      <span><em>33</em> plazas al final</span>
-      <span><em>#</em>CreatorsCup</span>
-      <span><em>LIVE</em> Fase 1 · Clasificatoria</span>
-      <span><em>333</em> creadores inscritos</span>
-      <span><em>33</em> plazas al final</span>
-      <span><em>#</em>CreatorsCup</span>
+      <span><em>LIVE</em> Fase 2 · Semifinal</span>
+      <span><em>475</em> creadores participaron</span>
+      <span><em>33</em> semifinalistas en juego</span>
+      <span><em>3</em> boletos triples al Mundial</span>
+      <span><em>#</em>RexonaCreatorsCup</span>
+      <span><em>LIVE</em> Fase 2 · Semifinal</span>
+      <span><em>475</em> creadores participaron</span>
+      <span><em>33</em> semifinalistas en juego</span>
+      <span><em>3</em> boletos triples al Mundial</span>
+      <span><em>#</em>RexonaCreatorsCup</span>
     </div>
   </div>
   <div class="status" id="status">
@@ -4065,15 +4101,15 @@ body::after {
     <div class="hero-meta">
       <div class="hmeta-item">
         <div class="hmeta-k">Fase actual</div>
-        <div class="hmeta-v accent">01 / Clasificatoria</div>
+        <div class="hmeta-v accent">02 / Semifinal</div>
       </div>
       <div class="hmeta-item">
         <div class="hmeta-k">Periodo</div>
-        <div class="hmeta-v">Marzo — Mayo 2026</div>
+        <div class="hmeta-v">8 — 17 jun 2026</div>
       </div>
       <div class="hmeta-item">
         <div class="hmeta-k">Meta</div>
-        <div class="hmeta-v">Top 33 → Final</div>
+        <div class="hmeta-v">Top 3 → Mundial</div>
       </div>
     </div>
 
@@ -4103,90 +4139,41 @@ body::after {
   <div class="section-head">
     <div>
       <div class="section-num">§ 01 — Timeline</div>
-      <h2 class="section-title">Tres fases.<br>Un solo ganador.</h2>
+      <h2 class="section-title">Dos fases.<br>3 ganadores al Mundial.</h2>
     </div>
-    <div class="section-sub">MAR — JUN 2026</div>
+    <div class="section-sub live">FASE 2 · EN CURSO</div>
   </div>
 
   <div class="phases-visual">
     <div class="phases-track">
-      <div class="ph-cell live" onclick="/*current*/ void 0">
+      <div class="ph-cell done">
         <div class="ph-filler"></div>
-        <div class="ph-idx">Fase 01 / 03</div>
-        <div class="ph-big">333</div>
-        <div class="ph-name2">Clasificatoria abierta</div>
-        <div class="ph-kpi">creadores compitiendo · <b>139 activos</b></div>
-        <div class="ph-status"><span class="ldot"></span>En curso</div>
+        <div class="ph-idx">Fase 01 / 02</div>
+        <div class="ph-big">475</div>
+        <div class="ph-name2">Clasificatoria</div>
+        <div class="ph-kpi">creadores compitieron · <b>33 pasaron</b></div>
+        <div class="ph-status"><span class="ldot done"></span>Cerrada</div>
         <div class="ph-dates2">1 MAR — 31 MAY 2026</div>
         <div class="ph-arrow-deco">→</div>
       </div>
-      <div class="ph-cell" onclick="openPhase('f2')" style="cursor:pointer">
-        <div class="ph-idx">Fase 02 / 03</div>
+      <div class="ph-cell live">
+        <div class="ph-filler"></div>
+        <div class="ph-idx">Fase 02 / 02</div>
         <div class="ph-big">33</div>
-        <div class="ph-name2">Finalistas</div>
-        <div class="ph-kpi">hacen el corte · <b>retos sorpresa</b></div>
-        <div class="ph-status">Próxima</div>
-        <div class="ph-dates2">1 — 17 JUN 2026</div>
+        <div class="ph-name2">Semifinal & Final</div>
+        <div class="ph-kpi">borrón y cuenta nueva · <b>todos en 0</b></div>
+        <div class="ph-status"><span class="ldot"></span>En curso</div>
+        <div class="ph-dates2">8 — 17 JUN 2026</div>
         <div class="ph-arrow-deco">→</div>
       </div>
-      <div class="ph-cell" onclick="openPhase('f3')" style="cursor:pointer">
-        <div class="ph-idx">Fase 03 / 03</div>
-        <div class="ph-big">1</div>
-        <div class="ph-name2">Gana todo</div>
-        <div class="ph-kpi">viaje al mundial · <b>premios finales</b></div>
-        <div class="ph-status">Final</div>
+      <div class="ph-cell prize">
+        <div class="ph-idx">Premio</div>
+        <div class="ph-big">3</div>
+        <div class="ph-name2">Ganadores Mundial</div>
+        <div class="ph-kpi">Top 3 a 16vos FIFA · <b>1° al Squad</b></div>
+        <div class="ph-status">25 jun · anuncio</div>
         <div class="ph-dates2">18 — 25 JUN 2026</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ STATS ══════════════════ -->
-<section class="section reveal">
-  <div class="section-head">
-    <div>
-      <div class="section-num">§ 02 — Estado</div>
-      <h2 class="section-title">La campaña<br>en números.</h2>
-    </div>
-    <div class="section-sub live">EN VIVO</div>
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-k">Creadores activos</div>
-      <div class="stat-v accent"><span class="count" id="stat-creadores" data-to="139">0</span></div>
-      <div class="stat-trend">con contenido publicado</div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Puntos en juego</div>
-      <div class="stat-v"><span class="count" data-to="81">0</span><span class="stat-unit">K</span></div>
-      <div class="stat-trend">acumulados hoy</div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Contenidos publicados</div>
-      <div class="stat-v"><span class="count" id="stat-contenidos" data-to="267">0</span></div>
-      <div class="stat-trend">y sumando</div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Plazas a final</div>
-      <div class="stat-v accent"><span class="count" data-to="33">0</span></div>
-      <div class="stat-trend">Top ranking al 31 MAY</div>
-    </div>
-  </div>
-
-  <div class="prog">
-    <div class="prog-top">
-      <div class="prog-label">Squad activo · Fase 01</div>
-      <div class="prog-count">
-        <span id="prog-active">139</span>
-        <span class="slash">/</span>
-        <span class="of">333</span>
-      </div>
-    </div>
-    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-    <div class="prog-foot">
-      <span><b id="prog-pct">41.6%</b> ya está sumando puntos</span>
-      <span>¿Y tú?</span>
     </div>
   </div>
 </section>
@@ -4419,7 +4406,7 @@ body::after {
           <div class="f2-prize-rank">1° · 2° · 3°</div>
           <div class="f2-prize-text">
             <b>Boleto triple Mundial 16vos</b>
-            <span>Partido en CDMX, Guadalajara o Monterrey</span>
+            <span>Partido en CDMX o Monterrey</span>
           </div>
         </div>
       </div>
@@ -4455,7 +4442,7 @@ body::after {
     <div class="cf-intro2">
       <div class="cf-eyebrow2"><span class="dot"></span>HOUSE OF FRESH · CDMX</div>
       <div class="cf-title2">9 creadores ganaron <em>estadía</em><br>en la Casa Fresh.</div>
-      <div class="cf-body2">3 ganadores por cada mes de Fase 1: marzo, abril y mayo. Cada uno con boleto de avión y noche de hotel en CDMX.</div>
+      <div class="cf-body2">3 ganadores por cada mes de Fase 1: marzo, abril y mayo. Cada uno con una noche de hotel en CDMX.</div>
     </div>
     <div class="cf-months2" id="cf-months2"></div>
   </div>
@@ -4468,12 +4455,12 @@ body::after {
   </div>
   <span class="cta-eyebrow">● El mundial te está esperando</span>
   <h2 class="cta-title">
-    Cada post suma.<br>
-    Cada bonus te acerca<br>
+    33 en la cancha.<br>
+    Solo 3 llegan<br>
     <em>al estadio.</em>
   </h2>
   <p class="cta-body">
-    Los <strong>33 creadores con más puntos</strong> al 31 de mayo pasan a la final. No abandones ahora. Publica y etiqueta con <span class="hashtag">#CreatorsCup</span> — que te vean.
+    Cada post suma. Cada bonus te acerca. Cierre <strong>17 jun · 23:59</strong>. Publica y etiqueta con <span class="hashtag">#RexonaCreatorsCup</span> — que te vean.
   </p>
   <a href="#inspo" class="cta-btn" id="cta-btn">Inspírate y publica hoy</a>
 </section>
@@ -4804,7 +4791,7 @@ body::after {
       <p>Durante la vigencia, los participantes <strong>no podrán publicar contenido</strong> relacionado con otras marcas de antitranspirantes o desodorantes competidores.</p>
 
       <div class="tnc-h3">09 — Incentivo principal</div>
-      <p>Los <strong>3 primeros lugares</strong> reciben un boleto triple para un partido de <strong>16vos de la Copa Mundial FIFA 2026</strong>, el 30 de junio (CDMX, Guadalajara o Monterrey).</p>
+      <p>Los <strong>3 primeros lugares</strong> reciben un boleto triple para un partido de <strong>16vos de la Copa Mundial FIFA 2026</strong>, el 30 de junio (CDMX o Monterrey).</p>
       <p>El <strong>1er lugar</strong> pasa al squad de creadores oficial de julio a diciembre 2026: Watch Party 5to partido (si México juega), asistencia a evento Casa Fresh, boletos dobles para 3 partidos de Liga MX, participación en Caravana MX ($20,000 MXN).</p>
 
       <div class="tnc-h3">10 — Incentivos secundarios</div>
@@ -4967,11 +4954,14 @@ function updateStat(id, val) {
 }
 
 function updateProgress() {
-  const active = C.length; // todos los creadores únicos por nombre que han publicado algo
-  const total = Math.max(active, 333);
+  const a = document.getElementById('prog-active');
+  const p = document.getElementById('prog-pct');
+  if (!a || !p) return; // sección "La campaña en números" ya no existe
+  const active = C.length;
+  const total = Math.max(active, 33);
   const pct = Math.min(100, Math.round(active / total * 1000) / 10);
-  document.getElementById('prog-active').textContent = active;
-  document.getElementById('prog-pct').textContent = pct + '%';
+  a.textContent = active;
+  p.textContent = pct + '%';
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
