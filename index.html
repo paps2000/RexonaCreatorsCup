@@ -2537,6 +2537,42 @@ body::after {
   animation: blinkSoft 1.8s ease-in-out infinite;
 }
 
+/* FASE 2 — leaderboard rows (sin puntaje visible) */
+.ri.ri-f2 .rperson {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px; align-items: center;
+}
+.ri.ri-f2 .rsub {
+  font-family: var(--ff-mono); font-size: 10px;
+  color: var(--fg-muted); letter-spacing: .04em;
+  margin-top: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ri.ri-f2 .rstatus {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ff-mono); font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--green);
+  padding: 4px 10px;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  background: oklch(0.76 0.19 148 / .08);
+  flex-shrink: 0;
+}
+.ri.ri-f2.r1 .rstatus { color: var(--gold); border-color: oklch(0.82 0.15 92 / .4); background: oklch(0.82 0.15 92 / .1); }
+.ri.ri-f2 .rstatus-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blinkSoft 1.6s ease-in-out infinite;
+}
+.ri.ri-f2.r1 .rstatus-dot { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+
+@media (max-width: 540px) {
+  .ri.ri-f2 .rstatus { display: none; }
+}
+
 /* FASE 2 — reset + rules + prize */
 .f2-reset {
   display: grid;
@@ -4848,28 +4884,36 @@ async function fetchSheet() {
       }
       return cols;
     };
+    // Agrupamos por NOMBRE normalizado y filtramos a los 33 semifinalistas.
     const map = new Map();
-    let totalContenidos = 0; // cada fila (no-header, nombre no vacío) = 1 contenido
+    let totalContenidos = 0;
     for (const row of rows) {
       const c = parseRow(row);
       const name = (c[0] || '').trim();
       if (!name || /^nombres?$/i.test(name)) continue;
-      totalContenidos++; // cuenta la fila como un contenido publicado
+      const key = _normName(name);
+      const ref = FASE1_LOOKUP.get(key);
+      if (!ref) continue; // solo cuentan los 33 clasificados
+      totalContenidos++;
       const tipo = (c[2] || '').trim().toLowerCase();
       const pts = parseInt(c[5]) || 0;
       let platform = 'Instagram';
       if (tipo.includes('tiktok')) platform = 'TikTok';
       else if (tipo.includes('youtube') || tipo.includes('short')) platform = 'YouTube';
-      // Agrupamos por NOMBRE (c[0]), no por handle — un creador = una entrada
-      if (map.has(name)) {
-        const entry = map.get(name);
+      if (map.has(key)) {
+        const entry = map.get(key);
         entry.pts += pts;
         if (pts > entry._maxPts) { entry.p = platform; entry._maxPts = pts; }
       } else {
-        map.set(name, { n: name, p: platform, pts, _maxPts: pts });
+        map.set(key, { n: ref.name, handle: ref.handle || '', p: platform, pts, _maxPts: pts });
       }
     }
-    const result = Array.from(map.values()).map(({n,p,pts}) => ({n,p,pts})).filter(c => c.n);
+    // Asegura que TODOS los 33 estén presentes (los que no hayan publicado quedan en 0)
+    FASE1_CLASIFICADOS.forEach(c => {
+      const k = _normName(c.name);
+      if (!map.has(k)) map.set(k, { n: c.name, handle: c.handle || '', p: 'Instagram', pts: 0, _maxPts: 0 });
+    });
+    const result = Array.from(map.values()).map(({n,handle,p,pts}) => ({n,handle,p,pts}));
     result.sort((a,b) => b.pts - a.pts);
     if (!result.length) return false;
     C.splice(0, C.length, ...result);
@@ -4933,78 +4977,58 @@ function updateProgress() {
 /* ═══════════════════════════════════════════════════════════════════════
    DATA — fallback data (mismo dataset que el original)
    ═══════════════════════════════════════════════════════════════════════ */
-const C = [
-  {n:"Soy joules",p:"YouTube",pts:900},{n:"Abimael Santos",p:"Instagram",pts:900},
-  {n:"Soy Fuyuki",p:"Instagram",pts:750},{n:"Vero Pili García",p:"TikTok",pts:750},
-  {n:"Bella Baumen",p:"Instagram",pts:700},{n:"Sonia Benitez",p:"Instagram",pts:700},
-  {n:"Hanna J",p:"Instagram",pts:650},{n:"Val Díaz",p:"Instagram",pts:600},
-  {n:"Ricardo Andrade",p:"Instagram",pts:600},{n:"baby chaar",p:"Instagram",pts:600},
-  {n:"Carolina Aquinoo",p:"Instagram",pts:600},{n:"Aylin Trish",p:"TikTok",pts:600},
-  {n:"Frida Gonzalez",p:"TikTok",pts:600},{n:"Astrid Zuno",p:"Instagram",pts:600},
-  {n:"Brenda Msz",p:"Instagram",pts:600},{n:"Jose Mayorga",p:"Instagram",pts:600},
-  {n:"Carlos Dominguez",p:"Instagram",pts:600},{n:"Ditzy",p:"Instagram",pts:600},
-  {n:"Mari Rodríguez",p:"Instagram",pts:600},{n:"Yaz Cielo",p:"Instagram",pts:600},
-  {n:"Karla Jazklov",p:"TikTok",pts:600},{n:"JBeligol",p:"TikTok",pts:600},
-  {n:"Paola Mayet",p:"Instagram",pts:600},{n:"Paola Jazzely",p:"TikTok",pts:600},
-  {n:"Cee Castolo",p:"Instagram",pts:600},{n:"Poly",p:"Instagram",pts:600},
-  {n:"José Alberto (Kirito)",p:"TikTok",pts:600},{n:"Manolo Banest",p:"Instagram",pts:600},
-  {n:"Ingrid Franco",p:"Instagram",pts:600},{n:"Andrea Gasca",p:"TikTok",pts:600},
-  {n:"Jonathansaulvs",p:"Instagram",pts:600},{n:"Santiago del Toro",p:"TikTok",pts:600},
-  {n:"Azu",p:"TikTok",pts:600},{n:"Hanna Kinn",p:"TikTok",pts:600},
-  {n:"Karla Alcantara",p:"Instagram",pts:600},{n:"Mar Quevedo",p:"Instagram",pts:600},
-  {n:"Jacquelin Cabrera",p:"YouTube",pts:600},{n:"Keren Only",p:"Instagram",pts:600},
-  {n:"Alondra Reyes",p:"Instagram",pts:600},{n:"Edward",p:"TikTok",pts:600},
-  {n:"Gigis",p:"TikTok",pts:600},{n:"Taco de Ojo",p:"YouTube",pts:600},
-  {n:"Enriquetech",p:"TikTok",pts:600},{n:"Anitabubalo",p:"TikTok",pts:600},
-  {n:"Musallitorres",p:"TikTok",pts:600},{n:"Paw Flores",p:"TikTok",pts:600},
-  {n:"Héctor Cueva",p:"TikTok",pts:600},{n:"Itzel Tagano",p:"Instagram",pts:600},
-  {n:"Runner Reyna",p:"YouTube",pts:600},{n:"Meli Pop",p:"Instagram",pts:600},
-  {n:"Pay Marquez",p:"TikTok",pts:600},{n:"Edith Torres",p:"YouTube",pts:600},
-  {n:"Samuel Gómez",p:"Instagram",pts:600},{n:"Yami Gutierrez",p:"Instagram",pts:600},
-  {n:"Denisse García",p:"TikTok",pts:600},{n:"Arabiel",p:"YouTube",pts:600},
-  {n:"Ramses Téllez",p:"Instagram",pts:600},{n:"Miguel del Bosque",p:"YouTube",pts:600},
-  {n:"Nitsu Arano",p:"TikTok",pts:600},{n:"Katy Montes",p:"TikTok",pts:600},
-  {n:"Lira Lore",p:"YouTube",pts:450},{n:"Rolando Arconada",p:"Instagram",pts:450},
-  {n:"Rumania MJ",p:"Instagram",pts:450},{n:"Maria Fernanda Arobes",p:"Instagram",pts:450},
-  {n:"Larita Vlogs",p:"YouTube",pts:450},{n:"Anel Minor",p:"Instagram",pts:300},
-  {n:"Araceli Duran",p:"TikTok",pts:300},{n:"Aguilera Fatima",p:"TikTok",pts:300},
-  {n:"Val Escamilla",p:"TikTok",pts:300},{n:"Byshanibanani",p:"TikTok",pts:300},
-  {n:"Karina Fernandez",p:"Instagram",pts:300},{n:"It's_guisepp",p:"TikTok",pts:300},
-  {n:"Karla Farias",p:"TikTok",pts:300},{n:"Profe_alda",p:"Instagram",pts:300},
-  {n:"Marye Cans",p:"TikTok",pts:300},{n:"Cindy Valencia",p:"TikTok",pts:300},
-  {n:"Juli Estrada",p:"TikTok",pts:300},{n:"Amairany Lara",p:"Instagram",pts:300},
-  {n:"Airin Padila",p:"TikTok",pts:300},{n:"Gaby Benitez",p:"TikTok",pts:300},
-  {n:"Vivian Huerta",p:"Instagram",pts:300},{n:"Gaby Haidee",p:"Instagram",pts:300},
-  {n:"Luisitop",p:"TikTok",pts:300},{n:"Dulce Toys",p:"Instagram",pts:300},
-  {n:"Diego Jiménez",p:"TikTok",pts:300},{n:"Nay Parra",p:"Instagram",pts:300},
-  {n:"Laura Hernandez",p:"Instagram",pts:300},{n:"Gerardo Rivas",p:"TikTok",pts:300},
-  {n:"Dulce Aldave",p:"Instagram",pts:300},{n:"Maggie Abarca",p:"TikTok",pts:300},
-  {n:"Alcali VP",p:"TikTok",pts:300},{n:"Pamela Jasso",p:"TikTok",pts:300},
-  {n:"Rish Gamer",p:"YouTube",pts:300},{n:"Paulina Urbina",p:"Instagram",pts:300},
-  {n:"Hey.soyaz",p:"TikTok",pts:300},{n:"It's Yehovana",p:"TikTok",pts:300},
-  {n:"Pi Oz",p:"TikTok",pts:300},{n:"Jorge Castillo",p:"TikTok",pts:300},
-  {n:"Mariela Garpez",p:"TikTok",pts:300},{n:"Karen Cabrera",p:"Instagram",pts:300},
-  {n:"Cesar Castolo",p:"Instagram",pts:300},{n:"JESSICURRIS",p:"TikTok",pts:300},
-  {n:"Jarhet P",p:"Instagram",pts:300},{n:"Cristabel Patatucci",p:"Instagram",pts:300},
-  {n:"Martín Alonso",p:"YouTube",pts:300},{n:"Fer Bautista",p:"TikTok",pts:300},
-  {n:"Amanda Martinez",p:"Instagram",pts:300},{n:"Karyy Rod",p:"TikTok",pts:300},
-  {n:"Nadia Caro",p:"Instagram",pts:300},{n:"Karina Guzmán",p:"TikTok",pts:300},
-  {n:"Carlos Carriles",p:"TikTok",pts:300},{n:"Abril Yareli",p:"Instagram",pts:300},
-  {n:"Dann Torres",p:"Instagram",pts:300},{n:"Maria Reynosa",p:"Instagram",pts:300},
-  {n:"Adrián Fallas",p:"TikTok",pts:300},{n:"Zara Garcia",p:"TikTok",pts:300},
-  {n:"Sandy Bess",p:"TikTok",pts:300},{n:"Listón Deportivo",p:"TikTok",pts:300},
-  {n:"Queparesito",p:"TikTok",pts:300},{n:"Karen Garcia",p:"TikTok",pts:300},
-  {n:"Dj Roma",p:"Instagram",pts:300},{n:"Bridget",p:"TikTok",pts:300},
-  {n:"Grizz",p:"Instagram",pts:300},{n:"Alex Camisetero",p:"TikTok",pts:300},
-  {n:"Josue Nícolas",p:"Instagram",pts:300},{n:"Valeria Almanza",p:"TikTok",pts:300},
-  {n:"Re Alor",p:"Instagram",pts:300},{n:"Anii Hernandez",p:"TikTok",pts:300},
-  {n:"Mateo Rojas",p:"Instagram",pts:300},{n:"CLG95",p:"Instagram",pts:300},
-  {n:"Sofi Gavante",p:"TikTok",pts:300},{n:"Dan Izunza",p:"TikTok",pts:300},
-  {n:"Bianca Sampayo",p:"Instagram",pts:300},{n:"Ale Castro",p:"Instagram",pts:300},
-  {n:"Shanon Daniela",p:"TikTok",pts:300},{n:"Jared Jiménez",p:"TikTok",pts:300},
-  {n:"Esmeralda Carmona",p:"Instagram",pts:300},{n:"Fadua Vera / Dua",p:"TikTok",pts:300},
-  {n:"Andrea Osorio",p:"Instagram",pts:300},
+// ═══════════════════════════════════════════════════════════════════════
+// FASE 2 RANKING — solo los 33 semifinalistas. Inician en 0. Suma desde sheet.
+// Lista única — también usada en el panel "Fase 1 cerrada" (renderFase1).
+// ═══════════════════════════════════════════════════════════════════════
+const FASE1_CLASIFICADOS = [
+  { name:'Eduardo Aguilar S',              handle:'laloaguilaryt' },
+  { name:'Keri Arath Avila Amador',        handle:'keri_arath' },
+  { name:'Dulce María BA' },
+  { name:'Laura Viviana CM' },
+  { name:'Paola de Jesus Angel Valera' },
+  { name:'Andrea Renteria Serna' },
+  { name:'Ariadne Faride RC' },
+  { name:'José Alberto GD' },
+  { name:'Jade Erandi MM' },
+  { name:'Yessica Díaz G' },
+  { name:'Stefany Rivera H' },
+  { name:'Victor Guillermo Suarez Dzuk' },
+  { name:'Sureily Marian AP' },
+  { name:'Maria Fernanda Corona Perez' },
+  { name:'Juan Pablo Luqueño Vazquez' },
+  { name:'Gerardo Emanuel Lopez Martinez' },
+  { name:'Oscar Vahe',                     handle:'oscarvahe' },
+  { name:'Diego Daniel GV' },
+  { name:'José Arturo RV' },
+  { name:'Mauricio Moguel Cruz' },
+  { name:'Arabiel' },
+  { name:'Jorge Castillo' },
+  { name:'Cesar Sanchez',                  handle:'ceeoficial' },
+  { name:'Carlos Carriles' },
+  { name:'Miguel del Bosque' },
+  { name:'Edward Ruiz',                    handle:'edwardruiz' },
+  { name:'Soy Joules',                     handle:'soyjoules' },
+  { name:'Cristian Gonzales' },
+  { name:'CLG95' },
+  { name:'Cesar Castolo',                  handle:'_cesar.castolo_' },
+  { name:'JakeOG' },
+  { name:'Samuel Gómez' },
+  { name:'Santiago del Toro' },
 ];
+
+function _normName(s) {
+  return (s||'').toString().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]/g,'');
+}
+const FASE1_LOOKUP = new Map();
+FASE1_CLASIFICADOS.forEach(c => FASE1_LOOKUP.set(_normName(c.name), c));
+
+// Seed leaderboard: los 33, todos en 0 puntos. fetchSheet va sumando.
+const C = FASE1_CLASIFICADOS.map(c => ({
+  n: c.name, handle: c.handle || '', p: 'Instagram', pts: 0,
+}));
 
 /* ═══════════════════════════════════════════════════════════════════════
    RANKING RENDER
@@ -5016,7 +5040,7 @@ const PC = {
   default:   '#6A8274'
 };
 
-let showing = 15;
+let showing = 33;
 let activeFilter = 'all';
 
 function ini(n) { return n.split(' ').slice(0,2).map(w => w[0] || '').join('').toUpperCase(); }
@@ -5028,37 +5052,29 @@ function filteredData() {
 
 function render() {
   const data = filteredData();
-  const mx = C[0]?.pts || 900;
   const slice = data.slice(0, showing);
 
   const html = slice.map((c, i) => {
-    // rank in the ORIGINAL full sorted list (not filtered)
-    const origRank = C.findIndex(x => x.n === c.n) + 1;
-    const r = origRank;
-    const pct = Math.max(4, Math.round(c.pts / mx * 100));
-    const pcColor = PC[c.p] || PC.default;
-
+    const r = i + 1; // posición en el ranking de Fase 2 (ya filtrado a 33)
     let rowClass = '';
     if (r === 1) rowClass = 'r1';
     else if (r === 2) rowClass = 'r2';
     else if (r === 3) rowClass = 'r3';
-    else if (r <= 33) rowClass = 'qual';
-    else rowClass = 'below-cutoff';
+    else rowClass = 'qual';
 
-    // cutoff line marker (after rank 33 in full list)
-    const isCutoff = (r === 33);
-
-    const delay = Math.min(i * 0.03, 0.6);
+    const delay = Math.min(i * 0.025, 0.6);
+    const handleLine = c.handle ? `@${c.handle.replace(/^@/,'')}` : 'CLASIFICADO · Fase 2';
 
     return `
-      <div class="ri ${rowClass}${isCutoff ? ' cutoff-before' : ''}" style="animation-delay:${delay}s">
+      <div class="ri ${rowClass} ri-f2" style="animation-delay:${delay}s">
         <div class="rn">${String(r).padStart(2,'0')}</div>
         <div class="rperson">
           <div class="avt">${ini(c.n)}</div>
           <div class="rname-col">
             <div class="rname">${c.n}</div>
-            <div class="rbar"><div class="rbar-fill" data-pct="${pct}"></div></div>
+            <div class="rsub">${handleLine}</div>
           </div>
+          <div class="rstatus"><span class="rstatus-dot"></span>EN JUEGO</div>
         </div>
       </div>
     `;
@@ -5066,20 +5082,8 @@ function render() {
 
   document.getElementById('ranking').innerHTML = html;
 
-  // animate bars after a tick
-  requestAnimationFrame(() => {
-    document.querySelectorAll('.rbar-fill').forEach(f => {
-      f.style.transform = `scaleX(${(+f.dataset.pct) / 100})`;
-    });
-  });
-
   const btn = document.getElementById('more-btn');
-  if (showing >= data.length) {
-    btn.style.display = 'none';
-  } else {
-    btn.style.display = 'block';
-    btn.textContent = `Ver más · ${data.length - showing} creadores restantes`;
-  }
+  if (btn) btn.style.display = 'none'; // ya mostramos los 33
 }
 
 function more() { showing += 20; render(); }
@@ -5332,43 +5336,8 @@ initData();
 
 /* ═══════════════════════════════════════════════════════════════════════
    CAMPAIGN · PHASES — Fase 1 (cerrada) · Fase 2 (live) · Casa Fresh
+   FASE1_CLASIFICADOS y _normName / FASE1_LOOKUP viven arriba (junto a C).
    ═══════════════════════════════════════════════════════════════════════ */
-const FASE1_CLASIFICADOS = [
-  { name:'Eduardo Aguilar S',              handle:'laloaguilaryt' },
-  { name:'Keri Arath Avila Amador',        handle:'keri_arath' },
-  { name:'Dulce María BA' },
-  { name:'Laura Viviana CM' },
-  { name:'Paola de Jesus Angel Valera' },
-  { name:'Andrea Renteria Serna' },
-  { name:'Ariadne Faride RC' },
-  { name:'José Alberto GD' },
-  { name:'Jade Erandi MM' },
-  { name:'Yessica Díaz G' },
-  { name:'Stefany Rivera H' },
-  { name:'Victor Guillermo Suarez Dzuk' },
-  { name:'Sureily Marian AP' },
-  { name:'Maria Fernanda Corona Perez' },
-  { name:'Juan Pablo Luqueño Vazquez' },
-  { name:'Gerardo Emanuel Lopez Martinez' },
-  { name:'Oscar Vahe',                     handle:'oscarvahe' },
-  { name:'Diego Daniel GV' },
-  { name:'José Arturo RV' },
-  { name:'Mauricio Moguel Cruz' },
-  { name:'Arabiel' },
-  { name:'Jorge Castillo' },
-  { name:'Cesar Sanchez',                  handle:'ceeoficial' },
-  { name:'Carlos Carriles' },
-  { name:'Miguel del Bosque' },
-  { name:'Edward Ruiz',                    handle:'edwardruiz' },
-  { name:'Soy Joules',                     handle:'soyjoules' },
-  { name:'Cristian Gonzales' },
-  { name:'CLG95' },
-  { name:'Cesar Castolo',                  handle:'_cesar.castolo_' },
-  { name:'JakeOG' },
-  { name:'Samuel Gómez' },
-  { name:'Santiago del Toro' },
-];
-
 const CASA_FRESH = {
   Marzo: [
     { rank:1, name:'JBeligol',                          handle:'jbellingham_10' },
